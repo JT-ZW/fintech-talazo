@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AgriFinance Soil Health Index</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-seedling"></i>
+            <span>AgriFinance Index</span>
+          </div>
+          <nav>
+            <ul>
+              <li><a href="#" class="active">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Farmers</a></li>
+              <li><a href="#">Reports</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>AI-Driven Financial Index for Zimbabwean Farmers</h1>
+        <p>
+          Our innovative solution helps small-scale farmers without traditional
+          collateral access financial services by analyzing soil health metrics
+          to assess creditworthiness and calculate appropriate insurance
+          premiums.
+        </p>
+        <div>
+          <a href="#calculate" class="btn">Calculate Index</a>
+          <a href="#" class="btn btn-secondary">Learn More</a>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="feature-card">
+          <i class="fas fa-chart-line"></i>
+          <h3>Accurate Creditworthiness Assessment</h3>
+          <p>
+            Our AI-driven index provides a more accurate assessment of farmer
+            creditworthiness based on soil health metrics.
+          </p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Fair Insurance Premiums</h3>
+          <p>
+            Calculate appropriate insurance premiums based on real soil data and
+            scientific risk assessment.
+          </p>
+        </div>
+        <div class="feature-card">
+          <i class="fas fa-handshake"></i>
+          <h3>Financial Inclusion</h3>
+          <p>
+            Enable traditionally excluded farmers to access financial services
+            without requiring traditional collateral.
+          </p>
+        </div>
+      </section>
+
+      <section id="calculate" class="tabs">
+        <div class="tab-nav">
+          <button class="tab-button active" data-tab="calculate-tab">
+            Calculate Index
+          </button>
+          <button class="tab-button" data-tab="farmer-tab">
+            Manage Farmers
+          </button>
+          <button class="tab-button" data-tab="reports-tab">Reports</button>
+        </div>
+
+        <div id="calculate-tab" class="tab-content active">
+          <h2>Soil Health Assessment</h2>
+          <p>
+            Enter soil metrics below to calculate the financial index and
+            insurance premium recommendation.
+          </p>
+
+          <form id="soil-analysis-form" class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Farmer</label>
+              <select id="farmer-select" class="form-control">
+                <option value="">Select a farmer or add new</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">pH Level (6.0-7.0 ideal)</label>
+              <input
+                type="number"
+                id="ph_level"
+                name="ph_level"
+                class="form-control"
+                step="0.1"
+                min="0"
+                max="14"
+                placeholder="Enter pH level"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nitrogen (mg/kg)</label>
+              <input
+                type="number"
+                id="nitrogen_level"
+                name="nitrogen_level"
+                class="form-control"
+                step="0.1"
+                min="0"
+                placeholder="Enter nitrogen level"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Phosphorus (mg/kg)</label>
+              <input
+                type="number"
+                id="phosphorus_level"
+                name="phosphorus_level"
+                class="form-control"
+                step="0.1"
+                min="0"
+                placeholder="Enter phosphorus level"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Potassium (mg/kg)</label>
+              <input
+                type="number"
+                id="potassium_level"
+                name="potassium_level"
+                class="form-control"
+                step="0.1"
+                min="0"
+                placeholder="Enter potassium level"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Organic Matter (%)</label>
+              <input
+                type="number"
+                id="organic_matter"
+                name="organic_matter"
+                class="form-control"
+                step="0.1"
+                min="0"
+                max="100"
+                placeholder="Enter organic matter"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label"
+                >Cation Exchange Capacity (cmol/kg)</label
+              >
+              <input
+                type="number"
+                id="cation_exchange_capacity"
+                name="cation_exchange_capacity"
+                class="form-control"
+                step="0.1"
+                min="0"
+                placeholder="Enter CEC"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Moisture Content (%)</label>
+              <input
+                type="number"
+                id="moisture_content"
+                name="moisture_content"
+                class="form-control"
+                step="0.1"
+                min="0"
+                max="100"
+                placeholder="Enter moisture content"
+              />
+            </div>
+
+            <div
+              class="form-group"
+              style="grid-column: 1 / -1; text-align: center"
+            >
+              <button type="submit" class="btn" id="calculate-btn">
+                Calculate Financial Index
+              </button>
+              <button type="button" id="simulate-btn" class="btn btn-secondary">
+                Simulate Data
+              </button>
+            </div>
+          </form>
+
+          <div id="results" class="hidden">
+            <h2>Analysis Results</h2>
+            <div class="result-card">
+              <div id="credit-score"></div>
+              <div id="risk-level"></div>
+              <div id="premium"></div>
+            </div>
+            <div id="recommendations"></div>
+          </div>
+        </div>
+
+        <div id="farmer-tab" class="tab-content">
+          <h2>Manage Farmers</h2>
+          <p>Add new farmers to the system or manage existing ones.</p>
+
+          <form id="farmer-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Farmer Name</label>
+                <input
+                  type="text"
+                  id="farmer-name"
+                  class="form-control"
+                  placeholder="Enter farmer name"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Location</label>
+                <input
+                  type="text"
+                  id="farmer-location"
+                  class="form-control"
+                  placeholder="Enter location"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Farm Size (hectares)</label>
+                <input
+                  type="number"
+                  id="farm-size"
+                  class="form-control"
+                  step="0.1"
+                  min="0"
+                  placeholder="Enter farm size"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Crop Type</label>
+                <input
+                  type="text"
+                  id="crop-type"
+                  class="form-control"
+                  placeholder="Enter main crop type"
+                />
+              </div>
+            </div>
+
+            <button type="submit" class="btn">Add Farmer</button>
+          </form>
+
+          <div style="margin-top: 2rem">
+            <h3>Registered Farmers</h3>
+            <div id="farmers-list" style="margin-top: 1rem"></div>
+          </div>
+        </div>
+
+        <div id="reports-tab" class="tab-content">
+          <h2>Reports</h2>
+          <p>
+            View and analyze farmer financial indices and soil health trends.
+          </p>
+
+          <div style="margin: 2rem 0; text-align: center">
+            <p>
+              <i
+                class="fas fa-chart-bar"
+                style="font-size: 4rem; color: #ddd"
+              ></i>
+            </p>
+            <p>Reports feature coming soon!</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-column">
+            <h3>Talazo Fintech.</h3>
+            <p>
+              Empowering Zimbabwean farmers with innovative financial solutions
+              based on soil health metrics.
+            </p>
+          </div>
+
+          <div class="footer-column">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="#">Soil Health Guide</a></li>
+              <li><a href="#">Financial Inclusion</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">API Documentation</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-column">
+            <h3>Contact Us</h3>
+            <ul>
+              <li>
+                <i class="fas fa-map-marker-alt"></i> 1 Fairview Road, Mutare,
+                Zimbabwe
+              </li>
+              <li><i class="fas fa-phone"></i> +263 786 303 048</li>
+              <li>
+                <i class="fas fa-envelope"></i> murungwenij@africau.edu /
+                mwondokaa@africau.edu
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="copyright">
+          &copy; 2025 Talazo Fintech. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  </body>
+</html>
