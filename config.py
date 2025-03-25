@@ -1,7 +1,13 @@
 import os
+from datetime import timedelta
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-key-for-prototype'
+    """Flask configuration"""
+    SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key')
+    JSONIFY_PRETTYPRINT_REGULAR = True
+    JSON_SORT_KEYS = False
+    CORS_HEADERS = 'Content-Type'
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///fintech.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
