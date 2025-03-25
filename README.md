@@ -1,6 +1,6 @@
 # Flask Application
 
-This is a simple Flask application that demonstrates the basic structure and functionality of a web application using Flask.
+This is a simple Flask application that helps demonstrate the basic structure and functionality of a web application using Flask.
 
 ## Project Structure
 
@@ -25,17 +25,20 @@ flask-app
 ## Installation
 
 1. Clone the repository:
+
    ```
    git clone <repository-url>
    cd flask-app
    ```
 
 2. Create a virtual environment:
+
    ```
    python -m venv venv
    ```
 
 3. Activate the virtual environment:
+
    - On Windows:
      ```
      venv\Scripts\activate
@@ -53,11 +56,13 @@ flask-app
 ## Usage
 
 1. Set the environment variable for Flask:
+
    ```
    export FLASK_APP=app
    ```
 
 2. Run the application:
+
    ```
    flask run
    ```
