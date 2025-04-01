@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talazo AgriFinance - Soil Analysis</title>
+    <meta
+      name="description"
+      content="Soil analysis and financial index calculator for Zimbabwean farmers"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+      type="image/x-icon"
+    />
+
+    <!-- Stylesheet links -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/soil_analysis.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JavaScript dependencies -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gauge-chart@latest/dist/bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="{{ url_for('static', filename='img/logo.png') }}"
+            alt="Talazo AgriFinance"
+            class="logo"
+          />
+          <h1>Talazo<span>AgriFinance</span></h1>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="{{ url_for('main.dashboard') }}"
+                ><i class="fas fa-chart-line"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-users"></i> Farmers</a>
+            </li>
+            <li class="active">
+              <a href="{{ url_for('main.soil_analysis') }}"
+                ><i class="fas fa-seedling"></i> Soil Analysis</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('main.loans') }}"
+                ><i class="fas fa-money-bill-wave"></i> Loans</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('main.insurance') }}"
+                ><i class="fas fa-umbrella"></i> Insurance</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <img
+              src="{{ url_for('static', filename='img/user-avatar.png') }}"
+              alt="User"
+              class="user-avatar"
+            />
+            <div class="user-details">
+              <h3>John Moyo</h3>
+              <p>Financial Officer</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-header">
+          <div class="page-title">
+            <h2>Soil Analysis & Financial Index</h2>
+            <p>Analyze soil health metrics and calculate financial ratings</p>
+          </div>
+
+          <div class="header-controls">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search farmer or location..." />
+            </div>
+
+            <div class="farmer-select">
+              <select id="farmer-selector">
+                <option value="">Select Farmer</option>
+                <option value="1">John Moyo (Harare)</option>
+                <option value="2">Mary Ncube (Bulawayo)</option>
+                <option value="3">Robert Dube (Mutare)</option>
+              </select>
+            </div>
+
+            <div class="last-update">
+              Last Update: <span id="last-update-time">--</span>
+            </div>
+
+            <button id="refresh-data" class="refresh-button">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+        </header>
+
+        <div class="dashboard-grid soil-analysis-layout">
+          <!-- Soil Metrics Input Card -->
+          <div class="card soil-metrics-card">
+            <div class="card-header">
+              <h2><i class="fas fa-flask"></i> Soil Health Metrics</h2>
+              <div class="card-actions">
+                <button id="randomize-data" class="btn btn-primary">
+                  <i class="fas fa-random"></i> Randomize
+                </button>
+                <button id="load-sample-data" class="btn btn-secondary">
+                  <i class="fas fa-database"></i> Load Sample
+                </button>
+                <button id="clear-form" class="btn btn-secondary">
+                  <i class="fas fa-eraser"></i> Clear
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <form id="soil-metrics-form">
+                <div class="grid-inputs">
+                  <div class="form-group">
+                    <label for="ph_level">pH Level</label>
+                    <input
+                      type="number"
+                      id="ph_level"
+                      name="ph_level"
+                      step="0.1"
+                      min="3.0"
+                      max="10.0"
+                      placeholder="6.0-7.0"
+                    />
+                    <div class="param-range">Ideal: 6.0-7.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="nitrogen_level">Nitrogen (mg/kg)</label>
+                    <input
+                      type="number"
+                      id="nitrogen_level"
+                      name="nitrogen_level"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="20.0-40.0"
+                    />
+                    <div class="param-range">Ideal: 20.0-40.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="phosphorus_level">Phosphorus (mg/kg)</label>
+                    <input
+                      type="number"
+                      id="phosphorus_level"
+                      name="phosphorus_level"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="15.0-30.0"
+                    />
+                    <div class="param-range">Ideal: 15.0-30.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="potassium_level">Potassium (mg/kg)</label>
+                    <input
+                      type="number"
+                      id="potassium_level"
+                      name="potassium_level"
+                      step="0.1"
+                      min="0"
+                      max="500"
+                      placeholder="150.0-250.0"
+                    />
+                    <div class="param-range">Ideal: 150.0-250.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="organic_matter">Organic Matter (%)</label>
+                    <input
+                      type="number"
+                      id="organic_matter"
+                      name="organic_matter"
+                      step="0.1"
+                      min="0"
+                      max="10"
+                      placeholder="3.0-5.0"
+                    />
+                    <div class="param-range">Ideal: 3.0-5.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="cation_exchange_capacity"
+                      >Cation Exchange Capacity (cmol/kg)</label
+                    >
+                    <input
+                      type="number"
+                      id="cation_exchange_capacity"
+                      name="cation_exchange_capacity"
+                      step="0.1"
+                      min="0"
+                      max="50"
+                      placeholder="10.0-20.0"
+                    />
+                    <div class="param-range">Ideal: 10.0-20.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="moisture_content">Moisture Content (%)</label>
+                    <input
+                      type="number"
+                      id="moisture_content"
+                      name="moisture_content"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="20.0-30.0"
+                    />
+                    <div class="param-range">Ideal: 20.0-30.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="region">Region</label>
+                    <select id="region" name="region">
+                      <option value="">-- Select Region --</option>
+                      <option value="mashonaland_central">
+                        Mashonaland Central
+                      </option>
+                      <option value="mashonaland_east">Mashonaland East</option>
+                      <option value="mashonaland_west">Mashonaland West</option>
+                      <option value="manicaland">Manicaland</option>
+                      <option value="masvingo">Masvingo</option>
+                      <option value="matabeleland_north">
+                        Matabeleland North
+                      </option>
+                      <option value="matabeleland_south">
+                        Matabeleland South
+                      </option>
+                      <option value="midlands">Midlands</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="submit"
+                    id="calculate-index"
+                    class="btn btn-primary"
+                  >
+                    <i class="fas fa-calculator"></i> Calculate Financial Index
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Financial Index Results Card -->
+          <div class="card financial-index-card">
+            <div class="card-header">
+              <h2><i class="fas fa-chart-pie"></i> Financial Health Index</h2>
+              <div class="card-actions">
+                <button id="save-results" class="btn btn-secondary">
+                  <i class="fas fa-save"></i> Save Results
+                </button>
+                <button id="print-results" class="btn btn-secondary">
+                  <i class="fas fa-print"></i> Print
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="index-results-container">
+                <div class="index-gauge-container">
+                  <div id="financial-index-gauge"></div>
+                  <div class="gauge-value">
+                    <span id="financial-index-score">--</span>
+                    <span class="unit">/100</span>
+                  </div>
+                  <div class="risk-level">
+                    Risk Level: <span id="risk-level">--</span>
+                  </div>
+                </div>
+
+                <div class="financial-implications">
+                  <h3>Financial Implications</h3>
+                  <div class="implication-item">
+                    <div class="implication-icon">
+                      <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="implication-details">
+                      <div class="implication-title">Loan Eligibility</div>
+                      <div class="implication-value">
+                        <span id="loan-eligibility">--</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="implication-item">
+                    <div class="implication-icon">
+                      <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="implication-details">
+                      <div class="implication-title">Interest Rate</div>
+                      <div class="implication-value">
+                        <span id="interest-rate">--</span>%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="implication-item">
+                    <div class="implication-icon">
+                      <i class="fas fa-umbrella"></i>
+                    </div>
+                    <div class="implication-details">
+                      <div class="implication-title">Insurance Premium</div>
+                      <div class="implication-value">
+                        $<span id="insurance-premium">--</span> /ha
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="implication-item">
+                    <div class="implication-icon">
+                      <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="implication-details">
+                      <div class="implication-title">Predicted Yield</div>
+                      <div class="implication-value">
+                        <span id="predicted-yield">--</span> tons/ha
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="parameter-scores">
+                <h3>Parameter Scores</h3>
+                <div id="parameter-chart"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Parameter Details Card -->
+          <div class="card parameter-details-card">
+            <div class="card-header">
+              <h2><i class="fas fa-list-ul"></i> Parameter Details</h2>
+              <div class="card-actions">
+                <div class="view-selector">
+                  <button class="view-btn active" data-view="bar">
+                    <i class="fas fa-chart-bar"></i>
+                  </button>
+                  <button class="view-btn" data-view="radar">
+                    <i class="fas fa-chart-pie"></i>
+                  </button>
+                  <button class="view-btn" data-view="table">
+                    <i class="fas fa-table"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="parameter-details-view" class="bar-view">
+                <!-- Content will be injected by JS -->
+              </div>
+
+              <div class="parameter-legend">
+                <div class="legend-item">
+                  <span class="legend-color optimal"></span>
+                  <span class="legend-text">Optimal (80-100)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color good"></span>
+                  <span class="legend-text">Good (60-79)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color average"></span>
+                  <span class="legend-text">Average (40-59)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color poor"></span>
+                  <span class="legend-text">Poor (20-39)</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-color critical"></span>
+                  <span class="legend-text">Critical (0-19)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Advisor Card -->
+          <div class="card ai-advisor-card">
+            <div class="card-header">
+              <h2><i class="fas fa-robot"></i> AI Soil Health Advisor</h2>
+              <div class="card-actions">
+                <button id="clear-chat" class="btn btn-secondary">
+                  <i class="fas fa-trash"></i> Clear Chat
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chat-container">
+                <div class="chat-messages" id="chat-messages">
+                  <div class="chat-message bot">
+                    <div class="message-avatar">
+                      <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="message-content">
+                      <p>
+                        Hello! I'm your AI Soil Health Advisor. I can help you
+                        improve your soil health and financial index score.
+                        Calculate your financial index first, then ask me
+                        questions about how to improve your specific soil
+                        parameters.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="chat-input-container">
+                  <input
+                    type="text"
+                    id="chat-input"
+                    placeholder="Ask me about your soil health..."
+                  />
+                  <button id="send-message" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i>
+                  </button>
+                </div>
+
+                <div class="quick-questions">
+                  <div
+                    class="quick-question"
+                    data-question="How can I improve my soil health score?"
+                  >
+                    How can I improve my soil health score?
+                  </div>
+                  <div
+                    class="quick-question"
+                    data-question="What should I do about my pH level?"
+                  >
+                    What should I do about my pH level?
+                  </div>
+                  <div
+                    class="quick-question"
+                    data-question="How do soil parameters affect my financial index?"
+                  >
+                    How do soil parameters affect my financial index?
+                  </div>
+                  <div
+                    class="quick-question"
+                    data-question="What crops are best for my soil?"
+                  >
+                    What crops are best for my soil?
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <p>Processing data...</p>
+    </div>
+
+    <!-- JavaScript files -->
+    <script src="{{ url_for('static', filename='js/soil_analysis.js') }}"></script>
+  </body>
+</html>

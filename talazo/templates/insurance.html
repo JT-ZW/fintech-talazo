@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talazo AgriFinance - Insurance</title>
+    <meta
+      name="description"
+      content="Soil-based insurance premium calculator for Zimbabwean farmers"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+      type="image/x-icon"
+    />
+
+    <!-- Stylesheet links -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/insurance.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JavaScript dependencies -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gauge-chart@latest/dist/bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="{{ url_for('static', filename='img/logo.png') }}"
+            alt="Talazo AgriFinance"
+            class="logo"
+          />
+          <h1>Talazo<span>AgriFinance</span></h1>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="{{ url_for('main.dashboard') }}"
+                ><i class="fas fa-chart-line"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-users"></i> Farmers</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-seedling"></i> Soil Analysis</a>
+            </li>
+            <li>
+              <a href="{{ url_for('main.loans') }}"
+                ><i class="fas fa-money-bill-wave"></i> Loans</a
+              >
+            </li>
+            <li class="active">
+              <a href="{{ url_for('main.insurance') }}"
+                ><i class="fas fa-umbrella"></i> Insurance</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <img
+              src="{{ url_for('static', filename='img/user-avatar.png') }}"
+              alt="User"
+              class="user-avatar"
+            />
+            <div class="user-details">
+              <h3>John Moyo</h3>
+              <p>Financial Officer</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-header">
+          <div class="page-title">
+            <h2>Insurance Premium Calculator</h2>
+            <p>Calculate premiums based on soil health metrics</p>
+          </div>
+
+          <div class="header-controls">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search farmer or location..." />
+            </div>
+
+            <div class="farmer-select">
+              <select id="farmer-selector">
+                <option value="">Select Farmer</option>
+                <option value="1">John Moyo (Harare)</option>
+                <option value="2">Mary Ncube (Bulawayo)</option>
+                <option value="3">Robert Dube (Mutare)</option>
+              </select>
+            </div>
+
+            <div class="last-update">
+              Last Update: <span id="last-update-time">--</span>
+            </div>
+
+            <button id="refresh-data" class="refresh-button">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+        </header>
+
+        <div class="dashboard-grid insurance-layout">
+          <!-- Soil Metrics Input Card -->
+          <div class="card soil-metrics-card">
+            <div class="card-header">
+              <h2><i class="fas fa-seedling"></i> Soil Health Metrics</h2>
+              <div class="card-actions">
+                <button id="load-sample-data" class="btn btn-secondary">
+                  <i class="fas fa-database"></i> Load Sample Data
+                </button>
+                <button id="clear-form" class="btn btn-secondary">
+                  <i class="fas fa-eraser"></i> Clear
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <form id="soil-metrics-form">
+                <div class="grid-inputs">
+                  <div class="form-group">
+                    <label for="ph_level">pH Level</label>
+                    <input
+                      type="number"
+                      id="ph_level"
+                      name="ph_level"
+                      step="0.1"
+                      min="3.0"
+                      max="10.0"
+                      placeholder="6.0-7.0"
+                    />
+                    <div class="param-range">Ideal: 6.0-7.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="nitrogen_level">Nitrogen (mg/kg)</label>
+                    <input
+                      type="number"
+                      id="nitrogen_level"
+                      name="nitrogen_level"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="20.0-40.0"
+                    />
+                    <div class="param-range">Ideal: 20.0-40.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="phosphorus_level">Phosphorus (mg/kg)</label>
+                    <input
+                      type="number"
+                      id="phosphorus_level"
+                      name="phosphorus_level"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="15.0-30.0"
+                    />
+                    <div class="param-range">Ideal: 15.0-30.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="potassium_level">Potassium (mg/kg)</label>
+                    <input
+                      type="number"
+                      id="potassium_level"
+                      name="potassium_level"
+                      step="0.1"
+                      min="0"
+                      max="500"
+                      placeholder="150.0-250.0"
+                    />
+                    <div class="param-range">Ideal: 150.0-250.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="organic_matter">Organic Matter (%)</label>
+                    <input
+                      type="number"
+                      id="organic_matter"
+                      name="organic_matter"
+                      step="0.1"
+                      min="0"
+                      max="10"
+                      placeholder="3.0-5.0"
+                    />
+                    <div class="param-range">Ideal: 3.0-5.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="cation_exchange_capacity"
+                      >Cation Exchange Capacity (cmol/kg)</label
+                    >
+                    <input
+                      type="number"
+                      id="cation_exchange_capacity"
+                      name="cation_exchange_capacity"
+                      step="0.1"
+                      min="0"
+                      max="50"
+                      placeholder="10.0-20.0"
+                    />
+                    <div class="param-range">Ideal: 10.0-20.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="moisture_content">Moisture Content (%)</label>
+                    <input
+                      type="number"
+                      id="moisture_content"
+                      name="moisture_content"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      placeholder="20.0-30.0"
+                    />
+                    <div class="param-range">Ideal: 20.0-30.0</div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="region">Region</label>
+                    <select id="region" name="region">
+                      <option value="">-- Select Region --</option>
+                      <option value="mashonaland_central">
+                        Mashonaland Central
+                      </option>
+                      <option value="mashonaland_east">Mashonaland East</option>
+                      <option value="mashonaland_west">Mashonaland West</option>
+                      <option value="manicaland">Manicaland</option>
+                      <option value="masvingo">Masvingo</option>
+                      <option value="matabeleland_north">
+                        Matabeleland North
+                      </option>
+                      <option value="matabeleland_south">
+                        Matabeleland South
+                      </option>
+                      <option value="midlands">Midlands</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button
+                    type="submit"
+                    id="calculate-premium"
+                    class="btn btn-primary"
+                  >
+                    <i class="fas fa-calculator"></i> Calculate Premium
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Premium Results Card -->
+          <div class="card premium-results-card">
+            <div class="card-header">
+              <h2><i class="fas fa-umbrella"></i> Insurance Premium Results</h2>
+              <div class="card-actions">
+                <button id="save-results" class="btn btn-secondary">
+                  <i class="fas fa-save"></i> Save Results
+                </button>
+                <button id="print-results" class="btn btn-secondary">
+                  <i class="fas fa-print"></i> Print
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="results-container">
+                <div class="soil-health-gauge">
+                  <h3>Soil Health Index</h3>
+                  <div id="soil-health-gauge"></div>
+                  <div class="gauge-value">
+                    <span id="soil-health-score">--</span>
+                    <span class="unit">/100</span>
+                  </div>
+                </div>
+
+                <div class="premium-details">
+                  <div class="premium-amount">
+                    <h3>Premium Amount</h3>
+                    <div class="amount">
+                      $<span id="premium-amount">--</span>
+                      <span class="unit">/hectare</span>
+                    </div>
+                    <div class="risk-level">
+                      Risk Level: <span id="risk-level">--</span>
+                    </div>
+                  </div>
+
+                  <div class="coverage-details">
+                    <h3>Coverage Details</h3>
+                    <div class="coverage-item">
+                      <span class="label">Base Coverage</span>
+                      <span class="value"
+                        >$<span id="base-coverage">1,000</span>/ha</span
+                      >
+                    </div>
+                    <div class="coverage-item">
+                      <span class="label">Drought Protection</span>
+                      <span class="value" id="drought-protection">--</span>
+                    </div>
+                    <div class="coverage-item">
+                      <span class="label">Pest & Disease</span>
+                      <span class="value" id="pest-disease">--</span>
+                    </div>
+                    <div class="coverage-item">
+                      <span class="label">Policy Term</span>
+                      <span class="value">12 months</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="premium-factors">
+                <h3>Premium Factors</h3>
+                <div id="factors-chart"></div>
+              </div>
+
+              <div class="comparison-container">
+                <h3>Premium Comparison</h3>
+                <div class="comparison-item">
+                  <span class="label">Current Premium</span>
+                  <span class="value"
+                    >$<span id="current-premium">--</span>/ha</span
+                  >
+                </div>
+                <div class="comparison-item">
+                  <span class="label">Average Market Rate</span>
+                  <span class="value">$175/ha</span>
+                </div>
+                <div class="comparison-item">
+                  <span class="label">Potential Savings</span>
+                  <span class="value savings"
+                    >$<span id="potential-savings">--</span>/ha</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recommendations Card -->
+          <div class="card recommendations-card">
+            <div class="card-header">
+              <h2><i class="fas fa-lightbulb"></i> AI Recommendations</h2>
+              <div class="card-actions">
+                <button
+                  id="generate-more-recommendations"
+                  class="btn btn-secondary"
+                >
+                  <i class="fas fa-robot"></i> Generate More
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="recommendations-container">
+                <div class="recommendations-intro">
+                  <div class="intro-content">
+                    <h3>Improve Your Soil Health</h3>
+                    <p>
+                      These personalized recommendations can help improve your
+                      soil health and reduce your insurance premium.
+                    </p>
+                  </div>
+                  <div class="potential-savings">
+                    <div class="savings-label">Potential Premium Reduction</div>
+                    <div class="savings-value">
+                      <span id="potential-reduction-percentage">--</span>%
+                    </div>
+                    <div class="savings-amount">
+                      Save $<span id="potential-reduction-amount">--</span>/ha
+                    </div>
+                  </div>
+                </div>
+
+                <div id="recommendations-list">
+                  <!-- Recommendations will be added here dynamically -->
+                  <div class="loading-recommendations">
+                    <div class="spinner"></div>
+                    <p>
+                      Enter soil metrics to generate personalized
+                      recommendations
+                    </p>
+                  </div>
+                </div>
+
+                <div class="intervention-impact">
+                  <h3>Intervention Impact</h3>
+                  <div id="impact-chart"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Policy Options Card -->
+          <div class="card policy-options-card">
+            <div class="card-header">
+              <h2><i class="fas fa-file-contract"></i> Policy Options</h2>
+            </div>
+            <div class="card-body">
+              <div class="policy-options-container">
+                <div class="policy-tabs">
+                  <button class="policy-tab active" data-plan="basic">
+                    Basic Plan
+                  </button>
+                  <button class="policy-tab" data-plan="standard">
+                    Standard Plan
+                  </button>
+                  <button class="policy-tab" data-plan="premium">
+                    Premium Plan
+                  </button>
+                </div>
+
+                <div class="policy-content">
+                  <div class="policy-plan" id="basic-plan">
+                    <div class="plan-header">
+                      <h3>Basic Protection Plan</h3>
+                      <div class="plan-price">
+                        $<span id="basic-plan-price">--</span>/ha
+                      </div>
+                    </div>
+                    <ul class="plan-features">
+                      <li>
+                        <i class="fas fa-check"></i> Drought coverage (partial)
+                      </li>
+                      <li><i class="fas fa-check"></i> Fire damage</li>
+                      <li>
+                        <i class="fas fa-check"></i> Basic flood protection
+                      </li>
+                      <li>
+                        <i class="fas fa-times"></i> Pest & disease coverage
+                      </li>
+                      <li><i class="fas fa-times"></i> Hail damage</li>
+                      <li><i class="fas fa-times"></i> Price protection</li>
+                    </ul>
+                    <button
+                      class="btn btn-primary select-plan"
+                      data-plan="basic"
+                    >
+                      Select Plan
+                    </button>
+                  </div>
+
+                  <div class="policy-plan hidden" id="standard-plan">
+                    <div class="plan-header">
+                      <h3>Standard Protection Plan</h3>
+                      <div class="plan-price">
+                        $<span id="standard-plan-price">--</span>/ha
+                      </div>
+                    </div>
+                    <ul class="plan-features">
+                      <li>
+                        <i class="fas fa-check"></i> Full drought coverage
+                      </li>
+                      <li><i class="fas fa-check"></i> Fire damage</li>
+                      <li>
+                        <i class="fas fa-check"></i> Enhanced flood protection
+                      </li>
+                      <li>
+                        <i class="fas fa-check"></i> Basic pest & disease
+                        coverage
+                      </li>
+                      <li><i class="fas fa-check"></i> Hail damage</li>
+                      <li><i class="fas fa-times"></i> Price protection</li>
+                    </ul>
+                    <button
+                      class="btn btn-primary select-plan"
+                      data-plan="standard"
+                    >
+                      Select Plan
+                    </button>
+                  </div>
+
+                  <div class="policy-plan hidden" id="premium-plan">
+                    <div class="plan-header">
+                      <h3>Premium Protection Plan</h3>
+                      <div class="plan-price">
+                        $<span id="premium-plan-price">--</span>/ha
+                      </div>
+                    </div>
+                    <ul class="plan-features">
+                      <li>
+                        <i class="fas fa-check"></i> Complete drought coverage
+                      </li>
+                      <li><i class="fas fa-check"></i> Fire damage</li>
+                      <li>
+                        <i class="fas fa-check"></i> Full flood protection
+                      </li>
+                      <li>
+                        <i class="fas fa-check"></i> Comprehensive pest &
+                        disease
+                      </li>
+                      <li><i class="fas fa-check"></i> Hail & storm damage</li>
+                      <li><i class="fas fa-check"></i> Price protection</li>
+                    </ul>
+                    <button
+                      class="btn btn-primary select-plan"
+                      data-plan="premium"
+                    >
+                      Select Plan
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Plan Selection Modal -->
+    <div id="plan-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Confirm Your Policy Selection</h2>
+        <div class="plan-summary">
+          <h3 id="selected-plan-name">Basic Protection Plan</h3>
+          <div class="plan-summary-details">
+            <div class="summary-item">
+              <span class="label">Premium Amount:</span>
+              <span class="value"
+                >$<span id="modal-premium-amount">--</span>/ha</span
+              >
+            </div>
+            <div class="summary-item">
+              <span class="label">Coverage Area:</span>
+              <span class="value"
+                ><input
+                  type="number"
+                  id="coverage-area"
+                  min="0.5"
+                  step="0.5"
+                  value="1"
+                />
+                hectares</span
+              >
+            </div>
+            <div class="summary-item">
+              <span class="label">Total Premium:</span>
+              <span class="value">$<span id="total-premium">--</span></span>
+            </div>
+            <div class="summary-item">
+              <span class="label">Policy Term:</span>
+              <span class="value">12 months</span>
+            </div>
+            <div class="summary-item">
+              <span class="label">Start Date:</span>
+              <span class="value"
+                ><input type="date" id="policy-start-date"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="confirm-plan" class="btn btn-primary">
+            Confirm Selection
+          </button>
+          <button class="btn btn-secondary close-modal-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <p>Processing data...</p>
+    </div>
+
+    <!-- JavaScript files -->
+    <script src="{{ url_for('static', filename='js/insurance.js') }}"></script>
+  </body>
+</html>

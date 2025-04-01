@@ -23,10 +23,6 @@
     />
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/ai_recommendations.css') }}"
-    />
-    <link
-      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
     />
     <link
@@ -111,16 +107,23 @@
 
             <div class="farmer-select">
               <select id="farmer-selector">
-                <option value="">All Farmers</option>
                 <option value="1">John Moyo (Harare)</option>
                 <option value="2">Mary Ncube (Bulawayo)</option>
                 <option value="3">Robert Dube (Mutare)</option>
+                <option value="4">Sarah Mpofu (Gweru)</option>
+                <option value="5">James Chirwa (Kwekwe)</option>
               </select>
+            </div>
+
+            <div class="presentation-badge">
+              <span>DEMO VERSION</span>
             </div>
 
             <div class="last-update">
               Last Update: <span id="last-update-time">--</span>
             </div>
+
+            <!-- Demo mode buttons will be inserted by JavaScript -->
 
             <button id="refresh-data" class="refresh-button">
               <i class="fas fa-sync-alt"></i> Refresh
@@ -215,7 +218,7 @@
               <h2><i class="fas fa-seedling"></i> Soil Parameters</h2>
               <div class="card-actions">
                 <button
-                  class="card-action-button toggle-view"
+                  class="card-action-button toggle-view active"
                   data-view="grid"
                   title="Grid View"
                 >
@@ -360,57 +363,43 @@
       <p>Updating data...</p>
     </div>
 
-    <!-- JavaScript files -->
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/ai_recommendations.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/loan_assessment.js') }}"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Initialize gauge chart
-        const gaugeElement = document.getElementById("financial-gauge");
-        if (gaugeElement) {
-          GaugeChart.gaugeChart(gaugeElement, {
-            hasNeedle: true,
-            needleColor: "#464A4F",
-            arcColors: ["#F44336", "#FFC107", "#4CAF50"],
-            arcDelimiters: [40, 60],
-            rangeLabel: ["0", "100"],
-            centralLabel: "0",
-          });
-        }
+    <!-- Demo data info modal -->
+    <div id="demo-info-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3><i class="fas fa-info-circle"></i> Talazo AgriFinance Demo</h3>
+          <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>
+            This dashboard demonstrates the core capabilities of the Talazo
+            AgriFinance platform for Zimbabwean farmers.
+          </p>
+          <p><strong>Key Features Demonstrated:</strong></p>
+          <ul>
+            <li>
+              Real-time soil health monitoring and financial index calculation
+            </li>
+            <li>
+              AI-driven crop and farming recommendations based on soil data
+            </li>
+            <li>Loan eligibility assessment based on soil health metrics</li>
+            <li>Risk analysis and insurance premium calculations</li>
+          </ul>
+          <p>
+            <strong>Demo Mode:</strong> Click the "Demo Mode" button to see how
+            data changes over time as soil parameters fluctuate.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary start-demo-btn">Start Demo</button>
+        </div>
+      </div>
+    </div>
 
-        // Initialize view toggles
-        document.querySelectorAll(".toggle-view").forEach((button) => {
-          button.addEventListener("click", function () {
-            const view = this.getAttribute("data-view");
-            const grid = document.getElementById("parameters-grid");
-
-            // Remove all active classes
-            document.querySelectorAll(".toggle-view").forEach((btn) => {
-              btn.classList.remove("active");
-            });
-
-            // Add active class to clicked button
-            this.classList.add("active");
-
-            // Update grid view
-            if (view === "list") {
-              grid.classList.add("list-view");
-            } else {
-              grid.classList.remove("list-view");
-            }
-          });
-        });
-      });
-    </script>
     <!-- JavaScript files -->
     <script src="{{ url_for('static', filename='js/soil_health_algorithm.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/dashboard_manager.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/chart_manager.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/alert_manager.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/dashboard-loader.js') }}"></script>
   </body>
 </html>
-<!-- End of dashboard.html -->

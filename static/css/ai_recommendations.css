@@ -1,0 +1,130 @@
+/* AI Recommendations Styling */
+.ai-recommendations .card-body {
+  padding: 1.5rem;
+  position: relative;
+}
+
+.ai-recommendations .loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.ai-recommendations .loading .spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1E8449;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.ai-recommendations .btn {
+  display: block;
+  margin: 1.5rem auto 0;
+  padding: 0.75rem 1.5rem;
+}
+
+.ai-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem;
+  background-color: rgba(30, 132, 73, 0.05);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.ai-metadata span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ai-section {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-left: 3px solid #1E8449;
+}
+
+.ai-section h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #1E8449;
+  font-size: 1.1rem;
+}
+
+.ai-section ol, .ai-section ul {
+  padding-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.ai-section li {
+  margin-bottom: 1rem;
+}
+
+.ai-section li:last-child {
+  margin-bottom: 0;
+}
+
+.ai-section strong {
+  color: #333;
+}
+
+.ai-section p {
+  margin-bottom: 0.75rem;
+}
+
+.ai-section.soil_analysis {
+  border-left-color: #3498DB;
+}
+
+.ai-section.recommendations {
+  border-left-color: #1E8449;
+}
+
+.ai-section.crops {
+  border-left-color: #F39C12;
+}
+
+.ai-section.sustainable_practices {
+  border-left-color: #9B59B6;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* Animation for new recommendation content */
+.ai-section {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

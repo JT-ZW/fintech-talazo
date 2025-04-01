@@ -1,0 +1,485 @@
+/* loans.css - Styling for Talazo AgriFinance Loans page */
+
+/* Loans Grid Layout */
+.loans-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+  }
+  
+  .loan-eligibility-card {
+    grid-column: span 4;
+  }
+  
+  .soil-impact-card {
+    grid-column: span 8;
+  }
+  
+  .loan-application-card {
+    grid-column: span 6;
+  }
+  
+  .loan-history-card {
+    grid-column: span 6;
+  }
+  
+  .institutions-card {
+    grid-column: span 4;
+  }
+  
+  .recommendations-card {
+    grid-column: span 8;
+  }
+  
+  /* Loan Eligibility Card */
+  .loan-eligibility-status {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .status-indicator {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: var(--spacing-lg);
+    color: white;
+    font-weight: 600;
+  }
+  
+  .status-indicator.eligible {
+    background-color: var(--success-color);
+  }
+  
+  .status-indicator.conditional {
+    background-color: var(--warning-color);
+  }
+  
+  .status-indicator.ineligible {
+    background-color: var(--danger-color);
+  }
+  
+  .status-indicator .status-text {
+    font-size: 0.85rem;
+  }
+  
+  .status-indicator .score {
+    font-size: 1.75rem;
+    margin-top: var(--spacing-xs);
+  }
+  
+  .loan-details {
+    flex: 1;
+  }
+  
+  .loan-detail-item {
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .loan-detail-item .label {
+    color: var(--text-light);
+    font-size: 0.85rem;
+  }
+  
+  .loan-detail-item .value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  /* Soil Impact Card */
+  .soil-impact-visualization {
+    height: 200px;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  #soil-impact-chart {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .impact-explanation {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    background-color: var(--grey-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+  }
+  
+  .impact-explanation p {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .impact-explanation p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .impact-explanation strong {
+    color: var(--primary-color);
+  }
+  
+  /* Loan Application Card */
+  .application-status {
+    display: flex;
+    align-items: center;
+    font-size: 0.85rem;
+  }
+  
+  .status-label {
+    margin-right: var(--spacing-xs);
+    color: var(--text-light);
+  }
+  
+  .status-value {
+    font-weight: 600;
+    color: var(--success-color);
+  }
+  
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+  }
+  
+  .form-group select,
+  .form-group input[type="text"],
+  .form-group input[type="number"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid var(--grey-medium);
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  
+  .slider {
+    width: 100%;
+    margin: var(--spacing-xs) 0;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    background: var(--grey-light);
+    outline: none;
+    border-radius: 5px;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: var(--spacing-xs);
+  }
+  
+  .form-calculation {
+    background-color: var(--grey-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .calculation-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .calculation-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .calculation-item .label {
+    color: var(--text-dark);
+  }
+  
+  .calculation-item .value {
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+  
+  .form-actions .btn {
+    flex: 1;
+  }
+  
+  /* Loan History Card */
+  .loan-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  
+  .loan-history-table th,
+  .loan-history-table td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--grey-medium);
+    text-align: left;
+  }
+  
+  .loan-history-table th {
+    font-weight: 600;
+    color: var(--text-dark);
+    background-color: var(--grey-light);
+  }
+  
+  .loan-history-table tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.05);
+  }
+  
+  .history-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  
+  .history-status.active {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--success-color);
+  }
+  
+  .history-status.completed {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--accent-color);
+  }
+  
+  .history-status.pending {
+    background-color: rgba(243, 156, 18, 0.1);
+    color: var(--warning-color);
+  }
+  
+  .history-status.declined {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+  }
+  
+  .loan-history-table .actions {
+    display: flex;
+    gap: var(--spacing-xs);
+  }
+  
+  .action-button {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .action-button:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Financial Institutions Card */
+  .institutions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .institution-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    transition: all var(--transition-speed);
+  }
+  
+  .institution-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .institution-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background-color: var(--grey-light);
+    margin-right: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+  
+  .institution-details {
+    flex: 1;
+  }
+  
+  .institution-name {
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  
+  .institution-type {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+  
+  .institution-interest {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+  }
+  
+  .institution-interest span {
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  
+  /* Loan Recommendations Card */
+  .recommendation-source {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    background-color: rgba(52, 152, 219, 0.1);
+    color: var(--accent-color);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  
+  .recommendations-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .recommendation-item {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-md);
+    border-left: 3px solid var(--primary-color);
+  }
+  
+  .recommendation-title {
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .recommendation-amount {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--success-color);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+  }
+  
+  .recommendation-details {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .recommendation-benefits {
+    background-color: var(--grey-light);
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.85rem;
+  }
+  
+  .benefits-list {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  
+  .benefits-list li {
+    margin-bottom: 2px;
+  }
+  
+  .benefits-list li:last-child {
+    margin-bottom: 0;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1200px) {
+    .loans-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+    
+    .loan-eligibility-card,
+    .soil-impact-card,
+    .loan-application-card,
+    .loan-history-card,
+    .institutions-card,
+    .recommendations-card {
+      grid-column: span 6;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .loans-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .loan-eligibility-card,
+    .soil-impact-card,
+    .loan-application-card,
+    .loan-history-card,
+    .institutions-card,
+    .recommendations-card {
+      grid-column: span 1;
+    }
+    
+    .loan-eligibility-status {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .status-indicator {
+      margin-right: 0;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+  }

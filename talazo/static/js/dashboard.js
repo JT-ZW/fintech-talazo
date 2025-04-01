@@ -1,4 +1,4 @@
-// Enhanced dashboard.js - Main controller for the Talazo AgriFinance Dashboard
+// Enhanced dashboard.js for pitch presentations
 class DashboardManager {
     constructor() {
         this.updateInterval = 30000; // 30 seconds
@@ -10,6 +10,11 @@ class DashboardManager {
         this.chartManager = new ChartManager();
         this.alertManager = new AlertManager();
         this.aiRecommendationsManager = new AIRecommendationsManager();
+        
+        // Demo mode settings
+        this.isDemoMode = false;
+        this.demoInterval = null;
+        this.demoSpeed = 5000; // 5 seconds between updates in demo mode
         
         // Make instances available globally for component interaction
         window.chartManager = this.chartManager;
@@ -52,9 +57,11 @@ class DashboardManager {
         // Initialize tab controls for Alerts & Recommendations
         this.setupTabControls();
         
-        // Start automatic updates
-        this.refreshData();
-        setInterval(() => this.refreshData(), this.updateInterval);
+        // Set up demo mode
+        this.setupDemoMode();
+        
+        // Load initial data
+        this.loadInitialData();
     }
 
     setupTabControls() {
@@ -138,6 +145,109 @@ class DashboardManager {
         }
     }
 
+    setupDemoMode() {
+        // Create demo mode toggle button
+        const headerControls = document.querySelector('.header-controls');
+        if (!headerControls) return;
+        
+        const demoButton = document.createElement('button');
+        demoButton.id = 'demo-mode-toggle';
+        demoButton.className = 'demo-button';
+        demoButton.innerHTML = '<i class="fas fa-play"></i> Demo Mode';
+        
+        // Insert before refresh button
+        if (this.refreshButton && this.refreshButton.parentNode) {
+            headerControls.insertBefore(demoButton, this.refreshButton);
+        } else {
+            headerControls.appendChild(demoButton);
+        }
+        
+        // Add demo speed control
+        const demoSpeedControl = document.createElement('div');
+        demoSpeedControl.className = 'demo-speed hidden';
+        demoSpeedControl.innerHTML = `
+            <label>Demo Speed:</label>
+            <div class="speed-buttons">
+                <button data-speed="slow" class="active">Slow</button>
+                <button data-speed="medium">Medium</button>
+                <button data-speed="fast">Fast</button>
+            </div>
+        `;
+        headerControls.insertBefore(demoSpeedControl, demoButton.nextSibling);
+        
+        // Set up event listeners
+        demoButton.addEventListener('click', () => this.toggleDemoMode());
+        
+        // Demo speed buttons
+        const speedButtons = demoSpeedControl.querySelectorAll('.speed-buttons button');
+        speedButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                // Update active state
+                speedButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Set speed
+                const speed = button.getAttribute('data-speed');
+                if (speed === 'slow') this.demoSpeed = 8000;
+                else if (speed === 'medium') this.demoSpeed = 5000;
+                else if (speed === 'fast') this.demoSpeed = 3000;
+                
+                // Restart demo interval if running
+                if (this.isDemoMode) {
+                    this.stopDemoInterval();
+                    this.startDemoInterval();
+                }
+            });
+        });
+    }
+
+    toggleDemoMode() {
+        this.isDemoMode = !this.isDemoMode;
+        
+        const demoButton = document.getElementById('demo-mode-toggle');
+        const demoSpeed = document.querySelector('.demo-speed');
+        
+        if (this.isDemoMode) {
+            // Start demo mode
+            this.startDemoInterval();
+            if (demoButton) {
+                demoButton.innerHTML = '<i class="fas fa-stop"></i> Stop Demo';
+                demoButton.classList.add('active');
+            }
+            if (demoSpeed) demoSpeed.classList.remove('hidden');
+            this.showNotification('Demo Mode Activated - Data will update automatically', 'info');
+        } else {
+            // Stop demo mode
+            this.stopDemoInterval();
+            if (demoButton) {
+                demoButton.innerHTML = '<i class="fas fa-play"></i> Demo Mode';
+                demoButton.classList.remove('active');
+            }
+            if (demoSpeed) demoSpeed.classList.add('hidden');
+            this.showNotification('Demo Mode Deactivated', 'info');
+        }
+    }
+
+    startDemoInterval() {
+        // Clear any existing interval
+        this.stopDemoInterval();
+        
+        // Set new interval to refresh data
+        this.demoInterval = setInterval(() => {
+            this.refreshData(true); // true flag indicates this is a demo update
+        }, this.demoSpeed);
+        
+        // Initial refresh
+        this.refreshData(true);
+    }
+
+    stopDemoInterval() {
+        if (this.demoInterval) {
+            clearInterval(this.demoInterval);
+            this.demoInterval = null;
+        }
+    }
+
     initializeGauge() {
         const gaugeElement = document.getElementById('financial-gauge');
         if (!gaugeElement) {
@@ -146,16 +256,20 @@ class DashboardManager {
         }
 
         console.log('Initializing gauge...');
-        
-        // Initialize with GaugeChart
-        this.gauge = GaugeChart.gaugeChart(gaugeElement, {
-            hasNeedle: true,
-            needleColor: '#464A4F',
-            arcColors: ['#E74C3C', '#F39C12', '#2ECC71'],
-            arcDelimiters: [40, 60],
-            rangeLabel: ['0', '100'],
-            centralLabel: '0'
-        });
+
+        // Ensure GaugeChart is defined before using it
+        if (typeof GaugeChart !== 'undefined') {
+            this.gauge = GaugeChart.gaugeChart(gaugeElement, {
+                hasNeedle: true,
+                needleColor: '#464A4F',
+                arcColors: ['#E74C3C', '#F39C12', '#2ECC71'],
+                arcDelimiters: [40, 60],
+                rangeLabel: ['0', '100'],
+                centralLabel: '0'
+            });
+        } else {
+            console.error('GaugeChart library is not loaded');
+        }
     }
     
     initializeLoanAssessment() {
@@ -178,43 +292,275 @@ class DashboardManager {
         }
     }
 
-// In dashboard.js, find the refreshData() method and update the URL
-async refreshData() {
-    try {
-        console.log('Fetching new data...');
-        this.showLoading();
+    loadInitialData() {
+        // Load initial data with predefined optimal values
+        const initialData = this.generateOptimalData();
+        this.updateDashboard(initialData);
+        this.updateLastUpdate();
+    }
+
+    generateOptimalData() {
+        // Generate sample data with optimal values for initial display
+        const soilData = {
+            ph_level: 6.5,
+            nitrogen_level: 32,
+            phosphorus_level: 25,
+            potassium_level: 220,
+            organic_matter: 4.2,
+            cation_exchange_capacity: 15.4,
+            moisture_content: 28
+        };
         
-        let response;
+        // Calculate health score using soil health algorithm
+        const healthScore = this.soilHealthAlgorithm.calculateScore(soilData);
         
+        // Calculate risk level, premium, etc.
+        const riskLevel = this.soilHealthAlgorithm.determineRiskLevel(healthScore);
+        const premium = this.soilHealthAlgorithm.calculatePremium(healthScore);
+        
+        // Generate trend data based on current values
+        const trendData = this.generateTrendData(soilData);
+        
+        // Generate yield prediction
+        const yieldPrediction = {
+            predicted_yield: 5.2,
+            yield_range: {
+                lower: 4.8,
+                upper: 5.6,
+            },
+            confidence: 85,
+            unit: 'tons per hectare'
+        };
+        
+        // Generate crop recommendations
+        const recommendedCrops = this.soilHealthAlgorithm.recommendSuitableCrops(soilData);
+        
+        // Generate recommendations
+        const recommendations = this.soilHealthAlgorithm.getRecommendations(soilData, this.getCurrentRegion(), this.getCurrentCrop());
+        
+        // Build complete initial dashboard data
+        return {
+            soil_health: {
+                initial: true,
+                timestamp: new Date().toISOString(),
+                soil_data: soilData,
+                health_score: healthScore,
+                risk_level: riskLevel,
+                parameter_scores: {
+                    ph_level: 95,
+                    nitrogen_level: 90,
+                    phosphorus_level: 88,
+                    potassium_level: 92,
+                    organic_matter: 85,
+                    cation_exchange_capacity: 78,
+                    moisture_content: 89
+                }
+            },
+            financial: {
+                index_score: healthScore,
+                risk_level: riskLevel,
+                premium_estimate: premium,
+                loan_eligibility: healthScore >= 40
+            },
+            trend_data: trendData,
+            yield_prediction: yieldPrediction,
+            recommended_crops: recommendedCrops,
+            recommendations: recommendations,
+            metadata: {
+                farmer_id: this.currentFarmerId || 1,
+                farmer_name: 'Demo Farmer',
+                primary_crop: this.getCurrentCrop(),
+                generated_at: new Date().toISOString()
+            }
+        };
+    }
+
+    async refreshData(isDemoUpdate = false) {
         try {
-            // Use our demo data endpoint
-            response = await fetch('/api/demo-data');
-            
-            if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}`);
+            if (!isDemoUpdate) {
+                console.log('Fetching new data...');
+                this.showLoading();
             }
             
-            const data = await response.json();
-            this.processApiData(data);
+            let response;
+            
+            try {
+                // For pitch presentations, always use simulated data
+                throw new Error("Using simulated data for presentation");
+                
+                // In a real environment, this would fetch from the API:
+                // response = await fetch('/api/demo-data');
+                // if (!response.ok) throw new Error(`API request failed with status ${response.status}`);
+                // const data = await response.json();
+                // this.processApiData(data);
+                
+            } catch (error) {
+                console.warn('Using simulated data for presentation', error);
+                
+                // Generate simulated data
+                const data = this.generateSimulatedData(isDemoUpdate);
+                this.updateDashboard(data);
+            }
             
         } catch (error) {
-            console.warn('Failed to fetch from API, using simulated data', error);
+            console.error('Error refreshing data:', error);
+            this.showError('Failed to update dashboard data. Using simulated data.');
             
-            // Generate simulated data as fallback
-            this.generateSimulatedData();
+            // Use simulated data as fallback
+            const data = this.generateSimulatedData(isDemoUpdate);
+            this.updateDashboard(data);
+            
+        } finally {
+            this.hideLoading();
+        }
+    }
+
+    generateSimulatedData(isDemoUpdate = false) {
+        // Keep changes smaller for demo updates to make the transitions smoother
+        const variationFactor = isDemoUpdate ? 0.3 : 1.0;
+        
+        // Get random value in range with controlled variation
+        const getRandomInRange = (min, max, currentValue = null) => {
+            if (currentValue !== null && isDemoUpdate) {
+                // Create small variation from current value for demo mode
+                const maxChange = (max - min) * 0.15 * variationFactor;
+                const change = (Math.random() * 2 - 1) * maxChange; // Random change between -maxChange and +maxChange
+                return Math.max(min, Math.min(max, currentValue + change));
+            } else {
+                // Generate a new random value in range
+                return Math.min(max, Math.max(min, min + (Math.random() * (max - min))));
+            }
+        };
+        
+        // Get current soil data or initialize
+        const currentSoilData = this.currentSoilData || {};
+        
+        // Generate soil parameters with controlled randomness
+        const soilData = {
+            ph_level: getRandomInRange(5.5, 7.5, currentSoilData.ph_level),
+            nitrogen_level: getRandomInRange(15, 45, currentSoilData.nitrogen_level),
+            phosphorus_level: getRandomInRange(15, 35, currentSoilData.phosphorus_level),
+            potassium_level: getRandomInRange(150, 250, currentSoilData.potassium_level),
+            organic_matter: getRandomInRange(2, 6, currentSoilData.organic_matter),
+            cation_exchange_capacity: getRandomInRange(10, 20, currentSoilData.cation_exchange_capacity),
+            moisture_content: getRandomInRange(15, 35, currentSoilData.moisture_content)
+        };
+        
+        // Calculate health score using soil health algorithm
+        const healthScore = this.soilHealthAlgorithm.calculateScore(soilData);
+        
+        // Calculate risk level, premium, etc. using soil health algorithm
+        const riskLevel = this.soilHealthAlgorithm.determineRiskLevel(healthScore);
+        const premium = this.soilHealthAlgorithm.calculatePremium(healthScore);
+        
+        // Generate trend data
+        const trendData = this.generateTrendData(soilData);
+        
+        // Generate yield prediction with more realistic variations
+        let yieldBase = healthScore / 20; // Base yield correlates with soil health
+        
+        const yieldPrediction = {
+            predicted_yield: getRandomInRange(yieldBase * 0.9, yieldBase * 1.1),
+            yield_range: {
+                lower: getRandomInRange(yieldBase * 0.7, yieldBase * 0.9),
+                upper: getRandomInRange(yieldBase * 1.1, yieldBase * 1.3),
+            },
+            confidence: getRandomInRange(70, 95),
+            unit: 'tons per hectare'
+        };
+        
+        // Generate crop recommendations based on soil data
+        const recommendedCrops = this.soilHealthAlgorithm.recommendSuitableCrops(soilData);
+        
+        // Generate recommendations
+        const recommendations = this.soilHealthAlgorithm.getRecommendations(soilData, this.getCurrentRegion(), this.getCurrentCrop());
+        
+        // Build complete simulated dashboard data
+        return {
+            soil_health: {
+                simulated: true,
+                timestamp: new Date().toISOString(),
+                soil_data: soilData,
+                health_score: healthScore,
+                risk_level: riskLevel,
+                parameter_scores: {
+                    ph_level: getRandomInRange(60, 100),
+                    nitrogen_level: getRandomInRange(60, 100),
+                    phosphorus_level: getRandomInRange(60, 100),
+                    potassium_level: getRandomInRange(60, 100),
+                    organic_matter: getRandomInRange(60, 100),
+                    cation_exchange_capacity: getRandomInRange(60, 100),
+                    moisture_content: getRandomInRange(60, 100)
+                }
+            },
+            financial: {
+                index_score: healthScore,
+                risk_level: riskLevel,
+                premium_estimate: premium,
+                loan_eligibility: healthScore >= 40
+            },
+            trend_data: trendData,
+            yield_prediction: yieldPrediction,
+            recommended_crops: recommendedCrops,
+            recommendations: recommendations,
+            metadata: {
+                farmer_id: this.currentFarmerId || 1,
+                farmer_name: this.getCurrentFarmerName(),
+                primary_crop: this.getCurrentCrop(),
+                generated_at: new Date().toISOString()
+            }
+        };
+    }
+
+    generateTrendData(currentSoilData) {
+        // Generate historical trend data based on current values
+        const now = new Date();
+        const data = [];
+        
+        // Generate data points for the last 24 hours at 30-minute intervals
+        for (let i = 0; i < 48; i++) {
+            const timestamp = new Date(now.getTime() - (i * 30 * 60 * 1000));
+            
+            // Variation factors per parameter
+            const variations = {
+                ph_level: (Math.sin(i * 0.1) * 0.2) + (Math.random() * 0.1),
+                nitrogen_level: (Math.sin(i * 0.05) * 3) + (Math.random() * 1.5),
+                phosphorus_level: (Math.sin(i * 0.07) * 2) + (Math.random() * 1),
+                potassium_level: (Math.sin(i * 0.03) * 10) + (Math.random() * 5),
+                organic_matter: (Math.sin(i * 0.02) * 0.3) + (Math.random() * 0.2),
+                cation_exchange_capacity: (Math.sin(i * 0.06) * 1) + (Math.random() * 0.5),
+                moisture_content: (Math.sin(i * 0.12) * 4) + (Math.random() * 2)
+            };
+            
+            // Calculate values with variation from current
+            const point = {
+                timestamp: timestamp.toISOString()
+            };
+            
+            for (const [param, currentValue] of Object.entries(currentSoilData)) {
+                if (param === 'timestamp') continue;
+                const variation = variations[param] || 0;
+                point[param] = Math.max(0, parseFloat(currentValue) + variation);
+            }
+            
+            data.push(point);
         }
         
-    } catch (error) {
-        console.error('Error refreshing data:', error);
-        this.showError('Failed to update dashboard data. Using simulated data.');
+        // Calculate health score for each point
+        const healthScores = data.map(point => {
+            const soilData = {...point};
+            delete soilData.timestamp;
+            
+            // Calculate score using soil health algorithm
+            return this.soilHealthAlgorithm.calculateScore(soilData);
+        });
         
-        // Use simulated data as fallback
-        this.generateSimulatedData();
-        
-    } finally {
-        this.hideLoading();
+        return {
+            points: data,
+            scores: healthScores
+        };
     }
-}
+
     updateDashboard(data) {
         // Update Financial Index Gauge
         if (data.soil_health) {
@@ -273,265 +619,7 @@ async refreshData() {
             });
         }
     }
-    
-    generateSimulatedData() {
-        // Generate random soil data with realistic values
-        const getRandomInRange = (min, max) => {
-            return Math.round((Math.random() * (max - min) + min) * 100) / 100;
-        };
-        
-        // Health score between 0-100, weighted toward middle range
-        const healthScore = Math.round(40 + getRandomInRange(-10, 30) + getRandomInRange(0, 40));
-        
-        // Generate soil parameters with controlled randomness
-        const soilData = {
-            ph_level: getRandomInRange(5.5, 7.5),
-            nitrogen_level: getRandomInRange(15, 45),
-            phosphorus_level: getRandomInRange(15, 35),
-            potassium_level: getRandomInRange(150, 250),
-            organic_matter: getRandomInRange(2, 6),
-            cation_exchange_capacity: getRandomInRange(10, 20),
-            moisture_content: getRandomInRange(15, 35)
-        };
-        
-        // Calculate risk level, premium, etc. using soil health algorithm
-        const riskLevel = this.soilHealthAlgorithm.determineRiskLevel(healthScore);
-        const premium = this.soilHealthAlgorithm.calculatePremium(healthScore);
-        
-        // Generate trend data
-        const trendData = this.generateTrendData(soilData);
-        
-        // Generate yield prediction
-        const yieldPrediction = {
-            predicted_yield: getRandomInRange(2.5, 6),
-            yield_range: {
-                lower: getRandomInRange(1.5, 2.5),
-                upper: getRandomInRange(6, 8),
-            },
-            confidence: getRandomInRange(70, 95),
-            unit: 'tons per hectare'
-        };
-        
-        // Generate crop recommendations
-        const recommendedCrops = this.soilHealthAlgorithm.recommendSuitableCrops(soilData);
-        
-        // Generate recommendations
-        const recommendations = this.soilHealthAlgorithm.getRecommendations(soilData, this.getCurrentRegion(), this.getCurrentCrop());
-        
-        // Build complete simulated dashboard data
-        return {
-            soil_health: {
-                simulated: true,
-                timestamp: new Date().toISOString(),
-                soil_data: soilData,
-                health_score: healthScore,
-                risk_level: riskLevel,
-                parameter_scores: {
-                    ph_level: getRandomInRange(60, 100),
-                    nitrogen_level: getRandomInRange(60, 100),
-                    phosphorus_level: getRandomInRange(60, 100),
-                    potassium_level: getRandomInRange(60, 100),
-                    organic_matter: getRandomInRange(60, 100),
-                    cation_exchange_capacity: getRandomInRange(60, 100),
-                    moisture_content: getRandomInRange(60, 100)
-                }
-            },
-            financial: {
-                index_score: healthScore,
-                risk_level: riskLevel,
-                premium_estimate: premium,
-                loan_eligibility: healthScore >= 40
-            },
-            trend_data: trendData,
-            yield_prediction: yieldPrediction,
-            recommended_crops: recommendedCrops,
-            recommendations: recommendations,
-            metadata: {
-                farmer_id: this.currentFarmerId || 1,
-                farmer_name: 'Demo Farmer',
-                primary_crop: this.getCurrentCrop(),
-                generated_at: new Date().toISOString()
-            }
-        };
-    }
-    
-    generateTrendData(currentSoilData) {
-        // Generate historical trend data based on current values
-        const now = new Date();
-        const data = [];
-        
-        // Generate data points for the last 24 hours at 30-minute intervals
-        for (let i = 0; i < 48; i++) {
-            const timestamp = new Date(now.getTime() - (i * 30 * 60 * 1000));
-            
-            // Variation factors per parameter
-            const variations = {
-                ph_level: (Math.sin(i * 0.1) * 0.2) + (Math.random() * 0.1),
-                nitrogen_level: (Math.sin(i * 0.05) * 3) + (Math.random() * 1.5),
-                phosphorus_level: (Math.sin(i * 0.07) * 2) + (Math.random() * 1),
-                potassium_level: (Math.sin(i * 0.03) * 10) + (Math.random() * 5),
-                organic_matter: (Math.sin(i * 0.02) * 0.3) + (Math.random() * 0.2),
-                cation_exchange_capacity: (Math.sin(i * 0.06) * 1) + (Math.random() * 0.5),
-                moisture_content: (Math.sin(i * 0.12) * 4) + (Math.random() * 2)
-            };
-            
-            // Calculate values with variation from current
-            const point = {
-                timestamp: timestamp.toISOString()
-            };
-            
-            for (const [param, currentValue] of Object.entries(currentSoilData)) {
-                if (param === 'timestamp') continue;
-                const variation = variations[param] || 0;
-                point[param] = Math.max(0, parseFloat(currentValue) + variation);
-            }
-            
-            data.push(point);
-        }
-        
-        // Calculate health score for each point
-        const healthScores = data.map(point => {
-            const soilData = {...point};
-            delete soilData.timestamp;
-            
-            // Calculate score using soil health algorithm
-            return this.soilHealthAlgorithm.calculateScore(soilData);
-        });
-        
-        return {
-            points: data,
-            scores: healthScores
-        };
-    }
-    
-    generateAlertsFromSoilData(soilData) {
-        // Generate alerts based on soil data
-        const alerts = [];
-        
-        if (!soilData) {
-            return alerts;
-        }
-        
-        const now = new Date().toISOString();
-        
-        // Check pH level
-        if (soilData.ph_level < 5.5) {
-            alerts.push({
-                id: 'alert-ph-low',
-                title: 'Critical pH Level',
-                message: `Soil pH is ${soilData.ph_level}, which is extremely acidic. Urgent lime application recommended.`,
-                priority: 'critical',
-                timestamp: now
-            });
-        } else if (soilData.ph_level < 6.0) {
-            alerts.push({
-                id: 'alert-ph-warning',
-                title: 'Low pH Level',
-                message: `Soil pH is ${soilData.ph_level}, which is moderately acidic. Consider lime application.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        } else if (soilData.ph_level > 7.5) {
-            alerts.push({
-                id: 'alert-ph-high',
-                title: 'High pH Level',
-                message: `Soil pH is ${soilData.ph_level}, which is alkaline. Consider adding organic matter.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        }
-        
-        // Check nitrogen level
-        if (soilData.nitrogen_level < 15) {
-            alerts.push({
-                id: 'alert-nitrogen-low',
-                title: 'Critical Nitrogen Deficiency',
-                message: `Nitrogen level is very low at ${soilData.nitrogen_level} mg/kg. Crop yield will be severely affected.`,
-                priority: 'critical',
-                timestamp: now
-            });
-        } else if (soilData.nitrogen_level < 20) {
-            alerts.push({
-                id: 'alert-nitrogen-warning',
-                title: 'Low Nitrogen Level',
-                message: `Nitrogen level is ${soilData.nitrogen_level} mg/kg, which is below optimal range.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        }
-        
-        // Check phosphorus level
-        if (soilData.phosphorus_level < 15) {
-            alerts.push({
-                id: 'alert-phosphorus-low',
-                title: 'Low Phosphorus Level',
-                message: `Phosphorus level is ${soilData.phosphorus_level} mg/kg, which may limit root development and flowering.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        }
-        
-        // Check potassium level
-        if (soilData.potassium_level < 130) {
-            alerts.push({
-                id: 'alert-potassium-low',
-                title: 'Low Potassium Level',
-                message: `Potassium level is ${soilData.potassium_level} mg/kg, which may reduce stress tolerance and water efficiency.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        }
-        
-        // Check organic matter
-        if (soilData.organic_matter < 2.0) {
-            alerts.push({
-                id: 'alert-organic-low',
-                title: 'Critical Organic Matter',
-                message: `Organic matter is very low at ${soilData.organic_matter}%. Soil structure and nutrient retention will be poor.`,
-                priority: 'critical',
-                timestamp: now
-            });
-        } else if (soilData.organic_matter < 3.0) {
-            alerts.push({
-                id: 'alert-organic-warning',
-                title: 'Low Organic Matter',
-                message: `Organic matter is ${soilData.organic_matter}%, which is below optimal range.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        }
-        
-        // Check moisture content during dry season
-        const currentMonth = new Date().getMonth() + 1;
-        if ([5, 6, 7, 8].includes(currentMonth) && soilData.moisture_content < 15) {
-            alerts.push({
-                id: 'alert-moisture-low',
-                title: 'Drought Risk',
-                message: `Soil moisture is critically low at ${soilData.moisture_content}% during dry season. Irrigation recommended.`,
-                priority: 'critical',
-                timestamp: now
-            });
-        } else if (soilData.moisture_content < 18) {
-            alerts.push({
-                id: 'alert-moisture-warning',
-                title: 'Low Moisture Content',
-                message: `Soil moisture is ${soilData.moisture_content}%, which may cause plant stress.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        } else if (soilData.moisture_content > 35) {
-            alerts.push({
-                id: 'alert-moisture-high',
-                title: 'High Moisture Content',
-                message: `Soil moisture is high at ${soilData.moisture_content}%, which may cause waterlogging and root diseases.`,
-                priority: 'warning',
-                timestamp: now
-            });
-        }
-        
-        return alerts;
-    }
-    
+
     updateFinancialGauge(financialData) {
         if (!financialData) {
             console.warn('No financial data received');
@@ -734,40 +822,41 @@ async refreshData() {
     updateYieldChart(prediction) {
         const yieldChartElement = document.getElementById('yield-chart');
         if (!yieldChartElement) return;
-        
+
         // Get suitable crops from list
         const cropsList = document.querySelectorAll('#suitable-crops-list .crop-name');
         const crops = Array.from(cropsList).map(item => item.textContent);
-        
+
         if (crops.length === 0) return;
-        
+
         // Create yield data based on prediction and crops
         const baseYield = prediction.predicted_yield || 3.5;
         const yields = crops.map((crop, index) => {
             // Calculate a yield based on crop and base yield
             const cropFactor = 0.8 + (index / 10); // First crops are more suitable
-            const yield_value = baseYield * cropFactor * (0.9 + Math.random() * 0.2);
-            
+            const yieldValue = baseYield * cropFactor * (0.9 + Math.random() * 0.2);
+
             return {
                 crop: crop,
-                yield: yield_value.toFixed(2)
+                yield: yieldValue.toFixed(2)
             };
         });
-        
+
         // Sort by yield
         yields.sort((a, b) => b.yield - a.yield);
-        
-        // Create chart
-        if (window.Plotly) {
-            const data = [{
-                x: yields.map(item => item.crop),
-                y: yields.map(item => parseFloat(item.yield)),
-                type: 'bar',
-                marker: {
-                    color: '#27AE60'
+
+        if (typeof Plotly !== 'undefined') {
+            const data = [
+                {
+                    x: yields.map(item => item.crop),
+                    y: yields.map(item => parseFloat(item.yield)),
+                    type: 'bar',
+                    marker: {
+                        color: '#27AE60'
+                    }
                 }
-            }];
-            
+            ];
+
             const layout = {
                 margin: { t: 10, l: 40, r: 20, b: 50 },
                 yaxis: {
@@ -781,9 +870,139 @@ async refreshData() {
                     family: 'Poppins, sans-serif'
                 }
             };
-            
-            Plotly.newPlot(yieldChartElement, data, layout, {responsive: true});
+
+            Plotly.newPlot(yieldChartElement, data, layout, { responsive: true });
+        } else {
+            console.error('Plotly library is not loaded');
         }
+    }
+    
+    generateAlertsFromSoilData(soilData) {
+        // Generate alerts based on soil data
+        const alerts = [];
+        
+        if (!soilData) {
+            return alerts;
+        }
+        
+        const now = new Date().toISOString();
+        
+        // Check pH level
+        if (soilData.ph_level < 5.5) {
+            alerts.push({
+                id: 'alert-ph-low',
+                title: 'Critical pH Level',
+                message: `Soil pH is ${soilData.ph_level}, which is extremely acidic. Urgent lime application recommended.`,
+                priority: 'critical',
+                timestamp: now
+            });
+        } else if (soilData.ph_level < 6.0) {
+            alerts.push({
+                id: 'alert-ph-warning',
+                title: 'Low pH Level',
+                message: `Soil pH is ${soilData.ph_level}, which is moderately acidic. Consider lime application.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        } else if (soilData.ph_level > 7.5) {
+            alerts.push({
+                id: 'alert-ph-high',
+                title: 'High pH Level',
+                message: `Soil pH is ${soilData.ph_level}, which is alkaline. Consider adding organic matter.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        }
+        
+        // Check nitrogen level
+        if (soilData.nitrogen_level < 15) {
+            alerts.push({
+                id: 'alert-nitrogen-low',
+                title: 'Critical Nitrogen Deficiency',
+                message: `Nitrogen level is very low at ${soilData.nitrogen_level} mg/kg. Crop yield will be severely affected.`,
+                priority: 'critical',
+                timestamp: now
+            });
+        } else if (soilData.nitrogen_level < 20) {
+            alerts.push({
+                id: 'alert-nitrogen-warning',
+                title: 'Low Nitrogen Level',
+                message: `Nitrogen level is ${soilData.nitrogen_level} mg/kg, which is below optimal range.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        }
+        
+        // Check phosphorus level
+        if (soilData.phosphorus_level < 15) {
+            alerts.push({
+                id: 'alert-phosphorus-low',
+                title: 'Low Phosphorus Level',
+                message: `Phosphorus level is ${soilData.phosphorus_level} mg/kg, which may limit root development and flowering.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        }
+        
+        // Check potassium level
+        if (soilData.potassium_level < 130) {
+            alerts.push({
+                id: 'alert-potassium-low',
+                title: 'Low Potassium Level',
+                message: `Potassium level is ${soilData.potassium_level} mg/kg, which may reduce stress tolerance and water efficiency.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        }
+        
+        // Check organic matter
+        if (soilData.organic_matter < 2.0) {
+            alerts.push({
+                id: 'alert-organic-low',
+                title: 'Critical Organic Matter',
+                message: `Organic matter is very low at ${soilData.organic_matter}%. Soil structure and nutrient retention will be poor.`,
+                priority: 'critical',
+                timestamp: now
+            });
+        } else if (soilData.organic_matter < 3.0) {
+            alerts.push({
+                id: 'alert-organic-warning',
+                title: 'Low Organic Matter',
+                message: `Organic matter is ${soilData.organic_matter}%, which is below optimal range.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        }
+        
+        // Check moisture content during dry season
+        const currentMonth = new Date().getMonth() + 1;
+        if ([5, 6, 7, 8].includes(currentMonth) && soilData.moisture_content < 15) {
+            alerts.push({
+                id: 'alert-moisture-low',
+                title: 'Drought Risk',
+                message: `Soil moisture is critically low at ${soilData.moisture_content}% during dry season. Irrigation recommended.`,
+                priority: 'critical',
+                timestamp: now
+            });
+        } else if (soilData.moisture_content < 18) {
+            alerts.push({
+                id: 'alert-moisture-warning',
+                title: 'Low Moisture Content',
+                message: `Soil moisture is ${soilData.moisture_content}%, which may cause plant stress.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        } else if (soilData.moisture_content > 35) {
+            alerts.push({
+                id: 'alert-moisture-high',
+                title: 'High Moisture Content',
+                message: `Soil moisture is high at ${soilData.moisture_content}%, which may cause waterlogging and root diseases.`,
+                priority: 'warning',
+                timestamp: now
+            });
+        }
+        
+        return alerts;
     }
     
     processLoanApplication() {
@@ -883,6 +1102,48 @@ async refreshData() {
         }, 10000);
     }
     
+    getCurrentFarmerName() {
+        // Get farmer name from selector
+        const farmerSelector = document.getElementById('farmer-selector');
+        if (farmerSelector && farmerSelector.selectedOptions && farmerSelector.selectedOptions.length > 0) {
+            const farmerText = farmerSelector.selectedOptions[0].text;
+            if (farmerText.includes('(')) {
+                return farmerText.split('(')[0].trim();
+            }
+            return farmerText;
+        }
+        return 'Demo Farmer';
+    }
+    
+    getCurrentRegion() {
+        // Get region from farmer selection if available
+        const farmerSelector = document.getElementById('farmer-selector');
+        if (farmerSelector && farmerSelector.selectedOptions && farmerSelector.selectedOptions.length > 0) {
+            const farmerText = farmerSelector.selectedOptions[0].text;
+            if (farmerText.includes('(')) {
+                return farmerText.split('(')[1].replace(')', '').trim();
+            }
+        }
+        return 'Zimbabwe';
+    }
+    
+    getCurrentCrop() {
+        // For now, return a default crop based on region
+        const region = this.getCurrentRegion().toLowerCase();
+        
+        if (region.includes('harare') || region.includes('mashonaland')) {
+            return 'Maize';
+        } else if (region.includes('bulawayo') || region.includes('matabeleland')) {
+            return 'Sorghum';
+        } else if (region.includes('mutare') || region.includes('manicaland')) {
+            return 'Tobacco';
+        } else if (region.includes('gweru') || region.includes('midlands')) {
+            return 'Cotton';
+        }
+        
+        return 'Maize'; // Default crop
+    }
+    
     showLoading() {
         const overlay = document.getElementById('loading-overlay');
         if (overlay) overlay.classList.remove('hidden');
@@ -910,43 +1171,25 @@ async refreshData() {
     showNotification(message, type = 'default') {
         if (typeof Toastify === 'function') {
             const bgColors = {
-                'success': '#2ECC71',
-                'warning': '#F39C12',
-                'error': '#E74C3C',
-                'info': '#3498DB',
-                'default': '#3498DB'
+                success: '#2ECC71',
+                warning: '#F39C12',
+                error: '#E74C3C',
+                info: '#3498DB',
+                default: '#3498DB'
             };
-            
+
             Toastify({
                 text: message,
                 duration: 3000,
                 close: true,
-                gravity: "top",
-                position: "right",
+                gravity: 'top',
+                position: 'right',
                 backgroundColor: bgColors[type],
                 stopOnFocus: true
             }).showToast();
         } else {
             alert(message);
         }
-    }
-    
-    getCurrentRegion() {
-        // Get region from farmer selection if available
-        const farmerSelector = document.getElementById('farmer-selector');
-        if (farmerSelector && farmerSelector.selectedOptions && farmerSelector.selectedOptions.length > 0) {
-            const farmerText = farmerSelector.selectedOptions[0].text;
-            if (farmerText.includes('(')) {
-                return farmerText.split('(')[1].replace(')', '').trim();
-            }
-        }
-        return 'Zimbabwe';
-    }
-    
-    getCurrentCrop() {
-        // For now, return a default crop
-        // In a real implementation, this would come from the farmer's data
-        return 'Maize';
     }
 }
 
@@ -1353,14 +1596,22 @@ class AIRecommendationsManager {
         }
     }
     
+    generateRecommendations(soilData) {
+        if (!soilData || Object.keys(soilData).length === 0) {
+            this.showError('No soil data available to generate recommendations.');
+            return;
+        }
+        
+        this.generate(); // Use the simulated generator for the prototype
+    }
+    
     generateSimulatedRecommendations() {
-        // Simulate AI-generated recommendations
         const regions = ['Mashonaland', 'Matabeleland', 'Manicaland', 'Midlands'];
         const region = regions[Math.floor(Math.random() * regions.length)];
-        
+
         const crops = ['Maize', 'Groundnuts', 'Cotton', 'Sorghum', 'Soybeans'];
         const crop = crops[Math.floor(Math.random() * crops.length)];
-        
+
         this.recommendations = [
             {
                 type: 'soil_analysis',
@@ -1379,476 +1630,56 @@ class AIRecommendationsManager {
                     </li>
                     <li>
                         <strong>ACTION:</strong> ${Math.random() > 0.5 ? 'Implement water conservation techniques such as mulching and tied ridges' : 'Incorporate organic matter and crop residues into the soil'}<br>
-                        <strong>REASON:</strong> ${Math.random() > 0.5 ? 'To improve soil moisture retention during dry periods' : 'To enhance soil structure, water infiltration, and nutrient cycling'}<br>
+                        <strong>REASON:</strong> ${Math.random() > 0.5 ? 'To improve soil moisture retention and reduce evaporation' : 'To enhance soil structure and nutrient retention'}<br>
                         <strong>COST:</strong> Low<br>
-                        <strong>TIMEFRAME:</strong> Immediate benefits with ongoing implementation<br>
-                        <strong>LOCAL CONSIDERATIONS:</strong> Critical for rainfed agriculture in ${region}
+                        <strong>TIMEFRAME:</strong> ${Math.random() > 0.5 ? 'Immediate effect' : '1-2 months for visible results'}<br>
+                        <strong>LOCAL CONSIDERATIONS:</strong> ${Math.random() > 0.5 ? 'Mulching materials are readily available in most farming areas' : 'Organic matter can be sourced from crop residues or compost'}
                     </li>
                 </ol>`
-            },
-            {
-                type: 'crops',
-                content: `<h4>Crop Recommendations</h4>
-                <p>Based on your soil conditions and location in ${region}, the following crops would be well-suited:</p>
-                <ul>
-                    <li><strong>${crop}:</strong> This crop is well-adapted to your soil's pH and nutrient profile. With proper management, yield potential is 3.5-4.2 tons/ha.</li>
-                    <li><strong>${crops[(crops.indexOf(crop) + 1) % crops.length]}:</strong> A good alternative that can tolerate your soil conditions. Expected yield potential of 2.8-3.5 tons/ha.</li>
-                    <li><strong>${crops[(crops.indexOf(crop) + 2) % crops.length]}:</strong> Consider as part of crop rotation to improve soil health and break pest cycles.</li>
-                </ul>`
-            },
-            {
-                type: 'sustainable_practices',
-                content: `<h4>Sustainable Farming Practices</h4>
-                <p>To improve long-term soil health and resilience, consider implementing these sustainable practices:</p>
-                <ol>
-                    <li><strong>Conservation Agriculture:</strong> Practice minimum tillage, permanent soil cover, and crop rotation to enhance soil structure and reduce erosion.</li>
-                    <li><strong>Integrated Soil Fertility Management:</strong> Combine organic and inorganic fertilizers strategically to optimize nutrient use efficiency while building soil organic matter.</li>
-                </ol>
-                <p>These practices are particularly effective in ${region}'s conditions and have shown success with small-scale farmers in similar areas.</p>`
             }
         ];
-        
-        // Display the recommendations
-        this.displayRecommendations({
-            status: 'success',
-            recommendations: this.recommendations,
-            metadata: {
-                source: 'ai_simulation',
-                timestamp: new Date().toISOString(),
-                region: region,
-                crop: crop
-            }
-        });
-    }
-    
-    generateRecommendations(soilData) {
-        if (!soilData || Object.keys(soilData).length === 0) {
-            this.showError('No soil data available to generate recommendations.');
-            return;
+
+        if (this.contentElement) {
+            this.contentElement.innerHTML = this.recommendations.map(rec => `<div class="recommendation">${rec.content}</div>`).join('');
         }
-        
-        this.generate(); // Use the simulated generator for the prototype
-    }
-    
-    displayRecommendations(response) {
-        if (!this.contentElement) return;
-        
-        if (response.status !== 'success' || !response.recommendations || response.recommendations.length === 0) {
-            this.contentElement.innerHTML = '<div class="empty-state">No recommendations available. Try generating new insights.</div>';
-            this.contentElement.classList.remove('hidden');
-            return;
-        }
-        
-        // Build content from recommendations
-        let contentHtml = '';
-        
-        // Add source and timestamp info
-        const timestamp = new Date(response.metadata?.timestamp || new Date()).toLocaleString();
-        const source = response.metadata?.source || 'system';
-        
-        contentHtml += `<div class="ai-metadata">
-            <span class="ai-timestamp"><i class="fas fa-clock"></i> Generated: ${timestamp}</span>
-            ${response.metadata?.region ? `<span class="ai-region"><i class="fas fa-map-marker-alt"></i> Region: ${response.metadata.region}</span>` : ''}
-            ${response.metadata?.crop ? `<span class="ai-crop"><i class="fas fa-seedling"></i> Crop: ${response.metadata.crop}</span>` : ''}
-        </div>`;
-        
-        // Add recommendations
-        response.recommendations.forEach(rec => {
-            contentHtml += `<div class="ai-section ${rec.type}">
-                ${rec.content}
-            </div>`;
-        });
-        
-        // Update content
-        this.contentElement.innerHTML = contentHtml;
-        this.contentElement.classList.remove('hidden');
     }
     
     setLoading(isLoading) {
         this.isLoading = isLoading;
-        
         if (this.loadingElement) {
-            if (isLoading) {
-                this.loadingElement.classList.remove('hidden');
-                this.contentElement?.classList.add('hidden');
-            } else {
-                this.loadingElement.classList.add('hidden');
-            }
+            this.loadingElement.classList.toggle('hidden', !isLoading);
         }
-        
-        if (this.generateButton) {
-            this.generateButton.disabled = isLoading;
+        if (this.contentElement) {
+            this.contentElement.classList.toggle('hidden', isLoading);
         }
     }
     
     showError(message) {
         console.error(message);
-        
-        // Use notification if available
-        if (window.dashboardManager && typeof window.dashboardManager.showNotification === 'function') {
-            window.dashboardManager.showNotification(message, 'error');
+        this.showNotification(message, 'error');
+    }
+    
+    showNotification(message, type = 'default') {
+        if (typeof Toastify === 'function') {
+            const bgColors = {
+                success: '#2ECC71',
+                warning: '#F39C12',
+                error: '#E74C3C',
+                info: '#3498DB',
+                default: '#3498DB'
+            };
+
+            Toastify({
+                text: message,
+                duration: 3000,
+                close: true,
+                gravity: 'top',
+                position: 'right',
+                backgroundColor: bgColors[type],
+                stopOnFocus: true
+            }).showToast();
         } else {
             alert(message);
         }
     }
 }
-
-// SoilHealthAlgorithm for financial indexing and recommendations
-class SoilHealthAlgorithm {
-    constructor() {
-        // Ideal ranges for soil parameters in Zimbabwe
-        this.idealRanges = {
-            'ph_level': [6.0, 7.0],
-            'nitrogen_level': [20.0, 40.0],  // mg/kg
-            'phosphorus_level': [15.0, 30.0],  // mg/kg
-            'potassium_level': [150.0, 250.0],  // mg/kg
-            'organic_matter': [3.0, 5.0],  // percentage
-            'cation_exchange_capacity': [10.0, 20.0],  // cmol/kg
-            'moisture_content': [20.0, 30.0]  // percentage
-        };
-        
-        // Parameter weights for overall score calculation
-        this.weights = {
-            'ph_level': 0.20,
-            'nitrogen_level': 0.15,
-            'phosphorus_level': 0.15,
-            'potassium_level': 0.15,
-            'organic_matter': 0.15,
-            'cation_exchange_capacity': 0.10,
-            'moisture_content': 0.10
-        };
-        
-        // Define common crops with their requirements
-        this.crops = {
-            'Maize': {
-                idealPh: [5.8, 6.8],
-                nitrogenRequirement: 'high',
-                droughtTolerance: 'medium'
-            },
-            'Sorghum': {
-                idealPh: [5.5, 7.5],
-                nitrogenRequirement: 'medium',
-                droughtTolerance: 'high'
-            },
-            'Groundnuts': {
-                idealPh: [5.5, 7.0],
-                nitrogenRequirement: 'low',
-                droughtTolerance: 'medium'
-            },
-            'Cotton': {
-                idealPh: [5.8, 7.0],
-                nitrogenRequirement: 'high',
-                droughtTolerance: 'high'
-            },
-            'Soybeans': {
-                idealPh: [6.0, 7.0],
-                nitrogenRequirement: 'low',
-                droughtTolerance: 'medium'
-            },
-            'Sweet Potatoes': {
-                idealPh: [5.6, 6.5],
-                nitrogenRequirement: 'medium',
-                droughtTolerance: 'high'
-            },
-            'Wheat': {
-                idealPh: [6.0, 7.5],
-                nitrogenRequirement: 'high',
-                droughtTolerance: 'low'
-            }
-        };
-    }
-    
-    calculateScore(soilData) {
-        // Calculate overall soil health score
-        let totalScore = 0;
-        let totalWeight = 0;
-        
-        for (const [param, weight] of Object.entries(this.weights)) {
-            if (param in soilData && soilData[param] !== null && soilData[param] !== undefined) {
-                const value = parseFloat(soilData[param]);
-                const paramScore = this.calculateParameterScore(param, value);
-                totalScore += paramScore * weight;
-                totalWeight += weight;
-            }
-        }
-        
-        if (totalWeight === 0) return 0;
-        
-        // Normalize score to 0-100 range
-        return (totalScore / totalWeight) * 100;
-    }
-    
-    calculateParameterScore(param, value) {
-        // Calculate score for individual parameter based on ideal ranges
-        if (!this.idealRanges[param]) return 0;
-        
-        const [min, max] = this.idealRanges[param];
-        
-        // Perfect score if within ideal range
-        if (value >= min && value <= max) {
-            return 1.0;
-        }
-        
-        // Calculate deviation from ideal range
-        let deviation;
-        if (value < min) {
-            deviation = (min - value) / min;
-        } else { // value > max
-            deviation = (value - max) / max;
-        }
-        
-        // Different scoring curves for different parameters
-        if (param === 'organic_matter' && value > max) {
-            // More organic matter is generally not as bad
-            return Math.max(0, 1 - deviation * 0.5);
-        } else if (param === 'ph_level') {
-            // pH is more sensitive to deviations
-            return Math.max(0, 1 - deviation * 1.5);
-        } else {
-            // Standard scoring curve
-            return Math.max(0, 1 - deviation);
-        }
-    }
-    
-    determineRiskLevel(score) {
-        /**
-         * Determine financial risk level based on soil health score
-         */
-        if (score >= 80) {
-            return "Low Risk";
-        } else if (score >= 60) {
-            return "Medium-Low Risk";
-        } else if (score >= 40) {
-            return "Medium Risk";
-        } else if (score >= 20) {
-            return "Medium-High Risk";
-        } else {
-            return "High Risk";
-        }
-    }
-    
-    calculatePremium(score, basePremium = 100) {
-        /**
-         * Calculate insurance premium based on soil health score
-         */
-        // Lower score = higher risk = higher premium
-        const riskFactor = (100 - score) / 100;
-        
-        // Apply a non-linear relationship for more realistic premiums
-        const premiumMultiplier = 1 + (riskFactor ** 1.8);
-        
-        return Math.round(basePremium * premiumMultiplier * 100) / 100;
-    }
-    
-    recommendSuitableCrops(soilData) {
-        /**
-         * Recommend suitable crops based on soil parameters
-         */
-        if (!soilData) return [];
-        
-        // Extract key soil parameters
-        const ph = parseFloat(soilData.ph_level || 0);
-        const nitrogen = parseFloat(soilData.nitrogen_level || 0);
-        const moisture = parseFloat(soilData.moisture_content || 0);
-        
-        // Get current season
-        const currentMonth = new Date().getMonth() + 1;
-        const isWinterSeason = [5, 6, 7, 8].includes(currentMonth);
-        
-        // Score each crop based on soil suitability
-        const cropScores = {};
-        
-        for (const [cropName, cropData] of Object.entries(this.crops)) {
-            // Skip winter crops during summer and vice versa
-            if (cropName === 'Wheat' && !isWinterSeason) continue;
-            
-            // Calculate pH match score
-            const [minPh, maxPh] = cropData.idealPh;
-            let phScore;
-            
-            if (minPh <= ph && ph <= maxPh) {
-                phScore = 1.0;
-            } else {
-                const distance = Math.min(Math.abs(ph - minPh), Math.abs(ph - maxPh));
-                phScore = Math.max(0, 1 - distance / 2);
-            }
-            
-            // Calculate nitrogen match score
-            let nitrogenScore;
-            
-            if (cropData.nitrogenRequirement === 'low') {
-                nitrogenScore = 1.0 - (nitrogen / 60);  // Low nitrogen crops do better with less
-            } else if (cropData.nitrogenRequirement === 'medium') {
-                nitrogenScore = nitrogen < 20 ? nitrogen / 20 : (nitrogen > 40 ? 1 - ((nitrogen - 40) / 40) : 1.0);
-            } else { // high
-                nitrogenScore = nitrogen < 30 ? nitrogen / 30 : 1.0;
-            }
-            
-            // Calculate drought tolerance vs moisture content match
-            let moistureScore;
-            
-            if (cropData.droughtTolerance === 'high') {
-                moistureScore = moisture < 25 ? 1.0 : Math.max(0.7, 1 - (moisture - 25) / 25);
-            } else if (cropData.droughtTolerance === 'medium') {
-                moistureScore = moisture < 15 ? moisture / 15 : (moisture > 30 ? Math.max(0.6, 1 - (moisture - 30) / 15) : 1.0);
-            } else { // low drought tolerance
-                moistureScore = moisture < 20 ? moisture / 20 : 1.0;
-            }
-            
-            // Calculate overall suitability score with weighted components
-            const overallScore = (
-                phScore * 0.4 +
-                nitrogenScore * 0.3 +
-                moistureScore * 0.3
-            );
-            
-            cropScores[cropName] = overallScore;
-        }
-        
-        // Sort crops by score and return top matches
-        const sortedCrops = Object.entries(cropScores)
-            .sort((a, b) => b[1] - a[1])
-            .filter(([_, score]) => score > 0.65)
-            .map(([crop, _]) => crop);
-        
-        return sortedCrops.slice(0, 5);  // Return top 5 suitable crops
-    }
-    
-    getRecommendations(soilData, region = null, crop = null) {
-        /**
-         * Generate soil health recommendations based on soil data
-         */
-        const recommendations = [];
-        
-        if (!soilData) return recommendations;
-        
-        // Check pH level
-        const ph = parseFloat(soilData.ph_level || 0);
-        if (ph < 6.0) {
-            recommendations.push({
-                title: 'Correct Soil pH',
-                action: `Apply agricultural lime at ${Math.round((6.5 - ph) * 2)} tons per hectare`,
-                reason: 'Soil is too acidic, which limits nutrient availability',
-                cost_estimate: 'Medium',
-                timeframe: '3-6 months',
-                local_context: 'Locally available agricultural lime can be sourced from most agricultural supply stores in Zimbabwe'
-            });
-        } else if (ph > 7.0) {
-            recommendations.push({
-                title: 'Reduce Soil pH',
-                action: 'Apply organic matter such as compost or manure',
-                reason: 'Soil is too alkaline, which can limit certain nutrient uptake',
-                cost_estimate: 'Low to Medium',
-                timeframe: '3-6 months',
-                local_context: 'Manure from local livestock can be an affordable option'
-            });
-        }
-        
-        // Check nitrogen level
-        const nitrogen = parseFloat(soilData.nitrogen_level || 0);
-        if (nitrogen < 20) {
-            recommendations.push({
-                title: 'Increase Nitrogen Levels',
-                action: `Apply nitrogen fertilizer (Ammonium Nitrate) at ${Math.round(150 - nitrogen * 5)} kg/ha`,
-                reason: 'Nitrogen deficiency will limit plant growth and yield',
-                cost_estimate: 'Medium',
-                timeframe: '2-4 weeks',
-                local_context: 'Consider split application during the growing season for better efficiency in Zimbabwe\'s climate'
-            });
-        }
-        
-        // Check organic matter
-        const organicMatter = parseFloat(soilData.organic_matter || 0);
-        if (organicMatter < 3.0) {
-            recommendations.push({
-                title: 'Increase Organic Matter',
-                action: 'Apply compost or incorporate crop residues into the soil',
-                reason: 'Low organic matter reduces soil structure, water retention, and nutrient availability',
-                cost_estimate: 'Low',
-                timeframe: '6-12 months for full benefits',
-                local_context: 'Conservation agriculture techniques are promoted in Zimbabwe to build organic matter over time'
-            });
-        }
-        
-        // Check moisture content
-        const moisture = parseFloat(soilData.moisture_content || 0);
-        if (moisture < 20) {
-            recommendations.push({
-                title: 'Improve Water Management',
-                action: 'Apply mulch and implement water conservation practices like tied ridges or basins',
-                reason: 'Low soil moisture will stress plants and reduce yields',
-                cost_estimate: 'Low to Medium',
-                timeframe: 'Immediate benefits',
-                local_context: 'Critical for rainfed agriculture in Zimbabwe\'s drought-prone regions'
-            });
-        }
-        
-        // Add crop-specific recommendation if crop provided
-        if (crop) {
-            const cropLower = crop.toLowerCase();
-            
-            if (cropLower === 'maize') {
-                recommendations.push({
-                    title: 'Maize-Specific Management',
-                    action: 'Ensure proper spacing at 75cm between rows and 25cm between plants',
-                    reason: 'Proper spacing optimizes resource use and yield potential',
-                    cost_estimate: 'Low',
-                    timeframe: 'Planting time',
-                    local_context: 'Maize is a staple crop in Zimbabwe, and proper spacing is essential for good yields'
-                });
-            } else if (cropLower === 'groundnuts' || cropLower === 'peanuts') {
-                recommendations.push({
-                    title: 'Groundnut Management',
-                    action: 'Ensure calcium levels are adequate with gypsum application if needed',
-                    reason: 'Calcium is essential for pod development in groundnuts',
-                    cost_estimate: 'Medium',
-                    timeframe: 'Apply at flowering',
-                    local_context: 'Groundnuts are an important cash and food security crop in Zimbabwe'
-                });
-            } else if (cropLower === 'cotton') {
-                recommendations.push({
-                    title: 'Cotton Management',
-                    action: 'Implement integrated pest management for bollworm control',
-                    reason: 'Pest management is critical for cotton quality and yield',
-                    cost_estimate: 'Medium to High',
-                    timeframe: 'Throughout growing season',
-                    local_context: 'Cotton is a key cash crop in Zimbabwe requiring careful pest management'
-                });
-            }
-        }
-        
-        // If in a specific region, add region-specific advice
-        if (region) {
-            const regionLower = region.toLowerCase();
-            
-            if (regionLower.includes('matabeleland')) {
-                recommendations.push({
-                    title: 'Drought Adaptation',
-                    action: 'Implement moisture conservation techniques like deep plowing and mulching',
-                    reason: 'Matabeleland regions are prone to drought conditions',
-                    cost_estimate: 'Medium',
-                    timeframe: 'Before planting season',
-                    local_context: 'These techniques have shown success in similar semi-arid areas of Zimbabwe'
-                });
-            } else if (regionLower.includes('mashonaland')) {
-                if (moisture > 30) {
-                    recommendations.push({
-                        title: 'Drainage Management',
-                        action: 'Create drainage channels to prevent waterlogging during heavy rains',
-                        reason: 'Mashonaland regions often receive higher rainfall that can lead to waterlogging',
-                        cost_estimate: 'Medium',
-                        timeframe: 'Before rainy season',
-                        local_context: 'Particularly important for low-lying fields in this region'
-                    });
-                }
-            }
-        }
-        
-        return recommendations;
-    }
-}
-
-// Initialize dashboard when document is ready
-document.addEventListener('DOMContentLoaded', function() {
-    window.dashboardManager = new DashboardManager();
-});

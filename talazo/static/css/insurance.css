@@ -1,0 +1,642 @@
+/* insurance.css - Styling for the insurance page */
+
+.insurance-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px;
+  }
+  
+  /* Soil Metrics Card */
+  .soil-metrics-card {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  
+  .grid-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: border 0.3s, box-shadow 0.3s;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    outline: none;
+  }
+  
+  .param-range {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+  }
+  
+  .form-actions {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Premium Results Card */
+  .premium-results-card {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+  
+  .results-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+  
+  .soil-health-gauge {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
+  }
+  
+  .soil-health-gauge h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .gauge-value {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .gauge-value .unit {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .premium-details {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .premium-amount {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .premium-amount h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .premium-amount .amount {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .premium-amount .unit {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .risk-level {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .coverage-details {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .coverage-details h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .coverage-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  .coverage-item .label {
+    color: #666;
+  }
+  
+  .coverage-item .value {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .premium-factors {
+    margin-bottom: 25px;
+  }
+  
+  .premium-factors h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .comparison-container {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .comparison-container h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .comparison-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+    font-size: 14px;
+  }
+  
+  .comparison-item:last-child {
+    border-bottom: none;
+    font-weight: 600;
+  }
+  
+  .comparison-item .label {
+    color: #666;
+  }
+  
+  .comparison-item .value {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .comparison-item .savings {
+    color: #4CAF50;
+  }
+  
+  /* Recommendations Card */
+  .recommendations-card {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+  }
+  
+  .recommendations-intro {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 15px;
+  }
+  
+  .intro-content {
+    flex: 1;
+  }
+  
+  .intro-content h3 {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .intro-content p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 0;
+  }
+  
+  .potential-savings {
+    text-align: center;
+    padding-left: 15px;
+    border-left: 1px solid #ddd;
+    min-width: 150px;
+  }
+  
+  .savings-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .savings-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #4CAF50;
+  }
+  
+  .savings-amount {
+    font-size: 13px;
+    color: #666;
+  }
+  
+  #recommendations-list {
+    margin-bottom: 20px;
+  }
+  
+  .recommendation-item {
+    background-color: #f9f9f9;
+    border-left: 4px solid #4CAF50;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 0 4px 4px 0;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .recommendation-item:hover {
+    transform: translateX(3px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .recommendation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  
+  .recommendation-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+  }
+  
+  .recommendation-impact {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    min-width: 80px;
+    text-align: center;
+  }
+  
+  .recommendation-impact.medium {
+    background-color: #FFC107;
+  }
+  
+  .recommendation-impact.low {
+    background-color: #607D8B;
+  }
+  
+  .recommendation-content {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .recommendation-details {
+    display: flex;
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .recommendation-detail {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .recommendation-detail i {
+    margin-right: 5px;
+    font-size: 12px;
+  }
+  
+  .intervention-impact h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .loading-recommendations {
+    text-align: center;
+    padding: 30px 0;
+    color: #777;
+  }
+  
+  .spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: #4CAF50;
+    display: inline-block;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Policy Options Card */
+  .policy-options-card {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+  
+  .policy-tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+  }
+  
+  .policy-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .policy-tab:hover {
+    color: #4CAF50;
+  }
+  
+  .policy-tab.active {
+    color: #4CAF50;
+    border-bottom-color: #4CAF50;
+  }
+  
+  .policy-plan {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .policy-plan:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .plan-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .plan-header h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .plan-price {
+    font-size: 24px;
+    font-weight: 600;
+    color: #4CAF50;
+  }
+  
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+  
+  .plan-features li {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+  
+  .plan-features li i {
+    margin-right: 10px;
+    font-size: 12px;
+  }
+  
+  .plan-features li i.fa-check {
+    color: #4CAF50;
+  }
+  
+  .plan-features li i.fa-times {
+    color: #F44336;
+  }
+  
+  .select-plan {
+    display: block;
+    width: 100%;
+  }
+  
+  /* Modal Styling */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: auto;
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 8px;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+  }
+  
+  .close-modal:hover {
+    color: #333;
+  }
+  
+  .plan-summary {
+    margin-bottom: 25px;
+  }
+  
+  .plan-summary h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .plan-summary-details {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed #ddd;
+  }
+  
+  .summary-item:last-child {
+    border-bottom: none;
+  }
+  
+  .summary-item .label {
+    color: #666;
+  }
+  
+  .summary-item .value {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .summary-item input {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Button Styling */
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn i {
+    margin-right: 8px;
+  }
+  
+  .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3d8b40;
+    transform: translateY(-2px);
+  }
+  
+  .btn-secondary {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-2px);
+  }
+  
+  /* Utility Classes */
+  .hidden {
+    display: none;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    .insurance-layout {
+      grid-template-columns: 1fr;
+    }
+    
+    .soil-metrics-card,
+    .premium-results-card,
+    .recommendations-card,
+    .policy-options-card {
+      grid-column: 1 / 2;
+    }
+    
+    .premium-results-card {
+      grid-row: 2 / 3;
+    }
+    
+    .recommendations-card {
+      grid-row: 3 / 4;
+    }
+    
+    .policy-options-card {
+      grid-row: 4 / 5;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .grid-inputs {
+      grid-template-columns: 1fr;
+    }
+    
+    .results-container {
+      flex-direction: column;
+    }
+    
+    .recommendations-intro {
+      flex-direction: column;
+    }
+    
+    .potential-savings {
+      border-left: none;
+      border-top: 1px solid #ddd;
+      padding-left: 0;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+  }
