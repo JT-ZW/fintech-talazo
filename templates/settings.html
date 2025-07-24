@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings - Talazo AgriFinance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="header-content">
+          <div class="header-left">
+            <a href="/dashboard" class="back-link">
+              <i class="fas fa-arrow-left"></i>
+              Back to Dashboard
+            </a>
+            <h1><i class="fas fa-cog"></i> Settings</h1>
+            <p>Configure your Talazo AgriFinance platform preferences</p>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="settings-grid">
+          <div class="settings-section">
+            <h3><i class="fas fa-user"></i> Profile Settings</h3>
+            <div class="settings-form">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" value="Financial Officer" />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" value="officer@talazo.com" />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" value="+263 712 345 678" />
+              </div>
+              <div class="form-group">
+                <label for="department">Department</label>
+                <select id="department">
+                  <option value="finance">AgriFinance Division</option>
+                  <option value="risk">Risk Assessment</option>
+                  <option value="analytics">Data Analytics</option>
+                </select>
+              </div>
+              <button class="btn btn-primary">Update Profile</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="fas fa-bell"></i> Notification Preferences</h3>
+            <div class="settings-form">
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <span>Email Notifications</span>
+                  <label class="toggle">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span>SMS Alerts</span>
+                  <label class="toggle">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span>Loan Application Alerts</span>
+                  <label class="toggle">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span>Soil Analysis Updates</span>
+                  <label class="toggle">
+                    <input type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span>Market Price Alerts</span>
+                  <label class="toggle">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="fas fa-shield-alt"></i> Security Settings</h3>
+            <div class="settings-form">
+              <div class="form-group">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" />
+              </div>
+              <div class="form-group">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" />
+              </div>
+              <div class="form-group">
+                <label for="confirm-password">Confirm New Password</label>
+                <input type="password" id="confirm-password" />
+              </div>
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <span>Two-Factor Authentication</span>
+                  <label class="toggle">
+                    <input type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <button class="btn btn-primary">Update Password</button>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="fas fa-palette"></i> Display Preferences</h3>
+            <div class="settings-form">
+              <div class="form-group">
+                <label for="theme">Theme</label>
+                <select id="theme">
+                  <option value="light">Light Mode</option>
+                  <option value="dark">Dark Mode</option>
+                  <option value="auto">Auto (System)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="language">Language</label>
+                <select id="language">
+                  <option value="en">English</option>
+                  <option value="sn">Shona</option>
+                  <option value="nd">Ndebele</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="currency">Currency Display</label>
+                <select id="currency">
+                  <option value="usd">USD ($)</option>
+                  <option value="zwl">ZWL (Z$)</option>
+                  <option value="zar">ZAR (R)</option>
+                </select>
+              </div>
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <span>Show Tutorial Tips</span>
+                  <label class="toggle">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="fas fa-database"></i> Data & Privacy</h3>
+            <div class="settings-form">
+              <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <p>
+                  Your data is encrypted and stored securely. We comply with all
+                  applicable data protection regulations.
+                </p>
+              </div>
+              <div class="toggle-group">
+                <div class="toggle-item">
+                  <span>Data Analytics Participation</span>
+                  <label class="toggle">
+                    <input type="checkbox" checked />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="toggle-item">
+                  <span>Marketing Communications</span>
+                  <label class="toggle">
+                    <input type="checkbox" />
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+              <div class="button-group">
+                <button class="btn btn-secondary">Export Data</button>
+                <button class="btn btn-outline">Request Data Deletion</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-section">
+            <h3><i class="fas fa-tools"></i> System Information</h3>
+            <div class="system-info">
+              <div class="info-item">
+                <span class="label">Version:</span>
+                <span class="value">v2.1.0</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Last Updated:</span>
+                <span class="value">July 23, 2025</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Database:</span>
+                <span class="value status-online">Online</span>
+              </div>
+              <div class="info-item">
+                <span class="label">API Status:</span>
+                <span class="value status-online">Operational</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <style>
+      .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .settings-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .settings-section h3 {
+        margin: 0 0 1.5rem 0;
+        color: #2d7d32;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: #2d7d32;
+      }
+
+      .toggle-group {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .toggle-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toggle {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #2d7d32;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      .info-box {
+        background: #f5f5f5;
+        padding: 1rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .info-box i {
+        color: #2196f3;
+      }
+
+      .system-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .info-item:last-child {
+        border-bottom: none;
+      }
+
+      .label {
+        font-weight: 500;
+        color: #666;
+      }
+
+      .value {
+        font-weight: 600;
+      }
+
+      .status-online {
+        color: #4caf50;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #666;
+        border: 2px solid #e0e0e0;
+      }
+
+      .btn-outline:hover {
+        background: #f5f5f5;
+      }
+    </style>
+  </body>
+</html>

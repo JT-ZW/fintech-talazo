@@ -1,265 +1,1143 @@
-/* farmers.css - Styles for Farmers Management Page */
-.farmers-management-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
+/* farmers.css - Styles for the farmers management page */
 
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 15px;
-}
-
-.dashboard-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.stat-card {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Header controls */
+.header-controls {
     display: flex;
     align-items: center;
-    padding: 20px;
-}
-
-.stat-icon {
-    font-size: 2.5rem;
-    margin-right: 15px;
-    color: #4a90e2;
-}
-
-.stat-content h3 {
-    margin: 0 0 10px;
-    font-size: 1rem;
-    color: #6c757d;
-}
-
-.stat-content p {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.farmers-filter {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.filter-row {
-    display: flex;
     gap: 15px;
-}
-
-.filter-group {
-    flex: 1;
-}
-
-.filter-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-}
-
-.filter-group select,
-.filter-group input {
+    flex-wrap: wrap;
+  }
+  
+  .search-box {
+    position: relative;
+    min-width: 250px;
+  }
+  
+  .search-box input {
     width: 100%;
-    padding: 8px;
+    padding: 8px 12px 8px 35px;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-.range-inputs {
-    display: flex;
-    gap: 10px;
-}
-
-.range-inputs input {
-    flex: 1;
-}
-
-.farmers-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.farmers-table thead {
-    background-color: #f1f3f5;
-}
-
-.farmers-table th,
-.farmers-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.farmers-table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    gap: 15px;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 10% auto;
-    padding: 30px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 1000px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-}
-
-.close-modal {
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .search-box i {
     position: absolute;
-    top: 10px;
-    right: 20px;
-}
-
-.close-modal:hover {
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+  }
+  
+  .filter-dropdown select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    min-width: 140px;
+  }
+  
+  .btn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+  }
+  
+  .btn i {
+    font-size: 14px;
+  }
+  
+  .btn-primary {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #43a047;
+  }
+  
+  .btn-secondary {
+    background-color: #f5f5f5;
     color: #333;
-}
-
-.farmer-details-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.personal-info, 
-.farming-details,
-.farm-plots,
-.soil-samples {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.personal-info h3,
-.farming-details h3,
-.farm-plots h3,
-.soil-samples h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #4a90e2;
-    padding-bottom: 10px;
-    color: #333;
-}
-
-#farm-plots-table,
-#soil-samples-chart {
-    width: 100%;
-}
-
-#soil-samples-chart {
-    height: 300px;
-}
-
-.btn-sm {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-}
-
-.view-farmer {
+    border: 1px solid #ddd;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .btn-danger {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn-danger:hover {
+    background-color: #e53935;
+  }
+  
+  /* Last update indicator */
+  .last-update {
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .refresh-button {
+    background: transparent;
+    border: none;
+    color: #4caf50;
+    cursor: pointer;
+    font-size: 14px;
     display: flex;
     align-items: center;
     gap: 5px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .dashboard-stats {
-        grid-template-columns: 1fr;
+  }
+  
+  .refresh-button:hover {
+    color: #388e3c;
+  }
+  
+  /* View toggle container */
+  .view-toggle-container {
+    display: flex;
+    margin: 20px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .view-toggle {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .view-toggle:hover {
+    color: #4caf50;
+  }
+  
+  .view-toggle.active {
+    color: #4caf50;
+    border-bottom-color: #4caf50;
+  }
+  
+  /* Farmers container */
+  .farmers-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  /* List View Styles */
+  .farmers-list-view {
+    overflow-x: auto;
+  }
+  
+  .farmers-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .farmers-table th,
+  .farmers-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .farmers-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #333;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .farmers-table th i {
+    margin-left: 5px;
+    font-size: 12px;
+    color: #aaa;
+    cursor: pointer;
+  }
+  
+  .farmers-table th i:hover {
+    color: #666;
+  }
+  
+  .farmers-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .farmers-table td .action-btn {
+    padding: 5px;
+    font-size: 14px;
+    color: #666;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .farmers-table td .action-btn:hover {
+    color: #4caf50;
+  }
+  
+  .farmers-table .badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .badge-low-risk {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .badge-medium-low-risk {
+    background-color: #f1f8e9;
+    color: #558b2f;
+  }
+  
+  .badge-medium-risk {
+    background-color: #fff8e1;
+    color: #ff8f00;
+  }
+  
+  .badge-medium-high-risk {
+    background-color: #fff3e0;
+    color: #ef6c00;
+  }
+  
+  .badge-high-risk {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  .loading-row td {
+    text-align: center;
+    padding: 40px;
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(76, 175, 80, 0.2);
+    border-radius: 50%;
+    border-top-color: #4caf50;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 10px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Pagination controls */
+  .pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    gap: 15px;
+    border-top: 1px solid #eee;
+  }
+  
+  .pagination-controls button {
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .pagination-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .pagination-controls button:not(:disabled):hover {
+    background-color: #f5f5f5;
+  }
+  
+  .pagination-controls span {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .pagination-controls select {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Grid View Styles */
+  .farmers-grid-view {
+    padding: 20px;
+  }
+  
+  .farmers-grid-view.hidden {
+    display: none;
+  }
+  
+  .farmers-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .farmer-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .farmer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .farmer-card-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .farmer-card-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .farmer-card-details {
+    padding: 15px;
+  }
+  
+  .farmer-card-row {
+    display: flex;
+    margin-bottom: 8px;
+  }
+  
+  .farmer-card-label {
+    flex: 1;
+    font-size: 13px;
+    color: #666;
+  }
+  
+  .farmer-card-value {
+    flex: 1.5;
+    font-size: 14px;
+  }
+  
+  .farmer-card-footer {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .loading-card {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Map View Styles */
+  .farmers-map-view {
+    position: relative;
+  }
+  
+  .farmers-map-view.hidden {
+    display: none;
+  }
+  
+  .farmers-map {
+    height: 600px;
+    width: 100%;
+    background-color: #f5f5f5;
+    position: relative;
+  }
+  
+  .map-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .map-legend {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    z-index: 1000;
+  }
+  
+  .map-legend h3 {
+    margin-top: 0;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .legend-color.low-risk {
+    background-color: #4caf50;
+  }
+  
+  .legend-color.medium-low-risk {
+    background-color: #8bc34a;
+  }
+  
+  .legend-color.medium-risk {
+    background-color: #ffeb3b;
+  }
+  
+  .legend-color.medium-high-risk {
+    background-color: #ff9800;
+  }
+  
+  .legend-color.high-risk {
+    background-color: #f44336;
+  }
+  
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: auto;
+  }
+  
+  .modal-content {
+    position: relative;
+    margin: 50px auto;
+    max-width: 900px;
+    width: 90%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    animation: modalFadeIn 0.3s;
+  }
+  
+  .small-modal {
+    max-width: 500px;
+  }
+  
+  @keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .close-modal {
+    font-size: 24px;
+    color: #aaa;
+    cursor: pointer;
+  }
+  
+  .close-modal:hover {
+    color: #666;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  /* Detail tabs */
+  .detail-tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    overflow-x: auto;
+  }
+  
+  .tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+  }
+  
+  .tab-btn:hover {
+    color: #4caf50;
+  }
+  
+  .tab-btn.active {
+    color: #4caf50;
+    border-bottom-color: #4caf50;
+  }
+  
+  .tab-content {
+    display: none;
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  /* Profile tab */
+  .farmer-profile-header {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .farmer-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: #aaa;
+    margin-right: 20px;
+  }
+  
+  .farmer-basic-info {
+    flex: 1;
+  }
+  
+  .farmer-basic-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+  }
+  
+  .farmer-basic-info p {
+    margin: 0 0 5px 0;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .farmer-risk-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #fff8e1;
+    color: #ff8f00;
+    margin-top: 5px;
+  }
+  
+  .profile-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .detail-row {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  
+  .detail-label {
+    flex: 1;
+    font-weight: 500;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .detail-value {
+    flex: 2;
+    font-size: 14px;
+  }
+  
+  /* Farm tab */
+  .farm-header {
+    margin-bottom: 20px;
+  }
+  
+  .farm-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .farm-location-map {
+    height: 300px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+  }
+  
+  .farm-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  /* Financial tab */
+  .financial-header {
+    margin-bottom: 20px;
+  }
+  
+  .financial-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .financial-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .financial-metric {
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+  }
+  
+  .metric-label {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+  }
+  
+  .metric-value {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .financial-history {
+    margin-bottom: 20px;
+  }
+  
+  .financial-history h3 {
+    font-size: 16px;
+    margin-top: 0;
+  }
+  
+  .financial-chart {
+    height: 250px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+  }
+  
+  .loan-history h3 {
+    font-size: 16px;
+    margin-top: 0;
+  }
+  
+  .loan-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .loan-history-table th,
+  .loan-history-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .loan-history-table th {
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .loading-cell {
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+  }
+  
+  /* Soil tab */
+  .soil-header {
+    margin-bottom: 20px;
+  }
+  
+  .soil-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .soil-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+  
+  .soil-gauge {
+    min-width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .soil-parameters {
+    flex: 1;
+  }
+  
+  .soil-parameter {
+    margin-bottom: 12px;
+  }
+  
+  .parameter-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .parameter-value {
+    font-weight: 500;
+  }
+  
+  .parameter-bar {
+    height: 8px;
+    background-color: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .parameter-fill {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 4px;
+    width: 0%;
+    transition: width 1s;
+  }
+  
+  .soil-history h3 {
+    font-size: 16px;
+    margin-top: 0;
+  }
+  
+  .soil-history-chart {
+    height: 250px;
+    background-color: #f5f5f5;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    border-radius: 8px;
+    border: 1px dashed #ddd;
+  }
+  
+  .soil-recommendations h3 {
+    font-size: 16px;
+    margin-top: 0;
+  }
+  
+  .soil-recommendations-list {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 100px;
+  }
+  
+  .loading-recommendations {
+    text-align: center;
+    padding: 20px;
+    color: #aaa;
+  }
+  
+  /* Documents tab */
+  .documents-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .documents-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .documents-list {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 200px;
+  }
+  
+  .loading-documents {
+    text-align: center;
+    padding: 40px;
+    color: #aaa;
+  }
+  
+  .document-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .document-icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #aaa;
+  }
+  
+  .document-info {
+    flex: 1;
+  }
+  
+  .document-title {
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+  
+  .document-meta {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .document-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .document-actions button {
+    background: transparent;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .document-actions button:hover {
+    color: #4caf50;
+  }
+  
+  /* Communication tab */
+  .communication-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .communication-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .communication-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .communication-history {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 200px;
+  }
+  
+  .loading-communication {
+    text-align: center;
+    padding: 40px;
+    color: #aaa;
+  }
+  
+  .communication-item {
+    display: flex;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+  }
+  
+  .communication-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+  
+  .communication-icon {
+    font-size: 18px;
+    margin-right: 15px;
+    color: #4caf50;
+    margin-top: 5px;
+  }
+  
+  .communication-content {
+    flex: 1;
+  }
+  
+  .communication-header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .communication-type {
+    font-weight: 500;
+  }
+  
+  .communication-date {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .communication-message {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .communication-status {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  /* Form styles */
+  .form-section {
+    margin-bottom: 30px;
+  }
+  
+  .form-section h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group.full-width {
+    flex: 100%;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #4caf50;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Delete confirmation */
+  .farmer-delete-info {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 4px;
+    margin: 15px 0;
+  }
+  
+  .farmer-delete-info div {
+    margin-bottom: 5px;
+  }
+  
+  /* Loading overlay */
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  
+  .loading-overlay.hidden {
+    display: none;
+  }
+  
+  .loading-overlay .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(76, 175, 80, 0.2);
+    border-radius: 50%;
+    border-top-color: #4caf50;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 15px;
+  }
+  
+  .loading-overlay p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 1200px) {
+    .soil-summary {
+      flex-direction: column;
+      gap: 20px;
     }
-
-    .filter-row {
-        flex-direction: column;
+    
+    .soil-gauge {
+      margin: 0 auto;
     }
-
-    .farmer-details-grid {
-        grid-template-columns: 1fr;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-details,
+    .farm-details {
+      grid-template-columns: 1fr;
     }
-
+    
+    .form-row {
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .farmers-table th:nth-child(3),
+    .farmers-table td:nth-child(3),
+    .farmers-table th:nth-child(5),
+    .farmers-table td:nth-child(5) {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .header-controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .search-box {
+      width: 100%;
+    }
+    
+    .filter-dropdown select {
+      width: 100%;
+    }
+    
+    .financial-summary {
+      grid-template-columns: 1fr 1fr;
+    }
+    
     .modal-content {
-        width: 95%;
-        margin: 5% auto;
+      width: 95%;
+      margin: 20px auto;
     }
-}
-
-/* Animation for table rows */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.farmers-table tbody tr {
-    animation: fadeIn 0.5s ease;
-}
-
-/* Utility Classes */
-.text-muted {
-    color: #6c757d;
-}
-
-.text-primary {
-    color: #4a90e2;
-}
-
-.text-success {
-    color: #28a745;
-}
-
-.text-warning {
-    color: #ffc107;
-}
-
-.text-danger {
-    color: #dc3545;
-}
+  }

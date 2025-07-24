@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Real-time Financial Viability Monitor - Talazo AgriFinance</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.2/socket.io.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+        color: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .controls {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: #4caf50;
+        color: white;
+      }
+
+      .btn-danger {
+        background: #f44336;
+        color: white;
+      }
+
+      .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+
+      .status-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ff5722;
+      }
+
+      .status-dot.active {
+        background: #4caf50;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .card-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #2e7d32;
+      }
+
+      .farmer-selector {
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .farmers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .farmer-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #2e7d32;
+      }
+
+      .farmer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .farmer-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .score-badge {
+        background: #4caf50;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .score-badge.medium-low {
+        background: #ff9800;
+      }
+      .score-badge.medium {
+        background: #ff5722;
+      }
+      .score-badge.medium-high {
+        background: #e91e63;
+      }
+      .score-badge.high {
+        background: #9c27b0;
+      }
+
+      .farmer-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .metric {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+      }
+
+      .metric-label {
+        color: #666;
+      }
+
+      .metric-value {
+        font-weight: 600;
+      }
+
+      .alerts {
+        background: #fff3e0;
+        border-left: 4px solid #ff9800;
+        padding: 0.5rem;
+        border-radius: 4px;
+        margin-top: 0.5rem;
+      }
+
+      .alert-item {
+        font-size: 0.8rem;
+        color: #e65100;
+        margin-bottom: 0.25rem;
+      }
+
+      .weather-panel {
+        background: linear-gradient(135deg, #81c784, #4caf50);
+        color: white;
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .weather-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+
+      .chart-container {
+        height: 400px;
+        margin-top: 1rem;
+      }
+
+      .score-comparison {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .comparison-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .comparison-title {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+      }
+
+      .comparison-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2e7d32;
+      }
+
+      .trend-indicator {
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+      }
+
+      .trend-up {
+        color: #4caf50;
+      }
+      .trend-down {
+        color: #f44336;
+      }
+      .trend-stable {
+        color: #ff9800;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+      }
+
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #2e7d32;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .last-update {
+        font-size: 0.8rem;
+        color: #666;
+        text-align: center;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <h1>🌱 Talazo AgriFinance - Real-time Financial Viability Monitor</h1>
+        </div>
+        <div class="controls">
+          <div class="status-indicator">
+            <div class="status-dot" id="status-dot"></div>
+            <span id="status-text">Disconnected</span>
+          </div>
+          <button class="btn btn-primary" id="start-simulation">
+            Start Simulation
+          </button>
+          <button class="btn btn-danger" id="stop-simulation">
+            Stop Simulation
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Score Comparison Overview -->
+      <div class="score-comparison" id="score-comparison">
+        <div class="comparison-card">
+          <div class="comparison-title">Average Score</div>
+          <div class="comparison-value" id="avg-score">--</div>
+          <div class="trend-indicator" id="avg-trend">--</div>
+        </div>
+        <div class="comparison-card">
+          <div class="comparison-title">Highest Score</div>
+          <div class="comparison-value" id="highest-score">--</div>
+          <div class="trend-indicator" id="highest-farmer">--</div>
+        </div>
+        <div class="comparison-card">
+          <div class="comparison-title">Lowest Score</div>
+          <div class="comparison-value" id="lowest-score">--</div>
+          <div class="trend-indicator" id="lowest-farmer">--</div>
+        </div>
+        <div class="comparison-card">
+          <div class="comparison-title">Loan Eligible</div>
+          <div class="comparison-value" id="eligible-count">--</div>
+          <div class="trend-indicator">farmers</div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Main Chart Area -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Real-time Financial Viability Scores</div>
+            <select class="farmer-selector" id="chart-farmer-select">
+              <option value="all">All Farmers</option>
+            </select>
+          </div>
+          <div class="chart-container" id="main-chart"></div>
+        </div>
+
+        <!-- Weather & Environmental Conditions -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Environmental Conditions</div>
+          </div>
+          <div class="weather-panel">
+            <div class="weather-item">
+              <span>Temperature:</span>
+              <span id="temperature">--°C</span>
+            </div>
+            <div class="weather-item">
+              <span>Humidity:</span>
+              <span id="humidity">--%</span>
+            </div>
+            <div class="weather-item">
+              <span>Rainfall (24h):</span>
+              <span id="rainfall">-- mm</span>
+            </div>
+            <div class="weather-item">
+              <span>Season:</span>
+              <span id="season">--</span>
+            </div>
+          </div>
+          <div class="chart-container" id="weather-impact-chart"></div>
+        </div>
+      </div>
+
+      <!-- Individual Farmer Cards -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Individual Farmer Monitoring</div>
+        </div>
+        <div class="farmers-grid" id="farmers-grid">
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>Connecting to real-time data...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soil Parameters Impact Chart -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            Soil Parameters Impact on Financial Score
+          </div>
+          <select class="farmer-selector" id="soil-farmer-select">
+            <option value="">Select Farmer</option>
+          </select>
+        </div>
+        <div class="chart-container" id="soil-impact-chart"></div>
+      </div>
+
+      <div class="last-update">
+        Last updated: <span id="last-update">Never</span>
+      </div>
+    </div>
+
+    <script>
+      class RealTimeDashboard {
+        constructor() {
+          this.socket = null;
+          this.farmersData = {};
+          this.scoreHistory = {};
+          this.weatherData = {};
+          this.isConnected = false;
+          this.chartData = {
+            main: {},
+            weather: {},
+            soil: {},
+          };
+
+          this.initializeSocket();
+          this.setupEventListeners();
+          this.initializeCharts();
+        }
+
+        initializeSocket() {
+          this.socket = io();
+
+          this.socket.on("connect", () => {
+            console.log("Connected to server");
+            this.updateConnectionStatus(true);
+          });
+
+          this.socket.on("disconnect", () => {
+            console.log("Disconnected from server");
+            this.updateConnectionStatus(false);
+          });
+
+          this.socket.on("initial_data", (data) => {
+            console.log("Received initial data:", data);
+            this.handleInitialData(data);
+          });
+
+          this.socket.on("data_update", (data) => {
+            console.log("Received update:", data);
+            this.handleDataUpdate(data);
+          });
+        }
+
+        setupEventListeners() {
+          document
+            .getElementById("start-simulation")
+            .addEventListener("click", () => {
+              this.startSimulation();
+            });
+
+          document
+            .getElementById("stop-simulation")
+            .addEventListener("click", () => {
+              this.stopSimulation();
+            });
+
+          document
+            .getElementById("chart-farmer-select")
+            .addEventListener("change", (e) => {
+              this.updateMainChart(e.target.value);
+            });
+
+          document
+            .getElementById("soil-farmer-select")
+            .addEventListener("change", (e) => {
+              this.updateSoilImpactChart(e.target.value);
+            });
+        }
+
+        updateConnectionStatus(connected) {
+          this.isConnected = connected;
+          const statusDot = document.getElementById("status-dot");
+          const statusText = document.getElementById("status-text");
+
+          if (connected) {
+            statusDot.classList.add("active");
+            statusText.textContent = "Connected";
+          } else {
+            statusDot.classList.remove("active");
+            statusText.textContent = "Disconnected";
+          }
+        }
+
+        async startSimulation() {
+          try {
+            const response = await fetch("/api/simulation/start", {
+              method: "POST",
+            });
+            const result = await response.json();
+            console.log("Simulation started:", result);
+          } catch (error) {
+            console.error("Error starting simulation:", error);
+          }
+        }
+
+        async stopSimulation() {
+          try {
+            const response = await fetch("/api/simulation/stop", {
+              method: "POST",
+            });
+            const result = await response.json();
+            console.log("Simulation stopped:", result);
+          } catch (error) {
+            console.error("Error stopping simulation:", error);
+          }
+        }
+
+        handleInitialData(data) {
+          if (data.farmers) {
+            data.farmers.forEach((farmer) => {
+              this.farmersData[farmer.id] = farmer;
+              this.scoreHistory[farmer.id] = farmer.score_history || [];
+            });
+          }
+
+          if (data.weather) {
+            this.weatherData = data.weather;
+          }
+
+          this.updateUI();
+          this.populateFarmerSelectors();
+        }
+
+        handleDataUpdate(data) {
+          if (data.farmers) {
+            data.farmers.forEach((update) => {
+              const farmerId = update.farmer_id;
+
+              // Update farmer data
+              if (this.farmersData[farmerId]) {
+                Object.assign(this.farmersData[farmerId], update);
+              } else {
+                this.farmersData[farmerId] = update;
+              }
+
+              // Add to score history
+              if (!this.scoreHistory[farmerId]) {
+                this.scoreHistory[farmerId] = [];
+              }
+
+              this.scoreHistory[farmerId].push({
+                timestamp: update.timestamp,
+                financial_score: update.financial_score,
+                soil_health_score: update.soil_health_score,
+              });
+
+              // Keep only last 50 points
+              if (this.scoreHistory[farmerId].length > 50) {
+                this.scoreHistory[farmerId] =
+                  this.scoreHistory[farmerId].slice(-50);
+              }
+            });
+          }
+
+          if (data.weather) {
+            this.weatherData = data.weather;
+          }
+
+          this.updateUI();
+          document.getElementById("last-update").textContent =
+            new Date().toLocaleTimeString();
+        }
+
+        updateUI() {
+          this.updateOverviewCards();
+          this.updateWeatherPanel();
+          this.updateFarmerCards();
+          this.updateMainChart();
+          this.updateWeatherImpactChart();
+        }
+
+        updateOverviewCards() {
+          const farmers = Object.values(this.farmersData);
+          if (farmers.length === 0) return;
+
+          const scores = farmers
+            .map((f) => f.financial_score)
+            .filter((s) => s !== undefined);
+          const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+          const highestScore = Math.max(...scores);
+          const lowestScore = Math.min(...scores);
+          const eligibleCount = farmers.filter(
+            (f) => f.loan_eligibility
+          ).length;
+
+          document.getElementById("avg-score").textContent =
+            avgScore.toFixed(1);
+          document.getElementById("highest-score").textContent =
+            highestScore.toFixed(1);
+          document.getElementById("lowest-score").textContent =
+            lowestScore.toFixed(1);
+          document.getElementById("eligible-count").textContent = eligibleCount;
+
+          // Find farmers with highest/lowest scores
+          const highestFarmer = farmers.find(
+            (f) => f.financial_score === highestScore
+          );
+          const lowestFarmer = farmers.find(
+            (f) => f.financial_score === lowestScore
+          );
+
+          document.getElementById("highest-farmer").textContent = highestFarmer
+            ? highestFarmer.name
+            : "--";
+          document.getElementById("lowest-farmer").textContent = lowestFarmer
+            ? lowestFarmer.name
+            : "--";
+        }
+
+        updateWeatherPanel() {
+          if (this.weatherData) {
+            document.getElementById("temperature").textContent = `${
+              this.weatherData.temperature?.toFixed(1) || "--"
+            }°C`;
+            document.getElementById("humidity").textContent = `${
+              this.weatherData.humidity?.toFixed(0) || "--"
+            }%`;
+            document.getElementById("rainfall").textContent = `${
+              this.weatherData.rainfall?.toFixed(1) || "--"
+            } mm`;
+            document.getElementById("season").textContent =
+              this.weatherData.season || "--";
+          }
+        }
+
+        updateFarmerCards() {
+          const farmersGrid = document.getElementById("farmers-grid");
+          const farmers = Object.values(this.farmersData);
+
+          if (farmers.length === 0) return;
+
+          farmersGrid.innerHTML = farmers
+            .map((farmer) => {
+              const riskClass =
+                farmer.risk_level?.toLowerCase().replace(/[^a-z]/g, "-") ||
+                "medium";
+              const alertsHtml =
+                farmer.alerts && farmer.alerts.length > 0
+                  ? `<div class="alerts">
+                             ${farmer.alerts
+                               .slice(0, 2)
+                               .map(
+                                 (alert) =>
+                                   `<div class="alert-item">${alert.message}</div>`
+                               )
+                               .join("")}
+                           </div>`
+                  : "";
+
+              return `
+                        <div class="farmer-card">
+                            <div class="farmer-header">
+                                <div class="farmer-name">${
+                                  farmer.name || farmer.id
+                                }</div>
+                                <div class="score-badge ${riskClass}">${
+                farmer.financial_score?.toFixed(1) || "--"
+              }</div>
+                            </div>
+                            <div class="farmer-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">Soil Health:</span>
+                                    <span class="metric-value">${
+                                      farmer.soil_health_score?.toFixed(1) ||
+                                      "--"
+                                    }</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Risk Level:</span>
+                                    <span class="metric-value">${
+                                      farmer.risk_level || "--"
+                                    }</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Loan Eligible:</span>
+                                    <span class="metric-value">${
+                                      farmer.loan_eligibility ? "Yes" : "No"
+                                    }</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Premium:</span>
+                                    <span class="metric-value">${
+                                      farmer.insurance_premium?.toFixed(2) ||
+                                      "--"
+                                    }</span>
+                                </div>
+                            </div>
+                            ${alertsHtml}
+                        </div>
+                    `;
+            })
+            .join("");
+        }
+
+        populateFarmerSelectors() {
+          const farmers = Object.values(this.farmersData);
+          const chartSelect = document.getElementById("chart-farmer-select");
+          const soilSelect = document.getElementById("soil-farmer-select");
+
+          // Clear existing options (except "All Farmers")
+          chartSelect.innerHTML = '<option value="all">All Farmers</option>';
+          soilSelect.innerHTML = '<option value="">Select Farmer</option>';
+
+          farmers.forEach((farmer) => {
+            const option1 = new Option(farmer.name || farmer.id, farmer.id);
+            const option2 = new Option(farmer.name || farmer.id, farmer.id);
+            chartSelect.add(option1);
+            soilSelect.add(option2);
+          });
+        }
+
+        initializeCharts() {
+          // Initialize empty charts
+          this.initializeMainChart();
+          this.initializeWeatherImpactChart();
+          this.initializeSoilImpactChart();
+        }
+
+        initializeMainChart() {
+          const layout = {
+            title: "Financial Viability Scores Over Time",
+            xaxis: { title: "Time" },
+            yaxis: { title: "Score", range: [0, 100] },
+            showlegend: true,
+            margin: { t: 40, r: 40, b: 40, l: 60 },
+          };
+
+          Plotly.newPlot("main-chart", [], layout, { responsive: true });
+        }
+
+        initializeWeatherImpactChart() {
+          const layout = {
+            title: "Weather Impact on Scores",
+            xaxis: { title: "Time" },
+            yaxis: { title: "Average Score" },
+            yaxis2: {
+              title: "Temperature (°C)",
+              overlaying: "y",
+              side: "right",
+            },
+            margin: { t: 40, r: 60, b: 40, l: 60 },
+          };
+
+          Plotly.newPlot("weather-impact-chart", [], layout, {
+            responsive: true,
+          });
+        }
+
+        initializeSoilImpactChart() {
+          const layout = {
+            title: "Soil Parameters vs Financial Score",
+            xaxis: { title: "Parameters" },
+            yaxis: { title: "Score Impact" },
+            margin: { t: 40, r: 40, b: 100, l: 60 },
+          };
+
+          Plotly.newPlot("soil-impact-chart", [], layout, { responsive: true });
+        }
+
+        updateMainChart(selectedFarmer = "all") {
+          const traces = [];
+
+          if (selectedFarmer === "all") {
+            // Show all farmers
+            Object.keys(this.scoreHistory).forEach((farmerId) => {
+              const history = this.scoreHistory[farmerId];
+              const farmer = this.farmersData[farmerId];
+
+              if (history && history.length > 0) {
+                traces.push({
+                  x: history.map((h) => new Date(h.timestamp)),
+                  y: history.map((h) => h.financial_score),
+                  name: farmer?.name || farmerId,
+                  type: "scatter",
+                  mode: "lines+markers",
+                  line: { width: 2 },
+                });
+              }
+            });
+          } else {
+            // Show selected farmer with soil health comparison
+            const history = this.scoreHistory[selectedFarmer];
+            const farmer = this.farmersData[selectedFarmer];
+
+            if (history && history.length > 0) {
+              traces.push({
+                x: history.map((h) => new Date(h.timestamp)),
+                y: history.map((h) => h.financial_score),
+                name: "Financial Score",
+                type: "scatter",
+                mode: "lines+markers",
+                line: { color: "#2e7d32", width: 3 },
+              });
+
+              traces.push({
+                x: history.map((h) => new Date(h.timestamp)),
+                y: history.map((h) => h.soil_health_score),
+                name: "Soil Health Score",
+                type: "scatter",
+                mode: "lines+markers",
+                line: { color: "#ff9800", width: 2 },
+              });
+            }
+          }
+
+          if (traces.length > 0) {
+            Plotly.react("main-chart", traces);
+          }
+        }
+
+        updateWeatherImpactChart() {
+          // Create a simplified weather impact visualization
+          const farmers = Object.values(this.farmersData);
+          if (farmers.length === 0) return;
+
+          const avgScore =
+            farmers.reduce((sum, f) => sum + (f.financial_score || 0), 0) /
+            farmers.length;
+
+          const trace1 = {
+            x: [new Date()],
+            y: [avgScore],
+            name: "Avg Score",
+            type: "scatter",
+            mode: "markers",
+            marker: { size: 12, color: "#2e7d32" },
+          };
+
+          const trace2 = {
+            x: [new Date()],
+            y: [this.weatherData.temperature || 25],
+            name: "Temperature",
+            type: "scatter",
+            mode: "markers",
+            marker: { size: 10, color: "#ff5722" },
+            yaxis: "y2",
+          };
+
+          Plotly.react("weather-impact-chart", [trace1, trace2]);
+        }
+
+        updateSoilImpactChart(farmerId) {
+          if (!farmerId || !this.farmersData[farmerId]) return;
+
+          const farmer = this.farmersData[farmerId];
+          const soilData = farmer.soil_data || {};
+
+          // Calculate impact of each parameter on financial score
+          const parameters = Object.keys(soilData);
+          const values = parameters.map((param) => soilData[param]);
+
+          // Normalize values to show relative impact
+          const normalizedValues = values.map((val) => Math.min(100, val * 2));
+
+          const trace = {
+            x: parameters.map((p) => p.replace(/_/g, " ").toUpperCase()),
+            y: normalizedValues,
+            type: "bar",
+            marker: {
+              color: normalizedValues.map((val) =>
+                val > 80 ? "#4caf50" : val > 60 ? "#ff9800" : "#f44336"
+              ),
+            },
+          };
+
+          const layout = {
+            title: `Soil Parameters Impact - ${farmer.name || farmerId}`,
+            xaxis: {
+              title: "Parameters",
+              tickangle: -45,
+            },
+            yaxis: { title: "Normalized Impact Score" },
+            margin: { t: 40, r: 40, b: 100, l: 60 },
+          };
+
+          Plotly.react("soil-impact-chart", [trace], layout);
+        }
+      }
+
+      // Initialize dashboard when page loads
+      document.addEventListener("DOMContentLoaded", () => {
+        new RealTimeDashboard();
+      });
+    </script>
+  </body>
+</html>

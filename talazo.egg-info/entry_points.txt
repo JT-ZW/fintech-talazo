@@ -1,2 +1,0 @@
-[console_scripts]
-talazo = talazo.cli:cli

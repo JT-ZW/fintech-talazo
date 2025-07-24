@@ -1,0 +1,152 @@
+{% extends "base.html" %} {% block title %}Add New Farmer{% endblock %} {% block
+content %}
+<div class="add-farmer-container">
+  <header class="page-header">
+    <h1><i class="fas fa-user-plus"></i> Add New Farmer</h1>
+  </header>
+
+  <form id="add-farmer-form" class="farmer-form">
+    <div class="form-section personal-info">
+      <h2>Personal Information</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="full_name">Full Name</label>
+          <input type="text" id="full_name" name="full_name" required />
+        </div>
+        <div class="form-group">
+          <label for="national_id">National ID</label>
+          <input type="text" id="national_id" name="national_id" required />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone_number">Phone Number</label>
+          <input type="tel" id="phone_number" name="phone_number" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label for="address">Full Address</label>
+          <textarea id="address" name="address" required></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section farming-details">
+      <h2>Farming Details</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="primary_crop">Primary Crop</label>
+          <select id="primary_crop" name="primary_crop" required>
+            <option value="">Select Primary Crop</option>
+            <option value="Maize">Maize</option>
+            <option value="Tobacco">Tobacco</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Soybean">Soybean</option>
+            <option value="Groundnuts">Groundnuts</option>
+            <option value="Wheat">Wheat</option>
+            <option value="Sorghum">Sorghum</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="total_land_area">Total Land Area (Ha)</label>
+          <input
+            type="number"
+            id="total_land_area"
+            name="total_land_area"
+            step="0.1"
+            required
+          />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="farming_experience">Farming Experience (Years)</label>
+          <input
+            type="number"
+            id="farming_experience"
+            name="farming_experience"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="location_region">Region</label>
+          <select id="location_region" name="location_region" required>
+            <option value="">Select Region</option>
+            <option value="Harare">Harare</option>
+            <option value="Bulawayo">Bulawayo</option>
+            <option value="Mashonaland Central">Mashonaland Central</option>
+            <option value="Mashonaland East">Mashonaland East</option>
+            <option value="Mashonaland West">Mashonaland West</option>
+            <option value="Manicaland">Manicaland</option>
+            <option value="Matabeleland North">Matabeleland North</option>
+            <option value="Matabeleland South">Matabeleland South</option>
+            <option value="Midlands">Midlands</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section geographic-info">
+      <h2>Geographic Location</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="location_lat">Latitude</label>
+          <input
+            type="number"
+            id="location_lat"
+            name="location_lat"
+            step="0.0001"
+          />
+        </div>
+        <div class="form-group">
+          <label for="location_lng">Longitude</label>
+          <input
+            type="number"
+            id="location_lng"
+            name="location_lng"
+            step="0.0001"
+          />
+        </div>
+      </div>
+      <div class="map-preview" id="location-map">
+        <!-- Placeholder for map preview -->
+      </div>
+    </div>
+
+    <div class="form-section login-credentials">
+      <h2>Account Credentials</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" id="cancel-btn" class="btn btn-secondary">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary">
+        Create Farmer Profile
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %} {% block scripts %}
+<script src="{{ url_for('static', filename='js/add_farmer.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"
+/>
+{% endblock %}

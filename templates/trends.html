@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market Trends - Talazo AgriFinance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="header-content">
+          <div class="header-left">
+            <a href="/dashboard" class="back-link">
+              <i class="fas fa-arrow-left"></i>
+              Back to Dashboard
+            </a>
+            <h1><i class="fas fa-chart-line"></i> Market Trends</h1>
+            <p>Real-time agricultural commodity prices and market analysis</p>
+          </div>
+          <div class="header-actions">
+            <div class="time-filter">
+              <select id="time-range">
+                <option value="1w">1 Week</option>
+                <option value="1m" selected>1 Month</option>
+                <option value="3m">3 Months</option>
+                <option value="1y">1 Year</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="market-overview">
+          <div class="commodity-card">
+            <div class="commodity-header">
+              <i class="fas fa-seedling"></i>
+              <h3>Maize</h3>
+            </div>
+            <div class="price-info">
+              <span class="current-price">$285/ton</span>
+              <span class="price-change positive">+2.8%</span>
+            </div>
+            <div class="trend-indicator">
+              <i class="fas fa-arrow-up"></i>
+              <span>Trending Up</span>
+            </div>
+          </div>
+
+          <div class="commodity-card">
+            <div class="commodity-header">
+              <i class="fas fa-leaf"></i>
+              <h3>Tobacco</h3>
+            </div>
+            <div class="price-info">
+              <span class="current-price">$4,850/ton</span>
+              <span class="price-change negative">-1.2%</span>
+            </div>
+            <div class="trend-indicator">
+              <i class="fas fa-arrow-down"></i>
+              <span>Slight Decline</span>
+            </div>
+          </div>
+
+          <div class="commodity-card">
+            <div class="commodity-header">
+              <i class="fas fa-seedling"></i>
+              <h3>Soybeans</h3>
+            </div>
+            <div class="price-info">
+              <span class="current-price">$520/ton</span>
+              <span class="price-change positive">+5.1%</span>
+            </div>
+            <div class="trend-indicator">
+              <i class="fas fa-arrow-up"></i>
+              <span>Strong Growth</span>
+            </div>
+          </div>
+
+          <div class="commodity-card">
+            <div class="commodity-header">
+              <i class="fas fa-seedling"></i>
+              <h3>Cotton</h3>
+            </div>
+            <div class="price-info">
+              <span class="current-price">$1,680/ton</span>
+              <span class="price-change stable">0.0%</span>
+            </div>
+            <div class="trend-indicator">
+              <i class="fas fa-minus"></i>
+              <span>Stable</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trends-grid">
+          <div class="trend-card large">
+            <h3><i class="fas fa-chart-area"></i> Commodity Price Trends</h3>
+            <div id="price-trends-chart" style="height: 400px"></div>
+          </div>
+
+          <div class="trend-card">
+            <h3><i class="fas fa-globe"></i> Global Market Influence</h3>
+            <div class="influence-list">
+              <div class="influence-item">
+                <div class="influence-header">
+                  <span class="commodity">Maize</span>
+                  <span class="impact positive">+12%</span>
+                </div>
+                <p>Strong export demand from regional markets</p>
+              </div>
+              <div class="influence-item">
+                <div class="influence-header">
+                  <span class="commodity">Tobacco</span>
+                  <span class="impact negative">-5%</span>
+                </div>
+                <p>Global health regulations affecting demand</p>
+              </div>
+              <div class="influence-item">
+                <div class="influence-header">
+                  <span class="commodity">Soybeans</span>
+                  <span class="impact positive">+8%</span>
+                </div>
+                <p>Increased protein demand in emerging markets</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="trend-card">
+            <h3><i class="fas fa-cloud-rain"></i> Weather Impact</h3>
+            <div class="weather-insights">
+              <div class="weather-item">
+                <i class="fas fa-sun"></i>
+                <div>
+                  <h4>Favorable Conditions</h4>
+                  <p>Optimal rainfall patterns expected for next quarter</p>
+                </div>
+              </div>
+              <div class="weather-item">
+                <i class="fas fa-thermometer-half"></i>
+                <div>
+                  <h4>Temperature</h4>
+                  <p>Moderate temperatures supporting crop growth</p>
+                </div>
+              </div>
+              <div class="weather-item">
+                <i class="fas fa-eye"></i>
+                <div>
+                  <h4>Market Outlook</h4>
+                  <p>Stable supply expected, prices likely to rise</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trend-card">
+            <h3><i class="fas fa-calendar-alt"></i> Seasonal Calendar</h3>
+            <div id="seasonal-chart" style="height: 250px"></div>
+          </div>
+        </div>
+
+        <div class="market-news">
+          <h2><i class="fas fa-newspaper"></i> Market News & Updates</h2>
+          <div class="news-grid">
+            <div class="news-item">
+              <div class="news-date">Today</div>
+              <h4>Government Announces New Agricultural Subsidies</h4>
+              <p>
+                New support package aims to boost smallholder farmer
+                productivity...
+              </p>
+            </div>
+            <div class="news-item">
+              <div class="news-date">2 days ago</div>
+              <h4>Regional Maize Prices Show Strong Recovery</h4>
+              <p>
+                Increased demand from neighboring countries drives price
+                growth...
+              </p>
+            </div>
+            <div class="news-item">
+              <div class="news-date">1 week ago</div>
+              <h4>New Export Opportunities for Tobacco Farmers</h4>
+              <p>
+                European markets opening new channels for premium tobacco...
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        createPriceTrendsChart();
+        createSeasonalChart();
+      });
+
+      function createPriceTrendsChart() {
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+        const maize = {
+          x: months,
+          y: [245, 255, 268, 275, 280, 285],
+          type: "scatter",
+          mode: "lines+markers",
+          name: "Maize",
+          line: { color: "#2d7d32", width: 3 },
+        };
+
+        const tobacco = {
+          x: months,
+          y: [4600, 4720, 4850, 4900, 4880, 4850],
+          type: "scatter",
+          mode: "lines+markers",
+          name: "Tobacco",
+          line: { color: "#8bc34a", width: 3 },
+          yaxis: "y2",
+        };
+
+        const soybeans = {
+          x: months,
+          y: [480, 485, 495, 505, 515, 520],
+          type: "scatter",
+          mode: "lines+markers",
+          name: "Soybeans",
+          line: { color: "#ff8f00", width: 3 },
+        };
+
+        const layout = {
+          title: "Commodity Price Trends (6 Months)",
+          xaxis: { title: "Month" },
+          yaxis: { title: "Price ($/ton)", side: "left" },
+          yaxis2: {
+            title: "Tobacco Price ($/ton)",
+            side: "right",
+            overlaying: "y",
+          },
+          margin: { t: 50, b: 50, l: 60, r: 60 },
+        };
+
+        Plotly.newPlot(
+          "price-trends-chart",
+          [maize, soybeans, tobacco],
+          layout,
+          { responsive: true }
+        );
+      }
+
+      function createSeasonalChart() {
+        const data = [
+          {
+            x: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            y: [1, 1, 2, 3, 3, 2, 1, 1, 1, 2, 3, 3],
+            type: "scatter",
+            mode: "lines+markers",
+            fill: "tonexty",
+            name: "Planting Season",
+            line: { color: "#4caf50" },
+          },
+        ];
+
+        const layout = {
+          title: "Optimal Planting Seasons",
+          xaxis: { title: "Month" },
+          yaxis: {
+            title: "Activity Level",
+            tickvals: [1, 2, 3],
+            ticktext: ["Low", "Medium", "High"],
+          },
+          margin: { t: 50, b: 50, l: 60, r: 20 },
+        };
+
+        Plotly.newPlot("seasonal-chart", data, layout, { responsive: true });
+      }
+    </script>
+  </body>
+</html>

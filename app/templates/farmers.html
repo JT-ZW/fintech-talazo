@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Farmers Management - Talazo AgriFinance</title>
+    <meta
+      name="description"
+      content="Manage farmers and their soil-based financial data in the Talazo AgriFinance platform"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+      type="image/x-icon"
+    />
+
+    <!-- Stylesheet links -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/farmers.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JavaScript dependencies -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gauge-chart@latest/dist/bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="{{ url_for('static', filename='img/logo.png') }}"
+            alt="Talazo AgriFinance"
+            class="logo"
+          />
+          <h1>Talazo<span>AgriFinance</span></h1>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="{{ url_for('main.dashboard') }}"
+                ><i class="fas fa-chart-line"></i> Dashboard</a
+              >
+            </li>
+            <li class="active">
+              <a href="{{ url_for('main.farmers') }}"
+                ><i class="fas fa-users"></i> Farmers</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('main.soil_analysis') }}"
+                ><i class="fas fa-seedling"></i> Soil Analysis</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('main.loans') }}"
+                ><i class="fas fa-money-bill-wave"></i> Loans</a
+              >
+            </li>
+            <li>
+              <a href="{{ url_for('main.insurance') }}"
+                ><i class="fas fa-umbrella"></i> Insurance</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <img
+              src="{{ url_for('static', filename='img/user-avatar.png') }}"
+              alt="User"
+              class="user-avatar"
+            />
+            <div class="user-details">
+              <h3>John Moyo</h3>
+              <p>Financial Officer</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-header">
+          <div class="page-title">
+            <h2>Farmers Management</h2>
+            <p>Manage and track farmers' soil health and financial metrics</p>
+          </div>
+
+          <div class="header-controls">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="farmer-search"
+                placeholder="Search by name, location, or ID..."
+              />
+            </div>
+
+            <div class="filter-dropdown">
+              <select id="region-filter">
+                <option value="">All Regions</option>
+                <option value="mashonaland_central">Mashonaland Central</option>
+                <option value="mashonaland_east">Mashonaland East</option>
+                <option value="mashonaland_west">Mashonaland West</option>
+                <option value="matabeleland_north">Matabeleland North</option>
+                <option value="matabeleland_south">Matabeleland South</option>
+                <option value="midlands">Midlands</option>
+                <option value="masvingo">Masvingo</option>
+                <option value="manicaland">Manicaland</option>
+                <option value="harare">Harare</option>
+                <option value="bulawayo">Bulawayo</option>
+              </select>
+            </div>
+
+            <div class="filter-dropdown">
+              <select id="crop-filter">
+                <option value="">All Crops</option>
+                <option value="maize">Maize</option>
+                <option value="tobacco">Tobacco</option>
+                <option value="cotton">Cotton</option>
+                <option value="groundnuts">Groundnuts</option>
+                <option value="soybeans">Soybeans</option>
+                <option value="wheat">Wheat</option>
+                <option value="sorghum">Sorghum</option>
+                <option value="millet">Millet</option>
+              </select>
+            </div>
+
+            <div class="filter-dropdown">
+              <select id="risk-filter">
+                <option value="">All Risk Levels</option>
+                <option value="low">Low Risk</option>
+                <option value="medium-low">Medium-Low Risk</option>
+                <option value="medium">Medium Risk</option>
+                <option value="medium-high">Medium-High Risk</option>
+                <option value="high">High Risk</option>
+              </select>
+            </div>
+
+            <button id="add-farmer-btn" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Farmer
+            </button>
+
+            <div class="last-update">
+              Last Update: <span id="last-update-time">--</span>
+            </div>
+
+            <button id="refresh-data" class="refresh-button">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+        </header>
+
+        <!-- View toggle buttons -->
+        <div class="view-toggle-container">
+          <button class="view-toggle active" data-view="list">
+            <i class="fas fa-list"></i> List View
+          </button>
+          <button class="view-toggle" data-view="grid">
+            <i class="fas fa-th"></i> Grid View
+          </button>
+          <button class="view-toggle" data-view="map">
+            <i class="fas fa-map-marked-alt"></i> Map View
+          </button>
+        </div>
+
+        <!-- Main farmers container -->
+        <div class="farmers-container">
+          <!-- List View (default) -->
+          <div class="farmers-list-view" id="farmers-list-view">
+            <table class="farmers-table">
+              <thead>
+                <tr>
+                  <th>ID <i class="fas fa-sort"></i></th>
+                  <th>Name <i class="fas fa-sort"></i></th>
+                  <th>Location <i class="fas fa-sort"></i></th>
+                  <th>Primary Crop <i class="fas fa-sort"></i></th>
+                  <th>Farm Size <i class="fas fa-sort"></i></th>
+                  <th>Financial Index <i class="fas fa-sort"></i></th>
+                  <th>Risk Level <i class="fas fa-sort"></i></th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="farmers-table-body">
+                <!-- Farmers will be loaded dynamically -->
+                <tr class="loading-row">
+                  <td colspan="8">
+                    <div class="loading-spinner"></div>
+                    <p>Loading farmers data...</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Pagination controls -->
+            <div class="pagination-controls">
+              <button id="prev-page" disabled>
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span id="page-indicator">Page 1 of 1</span>
+              <button id="next-page" disabled>
+                <i class="fas fa-chevron-right"></i>
+              </button>
+              <select id="page-size">
+                <option value="10">10 per page</option>
+                <option value="25">25 per page</option>
+                <option value="50">50 per page</option>
+                <option value="100">100 per page</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Grid View -->
+          <div class="farmers-grid-view hidden" id="farmers-grid-view">
+            <div id="farmers-grid-container" class="farmers-grid-container">
+              <!-- Farmers cards will be loaded dynamically -->
+              <div class="farmer-card loading-card">
+                <div class="loading-spinner"></div>
+                <p>Loading farmers data...</p>
+              </div>
+            </div>
+
+            <!-- Pagination for grid view -->
+            <div class="pagination-controls">
+              <button id="grid-prev-page" disabled>
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <span id="grid-page-indicator">Page 1 of 1</span>
+              <button id="grid-next-page" disabled>
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Map View -->
+          <div class="farmers-map-view hidden" id="farmers-map-view">
+            <div id="farmers-map" class="farmers-map">
+              <!-- Map will be loaded dynamically -->
+              <div class="map-loading">
+                <div class="loading-spinner"></div>
+                <p>Loading map data...</p>
+              </div>
+            </div>
+            <div class="map-legend">
+              <h3>Risk Level</h3>
+              <div class="legend-item">
+                <span class="legend-color low-risk"></span>
+                <span>Low Risk</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color medium-low-risk"></span>
+                <span>Medium-Low Risk</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color medium-risk"></span>
+                <span>Medium Risk</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color medium-high-risk"></span>
+                <span>Medium-High Risk</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color high-risk"></span>
+                <span>High Risk</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Farmer Detail Modal -->
+    <div id="farmer-detail-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Farmer Details</h2>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <!-- Tabs for different sections -->
+          <div class="detail-tabs">
+            <button class="tab-btn active" data-tab="profile">Profile</button>
+            <button class="tab-btn" data-tab="farm">Farm Data</button>
+            <button class="tab-btn" data-tab="financial">Financial</button>
+            <button class="tab-btn" data-tab="soil">Soil Health</button>
+            <button class="tab-btn" data-tab="documents">Documents</button>
+            <button class="tab-btn" data-tab="communication">
+              Communication
+            </button>
+          </div>
+
+          <!-- Profile Tab Content -->
+          <div id="profile-tab" class="tab-content active">
+            <div class="farmer-profile-header">
+              <div class="farmer-avatar">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <div class="farmer-basic-info">
+                <h3 id="farmer-name">Loading...</h3>
+                <p id="farmer-location">Loading...</p>
+                <p id="farmer-contact">Loading...</p>
+                <div class="farmer-risk-badge" id="farmer-risk-badge">
+                  Medium Risk
+                </div>
+              </div>
+            </div>
+            <div class="profile-details">
+              <div class="detail-row">
+                <div class="detail-label">Farmer ID:</div>
+                <div class="detail-value" id="farmer-id">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Registration Date:</div>
+                <div class="detail-value" id="registration-date">
+                  Loading...
+                </div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Gender:</div>
+                <div class="detail-value" id="farmer-gender">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Age:</div>
+                <div class="detail-value" id="farmer-age">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Education:</div>
+                <div class="detail-value" id="farmer-education">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Household Size:</div>
+                <div class="detail-value" id="farmer-household">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Years Farming:</div>
+                <div class="detail-value" id="farmer-experience">
+                  Loading...
+                </div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Farming Type:</div>
+                <div class="detail-value" id="farming-type">Loading...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Farm Data Tab Content -->
+          <div id="farm-tab" class="tab-content">
+            <div class="farm-header">
+              <h3>Farm Information</h3>
+            </div>
+            <div class="farm-location-map" id="farm-location-map">
+              <!-- Farm map will be loaded here -->
+            </div>
+            <div class="farm-details">
+              <div class="detail-row">
+                <div class="detail-label">Farm Size:</div>
+                <div class="detail-value" id="farm-size">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Primary Crop:</div>
+                <div class="detail-value" id="primary-crop">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Secondary Crops:</div>
+                <div class="detail-value" id="secondary-crops">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Irrigation Type:</div>
+                <div class="detail-value" id="irrigation-type">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Soil Type:</div>
+                <div class="detail-value" id="soil-type">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Last Soil Test:</div>
+                <div class="detail-value" id="last-soil-test">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Equipment:</div>
+                <div class="detail-value" id="farm-equipment">Loading...</div>
+              </div>
+              <div class="detail-row">
+                <div class="detail-label">Certifications:</div>
+                <div class="detail-value" id="farm-certifications">
+                  Loading...
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Tab Content -->
+          <div id="financial-tab" class="tab-content">
+            <div class="financial-header">
+              <h3>Financial Overview</h3>
+            </div>
+            <div class="financial-summary">
+              <div class="financial-metric">
+                <div class="metric-label">Financial Index</div>
+                <div class="metric-value" id="financial-index">Loading...</div>
+              </div>
+              <div class="financial-metric">
+                <div class="metric-label">Loan Eligibility</div>
+                <div class="metric-value" id="loan-eligibility">Loading...</div>
+              </div>
+              <div class="financial-metric">
+                <div class="metric-label">Max Loan Amount</div>
+                <div class="metric-value" id="max-loan-amount">Loading...</div>
+              </div>
+              <div class="financial-metric">
+                <div class="metric-label">Interest Rate</div>
+                <div class="metric-value" id="interest-rate">Loading...</div>
+              </div>
+              <div class="financial-metric">
+                <div class="metric-label">Insurance Premium</div>
+                <div class="metric-value" id="insurance-premium">
+                  Loading...
+                </div>
+              </div>
+              <div class="financial-metric">
+                <div class="metric-label">Risk Level</div>
+                <div class="metric-value" id="risk-level">Loading...</div>
+              </div>
+            </div>
+            <div class="financial-history">
+              <h3>Financial History</h3>
+              <div id="financial-chart" class="financial-chart">
+                <!-- Financial chart will be loaded here -->
+              </div>
+            </div>
+            <div class="loan-history">
+              <h3>Loan History</h3>
+              <table class="loan-history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Purpose</th>
+                    <th>Status</th>
+                    <th>Repayment</th>
+                  </tr>
+                </thead>
+                <tbody id="loan-history-body">
+                  <!-- Loan history will be loaded here -->
+                  <tr>
+                    <td colspan="5" class="loading-cell">
+                      Loading loan history...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Soil Health Tab Content -->
+          <div id="soil-tab" class="tab-content">
+            <div class="soil-header">
+              <h3>Soil Health Metrics</h3>
+            </div>
+            <div class="soil-summary">
+              <div class="soil-gauge" id="soil-health-gauge">
+                <!-- Soil health gauge will be loaded here -->
+              </div>
+              <div class="soil-parameters">
+                <div class="soil-parameter">
+                  <div class="parameter-label">pH Level</div>
+                  <div class="parameter-value" id="ph-level">Loading...</div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="ph-fill"></div>
+                  </div>
+                </div>
+                <div class="soil-parameter">
+                  <div class="parameter-label">Nitrogen</div>
+                  <div class="parameter-value" id="nitrogen-level">
+                    Loading...
+                  </div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="nitrogen-fill"></div>
+                  </div>
+                </div>
+                <div class="soil-parameter">
+                  <div class="parameter-label">Phosphorus</div>
+                  <div class="parameter-value" id="phosphorus-level">
+                    Loading...
+                  </div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="phosphorus-fill"></div>
+                  </div>
+                </div>
+                <div class="soil-parameter">
+                  <div class="parameter-label">Potassium</div>
+                  <div class="parameter-value" id="potassium-level">
+                    Loading...
+                  </div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="potassium-fill"></div>
+                  </div>
+                </div>
+                <div class="soil-parameter">
+                  <div class="parameter-label">Organic Matter</div>
+                  <div class="parameter-value" id="organic-matter">
+                    Loading...
+                  </div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="organic-matter-fill"></div>
+                  </div>
+                </div>
+                <div class="soil-parameter">
+                  <div class="parameter-label">CEC</div>
+                  <div class="parameter-value" id="cec-level">Loading...</div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="cec-fill"></div>
+                  </div>
+                </div>
+                <div class="soil-parameter">
+                  <div class="parameter-label">Moisture</div>
+                  <div class="parameter-value" id="moisture-level">
+                    Loading...
+                  </div>
+                  <div class="parameter-bar">
+                    <div class="parameter-fill" id="moisture-fill"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="soil-history">
+              <h3>Soil Health History</h3>
+              <div id="soil-history-chart" class="soil-history-chart">
+                <!-- Soil history chart will be loaded here -->
+              </div>
+            </div>
+            <div class="soil-recommendations">
+              <h3>Recommendations</h3>
+              <div
+                id="soil-recommendations-list"
+                class="soil-recommendations-list"
+              >
+                <!-- Recommendations will be loaded here -->
+                <div class="loading-recommendations">
+                  Loading recommendations...
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents Tab Content -->
+          <div id="documents-tab" class="tab-content">
+            <div class="documents-header">
+              <h3>Documents</h3>
+              <button id="upload-document-btn" class="btn btn-primary">
+                <i class="fas fa-upload"></i> Upload Document
+              </button>
+            </div>
+            <div class="documents-list" id="documents-list">
+              <!-- Documents will be loaded here -->
+              <div class="loading-documents">Loading documents...</div>
+            </div>
+          </div>
+
+          <!-- Communication Tab Content -->
+          <div id="communication-tab" class="tab-content">
+            <div class="communication-header">
+              <h3>Communication History</h3>
+              <div class="communication-actions">
+                <button class="btn btn-primary" id="send-sms-btn">
+                  <i class="fas fa-sms"></i> Send SMS
+                </button>
+                <button class="btn btn-secondary" id="send-email-btn">
+                  <i class="fas fa-envelope"></i> Send Email
+                </button>
+                <button class="btn btn-secondary" id="schedule-visit-btn">
+                  <i class="fas fa-calendar-plus"></i> Schedule Visit
+                </button>
+              </div>
+            </div>
+            <div class="communication-history" id="communication-history">
+              <!-- Communication history will be loaded here -->
+              <div class="loading-communication">
+                Loading communication history...
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="modal-actions">
+            <button class="btn btn-primary" id="edit-farmer-btn">
+              <i class="fas fa-edit"></i> Edit Farmer
+            </button>
+            <button class="btn btn-secondary" id="process-loan-modal-btn">
+              <i class="fas fa-money-bill-wave"></i> Process Loan
+            </button>
+            <button class="btn btn-secondary" id="soil-analysis-modal-btn">
+              <i class="fas fa-seedling"></i> Soil Analysis
+            </button>
+            <button class="btn btn-danger" id="delete-farmer-btn">
+              <i class="fas fa-trash"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add/Edit Farmer Modal -->
+    <div id="add-edit-farmer-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="add-edit-modal-title">Add New Farmer</h2>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="farmer-form">
+            <input type="hidden" id="farmer-form-id" value="" />
+
+            <div class="form-section">
+              <h3>Personal Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-first-name">First Name *</label>
+                  <input type="text" id="form-first-name" required />
+                </div>
+                <div class="form-group">
+                  <label for="form-last-name">Last Name *</label>
+                  <input type="text" id="form-last-name" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-gender">Gender</label>
+                  <select id="form-gender">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="form-birth-date">Date of Birth</label>
+                  <input type="date" id="form-birth-date" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-id-number">ID Number</label>
+                  <input type="text" id="form-id-number" />
+                </div>
+                <div class="form-group">
+                  <label for="form-education">Education Level</label>
+                  <select id="form-education">
+                    <option value="">Select Education Level</option>
+                    <option value="none">No Formal Education</option>
+                    <option value="primary">Primary</option>
+                    <option value="secondary">Secondary</option>
+                    <option value="tertiary">Tertiary</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Contact Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-phone">Phone Number *</label>
+                  <input type="tel" id="form-phone" required />
+                </div>
+                <div class="form-group">
+                  <label for="form-email">Email</label>
+                  <input type="email" id="form-email" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group full-width">
+                  <label for="form-address">Address</label>
+                  <textarea id="form-address" rows="3"></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-region">Region *</label>
+                  <select id="form-region" required>
+                    <option value="">Select Region</option>
+                    <option value="mashonaland_central">
+                      Mashonaland Central
+                    </option>
+                    <option value="mashonaland_east">Mashonaland East</option>
+                    <option value="mashonaland_west">Mashonaland West</option>
+                    <option value="matabeleland_north">
+                      Matabeleland North
+                    </option>
+                    <option value="matabeleland_south">
+                      Matabeleland South
+                    </option>
+                    <option value="midlands">Midlands</option>
+                    <option value="masvingo">Masvingo</option>
+                    <option value="manicaland">Manicaland</option>
+                    <option value="harare">Harare</option>
+                    <option value="bulawayo">Bulawayo</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="form-district">District</label>
+                  <input type="text" id="form-district" />
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>Farm Information</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-farm-size">Farm Size (hectares) *</label>
+                  <input
+                    type="number"
+                    id="form-farm-size"
+                    min="0"
+                    step="0.1"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="form-farming-type">Farming Type</label>
+                  <select id="form-farming-type">
+                    <option value="">Select Farming Type</option>
+                    <option value="smallholder">Smallholder</option>
+                    <option value="commercial">Commercial</option>
+                    <option value="communal">Communal</option>
+                    <option value="resettlement">Resettlement</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-primary-crop">Primary Crop *</label>
+                  <select id="form-primary-crop" required>
+                    <option value="">Select Primary Crop</option>
+                    <option value="maize">Maize</option>
+                    <option value="tobacco">Tobacco</option>
+                    <option value="cotton">Cotton</option>
+                    <option value="groundnuts">Groundnuts</option>
+                    <option value="soybeans">Soybeans</option>
+                    <option value="wheat">Wheat</option>
+                    <option value="sorghum">Sorghum</option>
+                    <option value="millet">Millet</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="form-secondary-crops">Secondary Crops</label>
+                  <input
+                    type="text"
+                    id="form-secondary-crops"
+                    placeholder="e.g., Beans, Tomatoes, Potatoes"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="form-irrigation-type">Irrigation Type</label>
+                  <select id="form-irrigation-type">
+                    <option value="">Select Irrigation Type</option>
+                    <option value="none">None (Rainfed)</option>
+                    <option value="drip">Drip Irrigation</option>
+                    <option value="sprinkler">Sprinkler</option>
+                    <option value="flood">Flood Irrigation</option>
+                    <option value="furrow">Furrow</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="form-soil-type">Soil Type</label>
+                  <select id="form-soil-type">
+                    <option value="">Select Soil Type</option>
+                    <option value="clay">Clay</option>
+                    <option value="loam">Loam</option>
+                    <option value="sandy">Sandy</option>
+                    <option value="silt">Silt</option>
+                    <option value="clay-loam">Clay Loam</option>
+                    <option value="sandy-loam">Sandy Loam</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="cancel-farmer-form"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                id="save-farmer-form"
+              >
+                Save Farmer
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="modal">
+      <div class="modal-content small-modal">
+        <div class="modal-header">
+          <h2>Confirm Deletion</h2>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete this farmer? This action cannot be
+            undone.
+          </p>
+          <div class="farmer-delete-info">
+            <div>
+              <strong>Name:</strong> <span id="delete-farmer-name"></span>
+            </div>
+            <div><strong>ID:</strong> <span id="delete-farmer-id"></span></div>
+            <div>
+              <strong>Location:</strong>
+              <span id="delete-farmer-location"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-delete-btn">
+            Cancel
+          </button>
+          <button class="btn btn-danger" id="confirm-delete-btn">
+            Delete Farmer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication Modal -->
+    <div id="communication-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="communication-modal-title">Send Message</h2>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="communication-form">
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="comm-recipient">Recipient</label>
+                <input type="text" id="comm-recipient" readonly />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="comm-subject">Subject</label>
+                <input type="text" id="comm-subject" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="comm-message">Message</label>
+                <textarea id="comm-message" rows="6" required></textarea>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="comm-template">Use Template</label>
+                <select id="comm-template">
+                  <option value="">Select Template</option>
+                  <option value="soil_test_reminder">Soil Test Reminder</option>
+                  <option value="loan_approval">Loan Approval</option>
+                  <option value="payment_reminder">Payment Reminder</option>
+                  <option value="training_invitation">
+                    Training Invitation
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="comm-schedule">Schedule</label>
+                <input type="datetime-local" id="comm-schedule" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-comm-btn">Cancel</button>
+          <button class="btn btn-primary" id="send-comm-btn">
+            Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Document Modal -->
+    <div id="upload-document-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Upload Document</h2>
+          <span class="close-modal">&times;</span>
+        </div>
+        <div class="modal-body">
+          <form id="upload-document-form">
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="document-title">Document Title *</label>
+                <input type="text" id="document-title" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="document-type">Document Type *</label>
+                <select id="document-type" required>
+                  <option value="">Select Document Type</option>
+                  <option value="id">ID Document</option>
+                  <option value="loan">Loan Agreement</option>
+                  <option value="soil_test">Soil Test Report</option>
+                  <option value="farm_certificate">Farm Certificate</option>
+                  <option value="insurance">Insurance Policy</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="document-date">Document Date</label>
+                <input type="date" id="document-date" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="document-file">Document File *</label>
+                <input type="file" id="document-file" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="document-notes">Notes</label>
+                <textarea id="document-notes" rows="3"></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancel-upload-btn">
+            Cancel
+          </button>
+          <button class="btn btn-primary" id="save-document-btn">
+            Upload Document
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <p>Processing request...</p>
+    </div>
+
+    <!-- JavaScript files -->
+    <script src="{{ url_for('static', filename='js/farmers.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,348 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Talazo AgriFinance API",
+      "description": "API for the Talazo AgriFinance platform that helps Zimbabwean farmers access financial services based on soil health metrics",
+      "version": "1.0.0"
+    },
+    "basePath": "/api",
+    "schemes": [
+      "http",
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/calculate-index": {
+        "post": {
+          "summary": "Calculate financial index",
+          "description": "Calculate financial index based on soil health metrics",
+          "parameters": [
+            {
+              "name": "soil_data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/SoilData"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful calculation",
+              "schema": {
+                "$ref": "#/definitions/FinancialIndex"
+              }
+            },
+            "400": {
+              "description": "Bad request - missing required parameters"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/realtime-data": {
+        "get": {
+          "summary": "Get real-time sensor data",
+          "description": "Get simulated real-time soil sensor data",
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of real-time data",
+              "schema": {
+                "$ref": "#/definitions/SensorReading"
+              }
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/historical-data": {
+        "get": {
+          "summary": "Get historical sensor data",
+          "description": "Get simulated historical soil sensor data",
+          "parameters": [
+            {
+              "name": "days",
+              "in": "query",
+              "type": "integer",
+              "description": "Number of days of historical data to retrieve",
+              "default": 7
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of historical data",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/SensorReading"
+                }
+              }
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/yield-prediction": {
+        "post": {
+          "summary": "Predict crop yield",
+          "description": "Predict crop yield based on soil data",
+          "parameters": [
+            {
+              "name": "soil_data",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/SoilData"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful prediction",
+              "schema": {
+                "$ref": "#/definitions/YieldPrediction"
+              }
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/dashboard-data": {
+        "get": {
+          "summary": "Get dashboard data",
+          "description": "Get comprehensive data for the dashboard",
+          "responses": {
+            "200": {
+              "description": "Successful retrieval of dashboard data",
+              "schema": {
+                "$ref": "#/definitions/DashboardData"
+              }
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "SoilData": {
+        "type": "object",
+        "required": [
+          "ph_level",
+          "nitrogen_level",
+          "phosphorus_level",
+          "potassium_level"
+        ],
+        "properties": {
+          "ph_level": {
+            "type": "number",
+            "description": "Soil pH level"
+          },
+          "nitrogen_level": {
+            "type": "number",
+            "description": "Nitrogen level in mg/kg"
+          },
+          "phosphorus_level": {
+            "type": "number",
+            "description": "Phosphorus level in mg/kg"
+          },
+          "potassium_level": {
+            "type": "number",
+            "description": "Potassium level in mg/kg"
+          },
+          "organic_matter": {
+            "type": "number",
+            "description": "Organic matter percentage"
+          },
+          "cation_exchange_capacity": {
+            "type": "number",
+            "description": "Cation exchange capacity in cmol/kg"
+          },
+          "moisture_content": {
+            "type": "number",
+            "description": "Soil moisture content percentage"
+          }
+        }
+      },
+      "FinancialIndex": {
+        "type": "object",
+        "properties": {
+          "score": {
+            "type": "number",
+            "description": "Financial health score (0-100)"
+          },
+          "parameter_scores": {
+            "type": "object",
+            "description": "Individual parameter scores"
+          },
+          "risk_level": {
+            "type": "string",
+            "description": "Risk level assessment"
+          },
+          "premium": {
+            "type": "number",
+            "description": "Recommended insurance premium"
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Recommendation"
+            }
+          }
+        }
+      },
+      "SensorReading": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the reading"
+          },
+          "soil_data": {
+            "$ref": "#/definitions/SoilData"
+          },
+          "health_score": {
+            "type": "number",
+            "description": "Soil health score (0-100)"
+          },
+          "risk_level": {
+            "type": "string",
+            "description": "Risk level assessment"
+          }
+        }
+      },
+      "YieldPrediction": {
+        "type": "object",
+        "properties": {
+          "yield_prediction": {
+            "type": "object",
+            "properties": {
+              "predicted_yield": {
+                "type": "number",
+                "description": "Predicted yield in tons per hectare"
+              },
+              "yield_range": {
+                "type": "object",
+                "properties": {
+                  "lower": {
+                    "type": "number"
+                  },
+                  "upper": {
+                    "type": "number"
+                  }
+                }
+              },
+              "confidence": {
+                "type": "number",
+                "description": "Prediction confidence percentage"
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          },
+          "recommended_crops": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of recommended crops for the soil conditions"
+          }
+        }
+      },
+      "Recommendation": {
+        "type": "object",
+        "properties": {
+          "parameter": {
+            "type": "string",
+            "description": "Parameter being addressed"
+          },
+          "issue": {
+            "type": "string",
+            "description": "Issue identified"
+          },
+          "action": {
+            "type": "string",
+            "description": "Recommended action"
+          },
+          "benefit": {
+            "type": "string",
+            "description": "Expected benefit"
+          },
+          "cost_estimate": {
+            "type": "string",
+            "description": "Estimated cost"
+          },
+          "timeframe": {
+            "type": "string",
+            "description": "Implementation timeframe"
+          }
+        }
+      },
+      "DashboardData": {
+        "type": "object",
+        "properties": {
+          "current_reading": {
+            "$ref": "#/definitions/SensorReading"
+          },
+          "trend_data": {
+            "type": "object",
+            "properties": {
+              "timestamps": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "parameters": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "scores": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "yield_prediction": {
+            "$ref": "#/definitions/YieldPrediction"
+          },
+          "recommended_crops": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Recommendation"
+            }
+          }
+        }
+      }
+    }
+  }

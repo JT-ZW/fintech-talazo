@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talazo AgriFinance - Loans</title>
+    <meta
+      name="description"
+      content="Soil-based loan services for Zimbabwean farmers"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/favicon.ico') }}"
+      type="image/x-icon"
+    />
+
+    <!-- Stylesheet links -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/dashboard.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/loans.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- JavaScript dependencies -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <img
+            src="{{ url_for('static', filename='img/logo.png') }}"
+            alt="Talazo AgriFinance"
+            class="logo"
+          />
+          <h1>Talazo<span>AgriFinance</span></h1>
+        </div>
+
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="{{ url_for('main.dashboard') }}"
+                ><i class="fas fa-chart-line"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-users"></i> Farmers</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-seedling"></i> Soil Analysis</a>
+            </li>
+            <li class="active">
+              <a href="{{ url_for('main.loans') }}"
+                ><i class="fas fa-money-bill-wave"></i> Loans</a
+              >
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-umbrella"></i> Insurance</a>
+            </li>
+            <li>
+              <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="user-info">
+            <img
+              src="{{ url_for('static', filename='img/user-avatar.png') }}"
+              alt="User"
+              class="user-avatar"
+            />
+            <div class="user-details">
+              <h3>John Moyo</h3>
+              <p>Financial Officer</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <header class="top-header">
+          <div class="page-title">
+            <h2>Soil-Based Loan Services</h2>
+            <p>Financial opportunities based on soil health metrics</p>
+          </div>
+
+          <div class="header-controls">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Search loans..." />
+            </div>
+
+            <div class="farmer-select">
+              <select id="farmer-selector">
+                <option value="">All Farmers</option>
+                <option value="1" selected>John Moyo (Harare)</option>
+                <option value="2">Mary Ncube (Bulawayo)</option>
+                <option value="3">Robert Dube (Mutare)</option>
+              </select>
+            </div>
+
+            <button id="refresh-data" class="refresh-button">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+          </div>
+        </header>
+
+        <div class="loans-grid">
+          <!-- Loan Eligibility Card -->
+          <div class="card loan-eligibility-card">
+            <div class="card-header">
+              <h2><i class="fas fa-chart-pie"></i> Loan Eligibility</h2>
+              <div class="card-actions">
+                <button class="card-action-button" title="View Details">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="loan-eligibility-status">
+                <div class="status-indicator" id="loan-status-indicator">
+                  <!-- Status indicator will be inserted here -->
+                </div>
+                <div class="loan-details">
+                  <div class="loan-detail-item">
+                    <span class="label">Financial Health Index</span>
+                    <span class="value"
+                      ><span id="financial-index">72</span>/100</span
+                    >
+                  </div>
+                  <div class="loan-detail-item">
+                    <span class="label">Max Loan Amount</span>
+                    <span class="value"
+                      >$<span id="max-loan-amount">2,160.00</span></span
+                    >
+                  </div>
+                  <div class="loan-detail-item">
+                    <span class="label">Interest Rate</span>
+                    <span class="value"
+                      ><span id="interest-rate">8.25</span>%</span
+                    >
+                  </div>
+                  <div class="loan-detail-item">
+                    <span class="label">Term</span>
+                    <span class="value"
+                      >Up to <span id="loan-term">24</span> months</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Soil Impact on Loans Card -->
+          <div class="card soil-impact-card">
+            <div class="card-header">
+              <h2><i class="fas fa-seedling"></i> Soil Health Impact</h2>
+              <div class="card-actions">
+                <button class="card-action-button" title="View Details">
+                  <i class="fas fa-expand"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="soil-impact-visualization">
+                <div id="soil-impact-chart"></div>
+              </div>
+              <div class="impact-explanation">
+                <p>
+                  This chart shows how improving soil health parameters affects
+                  your loan terms.
+                </p>
+                <p>
+                  <strong>Example:</strong> Increasing organic matter by 1%
+                  could increase your maximum loan amount by $320.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Loan Application Form -->
+          <div class="card loan-application-card">
+            <div class="card-header">
+              <h2>
+                <i class="fas fa-file-invoice-dollar"></i> Loan Application
+              </h2>
+              <div class="application-status">
+                <span class="status-label">Status:</span>
+                <span class="status-value">Ready to Apply</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <form id="loan-application-form">
+                <div class="form-group">
+                  <label for="loan-purpose">Purpose of Loan</label>
+                  <select id="loan-purpose" required>
+                    <option value="">Select Purpose</option>
+                    <option value="inputs">
+                      Farm Inputs (seeds, fertilizer)
+                    </option>
+                    <option value="equipment">Farm Equipment</option>
+                    <option value="infrastructure">Farm Infrastructure</option>
+                    <option value="expansion">Farm Expansion</option>
+                    <option value="other">Other Purpose</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="loan-amount"
+                    >Requested Amount: $<span id="amount-display"
+                      >1000</span
+                    ></label
+                  >
+                  <input
+                    type="range"
+                    id="loan-amount"
+                    min="100"
+                    max="2160"
+                    step="10"
+                    value="1000"
+                    class="slider"
+                  />
+                  <div class="slider-labels">
+                    <span>$100</span>
+                    <span>$<span id="max-slider-value">2,160</span></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="loan-term-select">Term Length</label>
+                  <select id="loan-term-select" required>
+                    <option value="6">6 months</option>
+                    <option value="12">12 months</option>
+                    <option value="18">18 months</option>
+                    <option value="24" selected>24 months</option>
+                  </select>
+                </div>
+
+                <div class="form-calculation">
+                  <div class="calculation-item">
+                    <span class="label">Monthly Payment:</span>
+                    <span class="value"
+                      >$<span id="monthly-payment">45.36</span></span
+                    >
+                  </div>
+                  <div class="calculation-item">
+                    <span class="label">Total Interest:</span>
+                    <span class="value"
+                      >$<span id="total-interest">88.64</span></span
+                    >
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    Submit Application
+                  </button>
+                  <button type="button" class="btn btn-secondary">
+                    Save Draft
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Loan History Card -->
+          <div class="card loan-history-card">
+            <div class="card-header">
+              <h2><i class="fas fa-history"></i> Loan History</h2>
+              <div class="card-actions">
+                <button class="card-action-button" title="View All">
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-container">
+                <table class="loan-history-table">
+                  <thead>
+                    <tr>
+                      <th>Loan ID</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Purpose</th>
+                      <th>Status</th>
+                      <th>Soil Score</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="loan-history-body">
+                    <!-- Loan history will be populated here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Financial Institution Integration -->
+          <div class="card institutions-card">
+            <div class="card-header">
+              <h2><i class="fas fa-university"></i> Financial Institutions</h2>
+              <div class="card-actions">
+                <button class="card-action-button" title="View All">
+                  <i class="fas fa-external-link-alt"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="institutions-grid" id="institutions-grid">
+                <!-- Institutions will be populated here -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Loan Recommendations -->
+          <div class="card recommendations-card">
+            <div class="card-header">
+              <h2><i class="fas fa-lightbulb"></i> Loan Recommendations</h2>
+              <div class="recommendation-source">
+                <span>AI-powered</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="recommendations-container" id="loan-recommendations">
+                <!-- Recommendations will be populated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <p>Processing...</p>
+    </div>
+
+    <!-- Application Success Modal -->
+    <div id="success-modal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class="fas fa-check-circle" style="color: #2ecc71"></i>
+          <h3>Application Submitted!</h3>
+          <button class="modal-close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Your loan application has been successfully submitted for
+            processing.
+          </p>
+          <p>Application ID: <strong>LOAN-2025-0342</strong></p>
+          <p>
+            You will receive updates on your application status within 24-48
+            hours.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript files -->
+    <script src="{{ url_for('static', filename='js/loans.js') }}"></script>
+  </body>
+</html>

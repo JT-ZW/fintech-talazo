@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Help & Support - Talazo AgriFinance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="header-content">
+          <div class="header-left">
+            <a href="/dashboard" class="back-link">
+              <i class="fas fa-arrow-left"></i>
+              Back to Dashboard
+            </a>
+            <h1><i class="fas fa-question-circle"></i> Help & Support</h1>
+            <p>
+              Get assistance and learn how to use Talazo AgriFinance platform
+            </p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-headset"></i> Contact Support
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="help-grid">
+          <div class="quick-help">
+            <h2><i class="fas fa-bolt"></i> Quick Help</h2>
+            <div class="help-cards">
+              <div class="help-card">
+                <i class="fas fa-user-plus"></i>
+                <h4>Add New Farmer</h4>
+                <p>Learn how to register a new farmer in the system</p>
+                <a href="#" class="help-link">View Guide</a>
+              </div>
+              <div class="help-card">
+                <i class="fas fa-vial"></i>
+                <h4>Soil Analysis</h4>
+                <p>Understand soil test results and recommendations</p>
+                <a href="#" class="help-link">View Guide</a>
+              </div>
+              <div class="help-card">
+                <i class="fas fa-calculator"></i>
+                <h4>Loan Assessment</h4>
+                <p>Process loan applications and credit scoring</p>
+                <a href="#" class="help-link">View Guide</a>
+              </div>
+              <div class="help-card">
+                <i class="fas fa-chart-bar"></i>
+                <h4>Generate Reports</h4>
+                <p>Create and export financial and agricultural reports</p>
+                <a href="#" class="help-link">View Guide</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-section">
+            <h2><i class="fas fa-question"></i> Frequently Asked Questions</h2>
+            <div class="faq-list">
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h4>How is the financial health score calculated?</h4>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    The financial health score is calculated using a combination
+                    of soil quality metrics, farming experience, land area, crop
+                    selection, and historical performance data. The algorithm
+                    weighs these factors to provide a score between 0-100.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h4>
+                    What soil parameters are most important for loan approval?
+                  </h4>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Key soil parameters include pH level (6.0-7.5 optimal),
+                    nitrogen content, phosphorus and potassium levels, organic
+                    matter percentage, and moisture content. These directly
+                    impact crop yield potential and loan risk assessment.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h4>How often should soil tests be conducted?</h4>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    We recommend soil testing every 6 months or at least once
+                    per growing season. More frequent testing (monthly) may be
+                    beneficial for precision agriculture and optimal loan terms.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h4>What happens if a farmer defaults on a loan?</h4>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Our system includes early warning indicators and support
+                    mechanisms. We work with farmers to restructure payments,
+                    provide additional training, or adjust farming strategies
+                    before considering default procedures.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item">
+                <div class="faq-question">
+                  <h4>How do I export data and reports?</h4>
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                  <p>
+                    Use the export buttons in the Reports section or individual
+                    farmer profiles. Data can be exported in CSV, PDF, or Excel
+                    formats. Ensure you have appropriate permissions for data
+                    access.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-section">
+            <h2><i class="fas fa-envelope"></i> Contact Information</h2>
+            <div class="contact-grid">
+              <div class="contact-card">
+                <i class="fas fa-phone"></i>
+                <h4>Phone Support</h4>
+                <p>+263 4 123 4567</p>
+                <span>Mon-Fri, 8AM-6PM</span>
+              </div>
+              <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h4>Email Support</h4>
+                <p>support@talazo.com</p>
+                <span>24/7 Response</span>
+              </div>
+              <div class="contact-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h4>Office Location</h4>
+                <p>123 AgriFinance Ave<br />Harare, Zimbabwe</p>
+              </div>
+              <div class="contact-card">
+                <i class="fas fa-comments"></i>
+                <h4>Live Chat</h4>
+                <p>Available in app</p>
+                <button class="btn btn-sm btn-primary">Start Chat</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="resources-section">
+            <h2><i class="fas fa-book"></i> Resources & Documentation</h2>
+            <div class="resources-list">
+              <div class="resource-item">
+                <i class="fas fa-file-pdf"></i>
+                <div>
+                  <h4>User Manual</h4>
+                  <p>Complete guide to using the Talazo platform</p>
+                </div>
+                <a href="#" class="btn btn-outline btn-sm">Download</a>
+              </div>
+              <div class="resource-item">
+                <i class="fas fa-video"></i>
+                <div>
+                  <h4>Video Tutorials</h4>
+                  <p>Step-by-step video guides for common tasks</p>
+                </div>
+                <a href="#" class="btn btn-outline btn-sm">Watch</a>
+              </div>
+              <div class="resource-item">
+                <i class="fas fa-code"></i>
+                <div>
+                  <h4>API Documentation</h4>
+                  <p>Technical documentation for developers</p>
+                </div>
+                <a href="#" class="btn btn-outline btn-sm">View</a>
+              </div>
+              <div class="resource-item">
+                <i class="fas fa-graduation-cap"></i>
+                <div>
+                  <h4>Training Materials</h4>
+                  <p>Educational content for agricultural finance</p>
+                </div>
+                <a href="#" class="btn btn-outline btn-sm">Access</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="feedback-section">
+            <h2><i class="fas fa-comment-alt"></i> Send Feedback</h2>
+            <div class="feedback-form">
+              <div class="form-group">
+                <label for="feedback-type">Feedback Type</label>
+                <select id="feedback-type">
+                  <option value="bug">Bug Report</option>
+                  <option value="feature">Feature Request</option>
+                  <option value="improvement">Improvement Suggestion</option>
+                  <option value="general">General Feedback</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="feedback-subject">Subject</label>
+                <input
+                  type="text"
+                  id="feedback-subject"
+                  placeholder="Brief description of your feedback"
+                />
+              </div>
+              <div class="form-group">
+                <label for="feedback-message">Message</label>
+                <textarea
+                  id="feedback-message"
+                  rows="4"
+                  placeholder="Please provide detailed feedback..."
+                ></textarea>
+              </div>
+              <button class="btn btn-primary">Submit Feedback</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <style>
+      .help-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+
+      .quick-help,
+      .faq-section,
+      .contact-section,
+      .resources-section,
+      .feedback-section {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .quick-help h2,
+      .faq-section h2,
+      .contact-section h2,
+      .resources-section h2,
+      .feedback-section h2 {
+        margin: 0 0 1.5rem 0;
+        color: #2d7d32;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .help-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+      }
+
+      .help-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.3s;
+      }
+
+      .help-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .help-card i {
+        font-size: 2rem;
+        color: #2d7d32;
+        margin-bottom: 1rem;
+      }
+
+      .help-card h4 {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+      }
+
+      .help-card p {
+        color: #666;
+        margin: 0 0 1rem 0;
+      }
+
+      .help-link {
+        color: #2d7d32;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .faq-item {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .faq-question {
+        padding: 1rem;
+        background: #f8f9fa;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s;
+      }
+
+      .faq-question:hover {
+        background: #e9ecef;
+      }
+
+      .faq-question h4 {
+        margin: 0;
+        color: #333;
+      }
+
+      .faq-answer {
+        padding: 1rem;
+        display: none;
+      }
+
+      .faq-item.active .faq-answer {
+        display: block;
+      }
+
+      .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+
+      .contact-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .contact-card i {
+        font-size: 2rem;
+        color: #2d7d32;
+        margin-bottom: 1rem;
+      }
+
+      .contact-card h4 {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+      }
+
+      .contact-card p {
+        margin: 0 0 0.5rem 0;
+        color: #333;
+      }
+
+      .contact-card span {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .resources-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .resource-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      .resource-item i {
+        font-size: 1.5rem;
+        color: #2d7d32;
+        width: 40px;
+        text-align: center;
+      }
+
+      .resource-item div {
+        flex: 1;
+      }
+
+      .resource-item h4 {
+        margin: 0 0 0.25rem 0;
+        color: #333;
+      }
+
+      .resource-item p {
+        margin: 0;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .feedback-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #2d7d32;
+      }
+
+      .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #2d7d32;
+        border: 2px solid #2d7d32;
+      }
+
+      .btn-outline:hover {
+        background: #2d7d32;
+        color: white;
+      }
+    </style>
+
+    <script>
+      // FAQ Toggle functionality
+      document.querySelectorAll(".faq-question").forEach((question) => {
+        question.addEventListener("click", () => {
+          const faqItem = question.parentElement;
+          const isActive = faqItem.classList.contains("active");
+
+          // Close all FAQ items
+          document.querySelectorAll(".faq-item").forEach((item) => {
+            item.classList.remove("active");
+          });
+
+          // Open clicked item if it wasn't already active
+          if (!isActive) {
+            faqItem.classList.add("active");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

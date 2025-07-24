@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Talazo AgriFinance - Soil Health Dashboard</title>
+
+    <!-- External Libraries -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
+    />
+
+    <style>
+      :root {
+        --primary: #2e7d32;
+        --secondary: #ffa726;
+        --success: #4caf50;
+        --warning: #ff9800;
+        --danger: #f44336;
+        --info: #2196f3;
+        --dark: #212529;
+        --light: #f8f9fa;
+        --gray: #6c757d;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f7fa;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      /* Header */
+      .header {
+        background: linear-gradient(135deg, var(--primary) 0%, #1b5e20 100%);
+        color: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .header-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .logo h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+
+      /* Dashboard Grid */
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Cards */
+      .card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+
+      /* Financial Gauge */
+      .financial-gauge-container {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      #financial-gauge {
+        height: 200px;
+        margin-bottom: 1rem;
+      }
+
+      /* Parameters Grid */
+      .parameters-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .parameter-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        border-left: 4px solid var(--primary);
+      }
+
+      .parameter-card.optimal {
+        border-left-color: var(--success);
+      }
+
+      .parameter-card.warning {
+        border-left-color: var(--warning);
+      }
+
+      .parameter-card.critical {
+        border-left-color: var(--danger);
+      }
+
+      .parameter-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .parameter-card h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray);
+      }
+
+      .parameter-card .value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--dark);
+      }
+
+      .parameter-card .unit {
+        font-size: 0.8rem;
+        color: var(--gray);
+      }
+
+      /* Alerts and Recommendations */
+      .alerts-tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 1rem;
+      }
+
+      .tab-button {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s;
+      }
+
+      .tab-button.active {
+        border-bottom-color: var(--primary);
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .alert-item,
+      .recommendation-item {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .alert-item.critical {
+        border-left: 4px solid var(--danger);
+      }
+
+      .alert-item.warning {
+        border-left: 4px solid var(--warning);
+      }
+
+      .alert-header,
+      .recommendation-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .alert-title,
+      .recommendation-title {
+        font-weight: 600;
+      }
+
+      .alert-time {
+        font-size: 0.8rem;
+        color: var(--gray);
+      }
+
+      .dismiss-alert {
+        background: var(--danger);
+        color: white;
+        border: none;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        margin-top: 0.5rem;
+      }
+
+      /* Crop recommendations */
+      .crop-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .crop-rank {
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .crop-name.best-match {
+        color: var(--success);
+        font-weight: bold;
+      }
+
+      .crop-name.good-match {
+        color: var(--warning);
+      }
+
+      .crop-suitability {
+        margin-left: auto;
+        font-size: 0.8rem;
+        color: var(--gray);
+      }
+
+      /* Loan Assessment */
+      .loan-assessment {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      .status-indicator {
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .status-indicator.eligible {
+        background: var(--success);
+        color: white;
+      }
+
+      .status-indicator.conditional {
+        background: var(--warning);
+        color: white;
+      }
+
+      .status-indicator.ineligible {
+        background: var(--danger);
+        color: white;
+      }
+
+      .loan-details {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .loan-detail {
+        text-align: center;
+        padding: 0.75rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+
+      .loan-detail strong {
+        display: block;
+        margin-bottom: 0.25rem;
+        color: var(--gray);
+        font-size: 0.9rem;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #1b5e20;
+      }
+
+      .btn-secondary {
+        background: var(--gray);
+        color: white;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      /* Loading Overlay */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .loading-overlay.hidden {
+        display: none;
+      }
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid var(--primary);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .empty-state {
+        text-align: center;
+        color: var(--gray);
+        font-style: italic;
+        padding: 2rem;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .dashboard-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .parameters-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-seedling"></i>
+          <h1>Talazo AgriFinance - Soil Health Dashboard</h1>
+        </div>
+        <div class="header-actions">
+          <select id="farmer-selector">
+            <option value="demo">Demo Farmer - Mashonaland</option>
+            <option value="1">John Moyo - Harare</option>
+            <option value="2">Mary Ncube - Bulawayo</option>
+          </select>
+          <button id="refresh-data" class="btn btn-secondary">
+            <i class="fas fa-sync"></i> Refresh
+          </button>
+          <span>Last updated: <span id="last-update-time">--:--:--</span></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Financial Health Gauge -->
+      <div class="financial-gauge-container">
+        <div class="card-header">
+          <h2><i class="fas fa-chart-line"></i> Financial Health Index</h2>
+        </div>
+        <div id="financial-gauge"></div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+          "
+        >
+          <div>
+            <strong>Risk Level</strong>
+            <div id="risk-level-indicator">--</div>
+          </div>
+          <div>
+            <strong>Premium Estimate</strong>
+            <div>$<span id="premium-value">--</span></div>
+          </div>
+          <div>
+            <strong>Yield Prediction</strong>
+            <div><span id="yield-prediction">--</span> t/ha</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Soil Parameters -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-vial"></i>
+              <span>Soil Parameters</span>
+            </div>
+            <div class="view-toggles">
+              <button class="toggle-view active" data-view="grid">
+                <i class="fas fa-th"></i>
+              </button>
+              <button class="toggle-view" data-view="list">
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+          </div>
+          <div id="parameters-grid" class="parameters-grid">
+            <!-- Parameters will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Alerts and Recommendations -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              <i class="fas fa-bell"></i>
+              <span>Alerts & Recommendations</span>
+            </div>
+          </div>
+          <div class="alerts-tabs">
+            <button class="tab-button active" data-tab="alerts">Alerts</button>
+            <button class="tab-button" data-tab="recommendations">
+              Recommendations
+            </button>
+          </div>
+          <div id="alerts-container">
+            <div class="empty-state">No alerts available</div>
+          </div>
+          <div id="recommendations-container" class="hidden">
+            <div class="empty-state">No recommendations available</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Crop Recommendations -->
+      <div class="card" style="margin-bottom: 2rem">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-leaf"></i>
+            <span>Suitable Crops</span>
+          </div>
+        </div>
+        <ul id="suitable-crops-list" style="list-style: none; padding: 0">
+          <li class="empty-state">Loading crop recommendations...</li>
+        </ul>
+      </div>
+
+      <!-- Loan Assessment -->
+      <div class="loan-assessment">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-money-check-alt"></i>
+            <span>Loan Assessment</span>
+          </div>
+        </div>
+
+        <div id="loan-status-indicator" class="status-indicator ineligible">
+          <div class="status-text">Calculating...</div>
+          <div class="score">--</div>
+        </div>
+
+        <div class="loan-details">
+          <div class="loan-detail">
+            <strong>Max Loan Amount</strong>
+            $<span id="max-loan-amount">0.00</span>
+          </div>
+          <div class="loan-detail">
+            <strong>Interest Rate</strong>
+            <span id="interest-rate">N/A</span>%
+          </div>
+          <div class="loan-detail">
+            <strong>Loan Term</strong>
+            <span id="loan-term">N/A</span> months
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: center">
+          <button id="process-loan-btn" class="btn btn-primary" disabled>
+            <i class="fas fa-file-contract"></i> Process Loan
+          </button>
+          <button id="view-history-btn" class="btn btn-secondary">
+            <i class="fas fa-history"></i> View History
+          </button>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="card" style="margin-bottom: 2rem">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-chart-area"></i>
+            <span>Trend Analysis</span>
+          </div>
+          <div>
+            <select id="parameter-select">
+              <option value="ph_level">pH Level</option>
+              <option value="nitrogen_level">Nitrogen</option>
+              <option value="phosphorus_level">Phosphorus</option>
+              <option value="potassium_level">Potassium</option>
+              <option value="organic_matter">Organic Matter</option>
+              <option value="moisture_content">Moisture</option>
+            </select>
+          </div>
+        </div>
+        <div class="time-window" style="margin-bottom: 1rem">
+          <button class="active" data-minutes="60">1 Hour</button>
+          <button data-minutes="360">6 Hours</button>
+          <button data-minutes="1440">24 Hours</button>
+        </div>
+        <div id="trend-chart" style="height: 300px"></div>
+      </div>
+
+      <!-- Yield Chart -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <i class="fas fa-chart-bar"></i>
+            <span>Crop Yield Predictions</span>
+          </div>
+        </div>
+        <div id="yield-chart" style="height: 300px"></div>
+      </div>
+    </div>
+
+    <!-- JavaScript Files - Load in correct order -->
+    <script src="{{ url_for('static', filename='js/missing_classes.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard-loader.js') }}"></script>
+  </body>
+</html>

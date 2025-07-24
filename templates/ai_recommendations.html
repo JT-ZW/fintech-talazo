@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Recommendations - Talazo AgriFinance</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/ai_recommendations.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div class="header-content">
+          <div class="header-left">
+            <a href="/dashboard" class="back-link">
+              <i class="fas fa-arrow-left"></i>
+              Back to Dashboard
+            </a>
+            <h1><i class="fas fa-brain"></i> AI Recommendations</h1>
+            <p>
+              Intelligent insights and recommendations for optimal farming
+              decisions
+            </p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-sync"></i> Refresh Recommendations
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main-content">
+        <div class="recommendations-grid">
+          <div class="recommendation-card">
+            <div class="card-header">
+              <i class="fas fa-seedling"></i>
+              <h3>Crop Selection</h3>
+              <span class="confidence">94% Confidence</span>
+            </div>
+            <div class="card-content">
+              <p>
+                Based on your soil analysis, we recommend planting
+                <strong>Maize (Hybrid varieties)</strong> as your primary crop
+                this season.
+              </p>
+              <ul class="benefits">
+                <li>Expected yield: 4.5-5.2 t/ha</li>
+                <li>Market price: $280-320/ton</li>
+                <li>ROI: 185%</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="recommendation-card">
+            <div class="card-header">
+              <i class="fas fa-flask"></i>
+              <h3>Soil Treatment</h3>
+              <span class="confidence">87% Confidence</span>
+            </div>
+            <div class="card-content">
+              <p>
+                Apply phosphorus-rich fertilizer to improve nutrient balance and
+                crop yield potential.
+              </p>
+              <ul class="benefits">
+                <li>NPK 10-20-10 at 150kg/ha</li>
+                <li>Apply 2 weeks before planting</li>
+                <li>Expected yield increase: 15%</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="recommendation-card">
+            <div class="card-header">
+              <i class="fas fa-tint"></i>
+              <h3>Irrigation</h3>
+              <span class="confidence">91% Confidence</span>
+            </div>
+            <div class="card-content">
+              <p>
+                Implement drip irrigation system to optimize water usage and
+                maintain soil moisture.
+              </p>
+              <ul class="benefits">
+                <li>Reduce water usage by 30%</li>
+                <li>Maintain 25-30% soil moisture</li>
+                <li>ROI: 12 months</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="recommendation-card">
+            <div class="card-header">
+              <i class="fas fa-dollar-sign"></i>
+              <h3>Financial Planning</h3>
+              <span class="confidence">89% Confidence</span>
+            </div>
+            <div class="card-content">
+              <p>
+                Consider taking a seasonal loan of $15,000 to maximize your
+                farming potential this season.
+              </p>
+              <ul class="benefits">
+                <li>Interest rate: 8.5% APR</li>
+                <li>24-month term</li>
+                <li>Pre-approved based on soil scores</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-insights">
+          <h2><i class="fas fa-chart-line"></i> AI Insights</h2>
+          <div class="insights-grid">
+            <div class="insight-card">
+              <h4>Market Trends</h4>
+              <p>
+                Maize prices are expected to increase by 12% in the next quarter
+                due to high demand.
+              </p>
+            </div>
+            <div class="insight-card">
+              <h4>Weather Forecast</h4>
+              <p>
+                Optimal rainfall expected for the next 3 months - perfect for
+                crop establishment.
+              </p>
+            </div>
+            <div class="insight-card">
+              <h4>Risk Assessment</h4>
+              <p>
+                Your farm shows low risk indicators with excellent soil health
+                metrics.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
