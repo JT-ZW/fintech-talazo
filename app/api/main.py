@@ -26,55 +26,55 @@ def dashboard():
 
 
 @main_bp.route('/farmers')
-def farmers_page():
+def farmers():
     """Farmers management page."""
     return render_template('farmers.html')
 
 
 @main_bp.route('/loans')
-def loans_page():
+def loans():
     """Loan management page."""
     return render_template('loans.html')
 
 
 @main_bp.route('/insurance')
-def insurance_page():
+def insurance():
     """Insurance management page."""
     return render_template('insurance.html')
 
 
 @main_bp.route('/soil_analysis')
-def soil_analysis_page():
+def soil_analysis():
     """Soil analysis page."""
     return render_template('soil_analysis.html')
 
 
 @main_bp.route('/ai_recommendations')
-def ai_recommendations_page():
+def ai_recommendations():
     """AI recommendations page."""
     return render_template('ai_recommendations.html')
 
 
 @main_bp.route('/reports')
-def reports_page():
+def reports():
     """Reports and analytics page."""
     return render_template('reports.html')
 
 
 @main_bp.route('/trends')
-def trends_page():
+def trends():
     """Market trends page."""
     return render_template('trends.html')
 
 
 @main_bp.route('/settings')
-def settings_page():
+def settings():
     """Settings page."""
     return render_template('settings.html')
 
 
 @main_bp.route('/help')
-def help_page():
+def help():
     """Help and support page."""
     return render_template('help.html')
 

@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Market Trends - Talazo AgriFinance</title>
+    <meta
+      name="description"
+      content="Real-time agricultural commodity prices, market analysis and trends for informed farming decisions"
+    />
+
+    <!-- External Libraries -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -13,292 +19,2834 @@
       rel="stylesheet"
     />
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/styles.css') }}"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
     />
+
+    <style>
+      /* Talazo AgriFinance - Market Trends Professional Styling */
+
+      :root {
+        /* Color Palette - Professional Financial Institution */
+        --primary-color: #2d7d32; /* Forest Green */
+        --primary-light: #4caf50; /* Light Green */
+        --primary-dark: #1b5e20; /* Dark Green */
+        --secondary-color: #ff8f00; /* Amber */
+        --secondary-light: #ffb74d; /* Light Amber */
+        --accent-color: #795548; /* Brown */
+        --accent-light: #a1887f; /* Light Brown */
+
+        /* Neutral Colors */
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --gray: #9e9e9e;
+        --dark-gray: #424242;
+        --charcoal: #212121;
+
+        /* Financial Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --error: #f44336;
+        --info: #2196f3;
+        --excellent: #0d7377;
+        --good: #14a085;
+        --fair: #f39c12;
+        --poor: #e74c3c;
+
+        /* Market Trend Colors */
+        --bullish: #4caf50;
+        --bearish: #f44336;
+        --neutral: #9e9e9e;
+        --volatile: #ff9800;
+
+        /* Chart Colors */
+        --chart-1: #2d7d32;
+        --chart-2: #4caf50;
+        --chart-3: #66bb6a;
+        --chart-4: #81c784;
+        --chart-5: #a5d6a7;
+        --chart-6: #ff8f00;
+        --chart-7: #ffb74d;
+        --chart-8: #2196f3;
+
+        /* Typography */
+        --font-primary: "Inter", sans-serif;
+        --font-display: "Playfair Display", serif;
+
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        /* Border Radius */
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(
+          135deg,
+          #f8fffe 0%,
+          #e8f5e8 50%,
+          #f0f8f0 100%
+        );
+        color: var(--charcoal);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-left: 280px; /* Account for sidebar */
+        transition: padding-left var(--transition-normal);
+        overflow-x: hidden;
+      }
+
+      body.sidebar-collapsed {
+        padding-left: 80px;
+      }
+
+      body.mobile {
+        padding-left: 0;
+      }
+
+      /* Sidebar Styles - Matching Dashboard */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--charcoal) 0%, #1a1a1a 100%);
+        color: var(--white);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition-normal);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .sidebar.collapsed {
+        width: 80px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-logo .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .logo-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .sidebar-toggle {
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        opacity: 1;
+      }
+
+      .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar.collapsed .sidebar-toggle {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .user-profile {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .profile-avatar {
+        font-size: 2.5rem;
+        color: var(--primary-light);
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .profile-info {
+        opacity: 0;
+        width: 0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .profile-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: var(--spacing-lg) 0;
+        margin: 0;
+        flex: 1;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+      }
+
+      .nav-item.active .nav-link {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-item.active .nav-indicator {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-radius: 0 25px 25px 0;
+        margin-right: var(--spacing-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-badge {
+        background: var(--primary-color);
+        color: var(--white);
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-badge {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-indicator {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scaleY(0);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-light);
+        border-radius: 0 2px 2px 0;
+        transition: var(--transition-fast);
+        opacity: 0;
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: var(--spacing-md) var(--spacing-lg);
+      }
+
+      .nav-section {
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-section-title {
+        opacity: 0;
+      }
+
+      .sidebar-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        justify-content: space-between;
+      }
+
+      .quick-action {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quick-action:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        justify-content: center;
+      }
+
+      .logout-btn:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: var(--error);
+        color: var(--white);
+      }
+
+      .sidebar.collapsed .logout-btn .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      /* Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition-normal);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-xl);
+        gap: var(--spacing-lg);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        flex: 1;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--charcoal);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .mobile-menu-toggle:hover {
+        background: var(--light-gray);
+      }
+
+      .page-header {
+        flex: 1;
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .page-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .breadcrumb i {
+        color: var(--primary-color);
+      }
+
+      .breadcrumb .fas.fa-chevron-right {
+        font-size: 0.75rem;
+        color: var(--gray);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+      }
+
+      /* Market Overview */
+      .market-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .commodity-card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .commodity-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .commodity-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .commodity-card.selected {
+        border-color: var(--primary-color);
+        background: linear-gradient(
+          135deg,
+          rgba(45, 125, 50, 0.05) 0%,
+          rgba(76, 175, 80, 0.05) 100%
+        );
+      }
+
+      .commodity-header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+      }
+
+      .commodity-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      .commodity-name {
+        font-family: var(--font-display);
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .commodity-details {
+        margin-bottom: var(--spacing-md);
+      }
+
+      .current-price {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--charcoal);
+        display: block;
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .price-change {
+        font-size: 0.875rem;
+        font-weight: 600;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+      }
+
+      .price-change.positive {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--bullish);
+      }
+
+      .price-change.negative {
+        background: rgba(244, 67, 54, 0.1);
+        color: var(--bearish);
+      }
+
+      .price-change.neutral {
+        background: rgba(158, 158, 158, 0.1);
+        color: var(--neutral);
+      }
+
+      .trend-indicator {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        margin-top: var(--spacing-sm);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray);
+      }
+
+      .trend-mini-chart {
+        height: 30px;
+        margin-top: var(--spacing-sm);
+        opacity: 0.7;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        font-family: var(--font-primary);
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--light-gray);
+        color: var(--charcoal);
+        border: 1px solid rgba(45, 125, 50, 0.2);
+      }
+
+      .btn-secondary:hover {
+        background: var(--gray);
+        color: var(--white);
+      }
+
+      .btn-small {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+      }
+
+      /* Time Range Filter */
+      .time-filter {
+        display: flex;
+        gap: var(--spacing-xs);
+        background: var(--light-gray);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-xs);
+      }
+
+      .time-filter-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: none;
+        background: none;
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        transition: var(--transition-fast);
+        color: var(--gray);
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      .time-filter-btn.active {
+        background: var(--primary-color);
+        color: var(--white);
+      }
+
+      .time-filter-btn:hover {
+        color: var(--primary-color);
+      }
+
+      /* Market Controls */
+      .market-controls {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .controls-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .controls-title {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .controls-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        align-items: end;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .control-label {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+        font-size: 0.875rem;
+      }
+
+      .control-input {
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        font-size: 1rem;
+      }
+
+      .control-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      /* Main Grid Layout */
+      .trends-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .trends-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      .trends-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      /* Card Styles */
+      .card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .card-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .card-title h2 {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .card-title i {
+        color: var(--primary-color);
+      }
+
+      .card-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+
+      /* Charts */
+      .chart-container {
+        height: 400px;
+        position: relative;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .chart-small {
+        height: 250px;
+      }
+
+      /* Market Insights */
+      .market-insights-grid {
+        display: grid;
+        gap: var(--spacing-lg);
+      }
+
+      .insight-item {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        border-left: 4px solid var(--primary-color);
+        transition: var(--transition-normal);
+      }
+
+      .insight-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .insight-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .insight-title {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .insight-impact {
+        font-weight: 700;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        font-size: 0.875rem;
+      }
+
+      .insight-impact.positive {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--bullish);
+      }
+
+      .insight-impact.negative {
+        background: rgba(244, 67, 54, 0.1);
+        color: var(--bearish);
+      }
+
+      .insight-description {
+        color: var(--dark-gray);
+        line-height: 1.6;
+      }
+
+      /* Weather Insights */
+      .weather-grid {
+        display: grid;
+        gap: var(--spacing-md);
+      }
+
+      .weather-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+      }
+
+      .weather-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .weather-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1rem;
+      }
+
+      .weather-content h4 {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .weather-content p {
+        color: var(--gray);
+        font-size: 0.875rem;
+        line-height: 1.5;
+      }
+
+      /* Market News */
+      .market-news {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .news-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .news-title {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--spacing-lg);
+      }
+
+      .news-item {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        cursor: pointer;
+      }
+
+      .news-item:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .news-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .news-date {
+        font-size: 0.75rem;
+        color: var(--gray);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .news-category {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        background: var(--primary-color);
+        color: var(--white);
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .news-title-text {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+        line-height: 1.4;
+      }
+
+      .news-excerpt {
+        color: var(--gray);
+        line-height: 1.6;
+        font-size: 0.875rem;
+      }
+
+      /* Price Alerts */
+      .price-alerts {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .alert-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-sm);
+        transition: var(--transition-normal);
+      }
+
+      .alert-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .alert-info {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
+      .alert-commodity {
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .alert-condition {
+        color: var(--gray);
+        font-size: 0.875rem;
+      }
+
+      .alert-status {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .alert-status.active {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--success);
+      }
+
+      .alert-status.triggered {
+        background: rgba(255, 152, 0, 0.1);
+        color: var(--warning);
+      }
+
+      /* Loading States */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: var(--transition-normal);
+      }
+
+      .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--light-gray);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        margin-top: var(--spacing-md);
+        color: var(--charcoal);
+        font-weight: 500;
+      }
+
+      /* Utility Classes */
+      .hidden {
+        display: none !important;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .mb-lg {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .mt-lg {
+        margin-top: var(--spacing-lg);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .trends-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .controls-grid {
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+
+        body.mobile {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .container {
+          padding: var(--spacing-md);
+        }
+
+        .header-actions {
+          flex-direction: column;
+          width: 100%;
+          gap: var(--spacing-sm);
+        }
+
+        .market-overview {
+          grid-template-columns: 1fr;
+        }
+
+        .news-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .controls-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .chart-container {
+          height: 300px;
+        }
+
+        .chart-small {
+          height: 200px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .card-actions {
+          flex-direction: column;
+        }
+
+        .time-filter {
+          justify-content: center;
+        }
+
+        .commodity-card {
+          text-align: center;
+        }
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
+      }
+
+      .slide-in-up {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      .pulse {
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      /* Real-time indicator */
+      .live-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        font-size: 0.75rem;
+        color: var(--success);
+        font-weight: 600;
+      }
+
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--success);
+        border-radius: 50%;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      /* Stagger animations for cards */
+      .commodity-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .commodity-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .commodity-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .commodity-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .commodity-card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      .commodity-card:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+    </style>
   </head>
+
   <body>
-    <div class="container">
-      <header class="page-header">
-        <div class="header-content">
-          <div class="header-left">
-            <a href="/dashboard" class="back-link">
-              <i class="fas fa-arrow-left"></i>
-              Back to Dashboard
-            </a>
-            <h1><i class="fas fa-chart-line"></i> Market Trends</h1>
-            <p>Real-time agricultural commodity prices and market analysis</p>
-          </div>
-          <div class="header-actions">
-            <div class="time-filter">
-              <select id="time-range">
-                <option value="1w">1 Week</option>
-                <option value="1m" selected>1 Month</option>
-                <option value="3m">3 Months</option>
-                <option value="1y">1 Year</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <main class="main-content">
-        <div class="market-overview">
-          <div class="commodity-card">
-            <div class="commodity-header">
-              <i class="fas fa-seedling"></i>
-              <h3>Maize</h3>
-            </div>
-            <div class="price-info">
-              <span class="current-price">$285/ton</span>
-              <span class="price-change positive">+2.8%</span>
-            </div>
-            <div class="trend-indicator">
-              <i class="fas fa-arrow-up"></i>
-              <span>Trending Up</span>
-            </div>
-          </div>
-
-          <div class="commodity-card">
-            <div class="commodity-header">
-              <i class="fas fa-leaf"></i>
-              <h3>Tobacco</h3>
-            </div>
-            <div class="price-info">
-              <span class="current-price">$4,850/ton</span>
-              <span class="price-change negative">-1.2%</span>
-            </div>
-            <div class="trend-indicator">
-              <i class="fas fa-arrow-down"></i>
-              <span>Slight Decline</span>
-            </div>
-          </div>
-
-          <div class="commodity-card">
-            <div class="commodity-header">
-              <i class="fas fa-seedling"></i>
-              <h3>Soybeans</h3>
-            </div>
-            <div class="price-info">
-              <span class="current-price">$520/ton</span>
-              <span class="price-change positive">+5.1%</span>
-            </div>
-            <div class="trend-indicator">
-              <i class="fas fa-arrow-up"></i>
-              <span>Strong Growth</span>
-            </div>
-          </div>
-
-          <div class="commodity-card">
-            <div class="commodity-header">
-              <i class="fas fa-seedling"></i>
-              <h3>Cotton</h3>
-            </div>
-            <div class="price-info">
-              <span class="current-price">$1,680/ton</span>
-              <span class="price-change stable">0.0%</span>
-            </div>
-            <div class="trend-indicator">
-              <i class="fas fa-minus"></i>
-              <span>Stable</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trends-grid">
-          <div class="trend-card large">
-            <h3><i class="fas fa-chart-area"></i> Commodity Price Trends</h3>
-            <div id="price-trends-chart" style="height: 400px"></div>
-          </div>
-
-          <div class="trend-card">
-            <h3><i class="fas fa-globe"></i> Global Market Influence</h3>
-            <div class="influence-list">
-              <div class="influence-item">
-                <div class="influence-header">
-                  <span class="commodity">Maize</span>
-                  <span class="impact positive">+12%</span>
-                </div>
-                <p>Strong export demand from regional markets</p>
-              </div>
-              <div class="influence-item">
-                <div class="influence-header">
-                  <span class="commodity">Tobacco</span>
-                  <span class="impact negative">-5%</span>
-                </div>
-                <p>Global health regulations affecting demand</p>
-              </div>
-              <div class="influence-item">
-                <div class="influence-header">
-                  <span class="commodity">Soybeans</span>
-                  <span class="impact positive">+8%</span>
-                </div>
-                <p>Increased protein demand in emerging markets</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="trend-card">
-            <h3><i class="fas fa-cloud-rain"></i> Weather Impact</h3>
-            <div class="weather-insights">
-              <div class="weather-item">
-                <i class="fas fa-sun"></i>
-                <div>
-                  <h4>Favorable Conditions</h4>
-                  <p>Optimal rainfall patterns expected for next quarter</p>
-                </div>
-              </div>
-              <div class="weather-item">
-                <i class="fas fa-thermometer-half"></i>
-                <div>
-                  <h4>Temperature</h4>
-                  <p>Moderate temperatures supporting crop growth</p>
-                </div>
-              </div>
-              <div class="weather-item">
-                <i class="fas fa-eye"></i>
-                <div>
-                  <h4>Market Outlook</h4>
-                  <p>Stable supply expected, prices likely to rise</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="trend-card">
-            <h3><i class="fas fa-calendar-alt"></i> Seasonal Calendar</h3>
-            <div id="seasonal-chart" style="height: 250px"></div>
-          </div>
-        </div>
-
-        <div class="market-news">
-          <h2><i class="fas fa-newspaper"></i> Market News & Updates</h2>
-          <div class="news-grid">
-            <div class="news-item">
-              <div class="news-date">Today</div>
-              <h4>Government Announces New Agricultural Subsidies</h4>
-              <p>
-                New support package aims to boost smallholder farmer
-                productivity...
-              </p>
-            </div>
-            <div class="news-item">
-              <div class="news-date">2 days ago</div>
-              <h4>Regional Maize Prices Show Strong Recovery</h4>
-              <p>
-                Increased demand from neighboring countries drives price
-                growth...
-              </p>
-            </div>
-            <div class="news-item">
-              <div class="news-date">1 week ago</div>
-              <h4>New Export Opportunities for Tobacco Farmers</h4>
-              <p>
-                European markets opening new channels for premium tobacco...
-              </p>
-            </div>
-          </div>
-        </div>
-      </main>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading market data...</div>
     </div>
 
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <span class="logo-text">Talazo AgriFinance</span>
+        </div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="user-profile">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Financial Officer</div>
+            <div class="profile-role">AgriFinance Division</div>
+          </div>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/farmers" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Farmers</span>
+              <div class="nav-badge">156</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/loans" class="nav-link">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="nav-text">Loans</span>
+              <div class="nav-badge">23</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/insurance" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span class="nav-text">Insurance</span>
+              <div class="nav-badge">89</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/soil_analysis" class="nav-link">
+              <i class="fas fa-vial"></i>
+              <span class="nav-text">Soil Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/ai_recommendations" class="nav-link">
+              <i class="fas fa-brain"></i>
+              <span class="nav-text">AI Recommendations</span>
+              <div class="nav-badge">12</div>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">Analytics</span>
+          </li>
+          <li class="nav-item">
+            <a href="/reports" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/trends" class="nav-link">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-text">Market Trends</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">System</span>
+          </li>
+          <li class="nav-item">
+            <a href="/settings" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/help" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help & Support</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div class="quick-actions">
+            <button class="quick-action" title="Refresh Market Data">
+              <i class="fas fa-sync"></i>
+            </button>
+            <button class="quick-action" title="Price Alerts">
+              <i class="fas fa-bell"></i>
+            </button>
+            <button class="quick-action" title="Export Data">
+              <i class="fas fa-download"></i>
+            </button>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="page-header">
+            <div class="breadcrumb">
+              <i class="fas fa-chart-line"></i>
+              <span>Analytics</span>
+              <i class="fas fa-chevron-right"></i>
+              <span>Market Trends</span>
+            </div>
+            <h1 class="page-title">Market Trends</h1>
+            <p class="page-subtitle">
+              Real-time agricultural commodity prices and market analysis
+            </p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="live-indicator">
+            <div class="live-dot"></div>
+            <span>Live Data</span>
+          </div>
+          <div class="time-filter">
+            <button class="time-filter-btn" data-range="1d">1D</button>
+            <button class="time-filter-btn" data-range="1w">1W</button>
+            <button class="time-filter-btn active" data-range="1m">1M</button>
+            <button class="time-filter-btn" data-range="3m">3M</button>
+            <button class="time-filter-btn" data-range="1y">1Y</button>
+          </div>
+          <button id="export-data" class="btn btn-secondary">
+            <i class="fas fa-download"></i> Export
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Market Overview -->
+      <div class="market-overview">
+        <div class="commodity-card slide-in-up selected" data-commodity="maize">
+          <div class="commodity-header">
+            <div class="commodity-icon">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <div class="commodity-name">Maize</div>
+          </div>
+          <div class="commodity-details">
+            <span class="current-price">$285/ton</span>
+            <span class="price-change positive">+2.8%</span>
+          </div>
+          <div class="trend-indicator">
+            <i class="fas fa-arrow-up"></i>
+            <span>Trending Up</span>
+          </div>
+          <div class="trend-mini-chart" id="maize-mini-chart"></div>
+        </div>
+
+        <div class="commodity-card slide-in-up" data-commodity="tobacco">
+          <div class="commodity-header">
+            <div class="commodity-icon">
+              <i class="fas fa-leaf"></i>
+            </div>
+            <div class="commodity-name">Tobacco</div>
+          </div>
+          <div class="commodity-details">
+            <span class="current-price">$4,850/ton</span>
+            <span class="price-change negative">-1.2%</span>
+          </div>
+          <div class="trend-indicator">
+            <i class="fas fa-arrow-down"></i>
+            <span>Slight Decline</span>
+          </div>
+          <div class="trend-mini-chart" id="tobacco-mini-chart"></div>
+        </div>
+
+        <div class="commodity-card slide-in-up" data-commodity="soybeans">
+          <div class="commodity-header">
+            <div class="commodity-icon">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <div class="commodity-name">Soybeans</div>
+          </div>
+          <div class="commodity-details">
+            <span class="current-price">$520/ton</span>
+            <span class="price-change positive">+5.1%</span>
+          </div>
+          <div class="trend-indicator">
+            <i class="fas fa-arrow-up"></i>
+            <span>Strong Growth</span>
+          </div>
+          <div class="trend-mini-chart" id="soybeans-mini-chart"></div>
+        </div>
+
+        <div class="commodity-card slide-in-up" data-commodity="cotton">
+          <div class="commodity-header">
+            <div class="commodity-icon">
+              <i class="fas fa-cannabis"></i>
+            </div>
+            <div class="commodity-name">Cotton</div>
+          </div>
+          <div class="commodity-details">
+            <span class="current-price">$1,680/ton</span>
+            <span class="price-change neutral">0.0%</span>
+          </div>
+          <div class="trend-indicator">
+            <i class="fas fa-minus"></i>
+            <span>Stable</span>
+          </div>
+          <div class="trend-mini-chart" id="cotton-mini-chart"></div>
+        </div>
+
+        <div class="commodity-card slide-in-up" data-commodity="wheat">
+          <div class="commodity-header">
+            <div class="commodity-icon">
+              <i class="fas fa-wheat-awn"></i>
+            </div>
+            <div class="commodity-name">Wheat</div>
+          </div>
+          <div class="commodity-details">
+            <span class="current-price">$245/ton</span>
+            <span class="price-change positive">+1.5%</span>
+          </div>
+          <div class="trend-indicator">
+            <i class="fas fa-arrow-up"></i>
+            <span>Rising</span>
+          </div>
+          <div class="trend-mini-chart" id="wheat-mini-chart"></div>
+        </div>
+
+        <div class="commodity-card slide-in-up" data-commodity="coffee">
+          <div class="commodity-header">
+            <div class="commodity-icon">
+              <i class="fas fa-coffee"></i>
+            </div>
+            <div class="commodity-name">Coffee</div>
+          </div>
+          <div class="commodity-details">
+            <span class="current-price">$3,200/ton</span>
+            <span class="price-change negative">-0.8%</span>
+          </div>
+          <div class="trend-indicator">
+            <i class="fas fa-arrow-down"></i>
+            <span>Minor Decline</span>
+          </div>
+          <div class="trend-mini-chart" id="coffee-mini-chart"></div>
+        </div>
+      </div>
+
+      <!-- Market Controls -->
+      <div class="market-controls fade-in">
+        <div class="controls-header">
+          <h2 class="controls-title">
+            <i class="fas fa-sliders-h"></i>
+            Market Analysis Controls
+          </h2>
+          <div class="card-actions">
+            <button id="reset-controls" class="btn btn-secondary btn-small">
+              <i class="fas fa-undo"></i> Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="controls-grid">
+          <div class="control-group">
+            <label class="control-label">Market</label>
+            <select id="market-filter" class="control-input">
+              <option value="zimbabwe">Zimbabwe</option>
+              <option value="sadc">SADC Region</option>
+              <option value="africa">Africa</option>
+              <option value="global">Global</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Exchange</label>
+            <select id="exchange-filter" class="control-input">
+              <option value="zse">Zimbabwe Stock Exchange</option>
+              <option value="jse">Johannesburg Stock Exchange</option>
+              <option value="cme">Chicago Mercantile Exchange</option>
+              <option value="lme">London Metal Exchange</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Currency</label>
+            <select id="currency-filter" class="control-input">
+              <option value="usd">USD</option>
+              <option value="zar">ZAR</option>
+              <option value="zwl">ZWL</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">Chart Type</label>
+            <select id="chart-type" class="control-input">
+              <option value="line">Line Chart</option>
+              <option value="candlestick">Candlestick</option>
+              <option value="area">Area Chart</option>
+              <option value="bar">Bar Chart</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Trends Grid -->
+      <div class="trends-grid">
+        <!-- Main Content -->
+        <div class="trends-main">
+          <!-- Price Trends Chart -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-chart-area"></i>
+                <span>Commodity Price Trends</span>
+              </h2>
+              <div class="card-actions">
+                <button
+                  id="toggle-chart-type"
+                  class="btn btn-secondary btn-small"
+                >
+                  <i class="fas fa-exchange-alt"></i> Toggle View
+                </button>
+                <button
+                  id="fullscreen-chart"
+                  class="btn btn-secondary btn-small"
+                >
+                  <i class="fas fa-expand"></i> Fullscreen
+                </button>
+              </div>
+            </div>
+            <div id="price-trends-chart" class="chart-container"></div>
+          </div>
+
+          <!-- Comparative Analysis -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-balance-scale"></i>
+                <span>Comparative Analysis</span>
+              </h2>
+              <div class="card-actions">
+                <button id="add-comparison" class="btn btn-secondary btn-small">
+                  <i class="fas fa-plus"></i> Add Commodity
+                </button>
+              </div>
+            </div>
+            <div
+              id="comparative-chart"
+              class="chart-container chart-small"
+            ></div>
+          </div>
+
+          <!-- Seasonal Patterns -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-calendar-alt"></i>
+                <span>Seasonal Patterns</span>
+              </h2>
+            </div>
+            <div id="seasonal-chart" class="chart-container chart-small"></div>
+          </div>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="trends-sidebar">
+          <!-- Market Insights -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-globe"></i>
+                <span>Market Insights</span>
+              </h2>
+            </div>
+
+            <div class="market-insights-grid">
+              <div class="insight-item">
+                <div class="insight-header">
+                  <div>
+                    <div class="insight-title">Maize Export Demand</div>
+                    <div class="insight-impact positive">+12%</div>
+                  </div>
+                </div>
+                <div class="insight-description">
+                  Strong export demand from regional markets driving price
+                  growth. Neighboring countries showing increased import
+                  activity.
+                </div>
+              </div>
+
+              <div class="insight-item">
+                <div class="insight-header">
+                  <div>
+                    <div class="insight-title">Tobacco Regulations</div>
+                    <div class="insight-impact negative">-5%</div>
+                  </div>
+                </div>
+                <div class="insight-description">
+                  Global health regulations and anti-smoking campaigns affecting
+                  long-term demand projections for tobacco products.
+                </div>
+              </div>
+
+              <div class="insight-item">
+                <div class="insight-header">
+                  <div>
+                    <div class="insight-title">Soybean Protein Demand</div>
+                    <div class="insight-impact positive">+8%</div>
+                  </div>
+                </div>
+                <div class="insight-description">
+                  Increased protein demand in emerging markets and growing
+                  livestock industry boosting soybean prices.
+                </div>
+              </div>
+
+              <div class="insight-item">
+                <div class="insight-header">
+                  <div>
+                    <div class="insight-title">Currency Impact</div>
+                    <div class="insight-impact positive">+3%</div>
+                  </div>
+                </div>
+                <div class="insight-description">
+                  Favorable USD/ZWL exchange rates making exports more
+                  competitive in international markets.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weather Impact -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-cloud-rain"></i>
+                <span>Weather Impact</span>
+              </h2>
+            </div>
+
+            <div class="weather-grid">
+              <div class="weather-item">
+                <div class="weather-icon">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="weather-content">
+                  <h4>Favorable Conditions</h4>
+                  <p>
+                    Optimal rainfall patterns expected for next quarter
+                    supporting crop growth
+                  </p>
+                </div>
+              </div>
+
+              <div class="weather-item">
+                <div class="weather-icon">
+                  <i class="fas fa-thermometer-half"></i>
+                </div>
+                <div class="weather-content">
+                  <h4>Temperature Outlook</h4>
+                  <p>
+                    Moderate temperatures ideal for most crops, no extreme
+                    weather expected
+                  </p>
+                </div>
+              </div>
+
+              <div class="weather-item">
+                <div class="weather-icon">
+                  <i class="fas fa-seedling"></i>
+                </div>
+                <div class="weather-content">
+                  <h4>Growing Season</h4>
+                  <p>
+                    Peak growing season approaching, increased activity in
+                    agricultural markets
+                  </p>
+                </div>
+              </div>
+
+              <div class="weather-item">
+                <div class="weather-icon">
+                  <i class="fas fa-eye"></i>
+                </div>
+                <div class="weather-content">
+                  <h4>Market Outlook</h4>
+                  <p>
+                    Stable supply expected due to favorable weather, prices
+                    likely to stabilize
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price Alerts -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-bell"></i>
+                <span>Price Alerts</span>
+              </h2>
+              <div class="card-actions">
+                <button id="add-alert" class="btn btn-secondary btn-small">
+                  <i class="fas fa-plus"></i> Add Alert
+                </button>
+              </div>
+            </div>
+
+            <div class="price-alerts">
+              <div class="alert-item">
+                <div class="alert-info">
+                  <div class="alert-commodity">Maize</div>
+                  <div class="alert-condition">Above $300/ton</div>
+                </div>
+                <div class="alert-status active">Active</div>
+              </div>
+
+              <div class="alert-item">
+                <div class="alert-info">
+                  <div class="alert-commodity">Soybeans</div>
+                  <div class="alert-condition">Below $480/ton</div>
+                </div>
+                <div class="alert-status triggered">Triggered</div>
+              </div>
+
+              <div class="alert-item">
+                <div class="alert-info">
+                  <div class="alert-commodity">Tobacco</div>
+                  <div class="alert-condition">Above $5000/ton</div>
+                </div>
+                <div class="alert-status active">Active</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Market News -->
+      <div class="market-news fade-in">
+        <div class="news-header">
+          <h2 class="news-title">
+            <i class="fas fa-newspaper"></i>
+            Market News & Updates
+          </h2>
+          <button id="view-all-news" class="btn btn-secondary">
+            <i class="fas fa-external-link-alt"></i> View All News
+          </button>
+        </div>
+
+        <div class="news-grid">
+          <div class="news-item">
+            <div class="news-meta">
+              <div class="news-date">Today</div>
+              <div class="news-category">Policy</div>
+            </div>
+            <h4 class="news-title-text">
+              Government Announces New Agricultural Subsidies
+            </h4>
+            <p class="news-excerpt">
+              New support package aims to boost smallholder farmer productivity
+              with increased funding for fertilizers and improved seed
+              varieties...
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-meta">
+              <div class="news-date">2 days ago</div>
+              <div class="news-category">Markets</div>
+            </div>
+            <h4 class="news-title-text">
+              Regional Maize Prices Show Strong Recovery
+            </h4>
+            <p class="news-excerpt">
+              Increased demand from neighboring countries drives price growth.
+              Export volumes up 15% compared to previous quarter...
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-meta">
+              <div class="news-date">1 week ago</div>
+              <div class="news-category">Trade</div>
+            </div>
+            <h4 class="news-title-text">
+              New Export Opportunities for Tobacco Farmers
+            </h4>
+            <p class="news-excerpt">
+              European markets opening new channels for premium tobacco grades.
+              Quality standards emphasis creating premium pricing
+              opportunities...
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-meta">
+              <div class="news-date">1 week ago</div>
+              <div class="news-category">Technology</div>
+            </div>
+            <h4 class="news-title-text">
+              Digital Agriculture Platform Launches
+            </h4>
+            <p class="news-excerpt">
+              New digital platform connects farmers directly with buyers,
+              reducing middleman costs and improving price transparency...
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-meta">
+              <div class="news-date">2 weeks ago</div>
+              <div class="news-category">Weather</div>
+            </div>
+            <h4 class="news-title-text">
+              Favorable Weather Forecast Boosts Market Sentiment
+            </h4>
+            <p class="news-excerpt">
+              Meteorological department predicts optimal rainfall for coming
+              season. Farmers expressing confidence in crop yields...
+            </p>
+          </div>
+
+          <div class="news-item">
+            <div class="news-meta">
+              <div class="news-date">2 weeks ago</div>
+              <div class="news-category">Finance</div>
+            </div>
+            <h4 class="news-title-text">
+              Agricultural Loan Interest Rates Reduced
+            </h4>
+            <p class="news-excerpt">
+              Central bank announces reduced interest rates for agricultural
+              loans. Expected to increase farmer investment in productivity
+              improvements...
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
     <script>
+      // Market Trends Configuration and State Management
+      const TrendsConfig = {
+        refreshInterval: 10000, // 10 seconds for real-time feel
+        animationDelay: 100,
+        priceUpdateInterval: 5000, // 5 seconds for price updates
+      };
+
+      let trendsState = {
+        selectedCommodity: "maize",
+        timeRange: "1m",
+        chartType: "line",
+        marketFilter: "zimbabwe",
+        currency: "usd",
+        realTimeEnabled: true,
+        priceAlerts: [],
+      };
+
+      // Market data simulation
+      const marketData = {
+        maize: { basePrice: 285, volatility: 0.02, trend: 1.028 },
+        tobacco: { basePrice: 4850, volatility: 0.015, trend: 0.988 },
+        soybeans: { basePrice: 520, volatility: 0.025, trend: 1.051 },
+        cotton: { basePrice: 1680, volatility: 0.008, trend: 1.0 },
+        wheat: { basePrice: 245, volatility: 0.018, trend: 1.015 },
+        coffee: { basePrice: 3200, volatility: 0.012, trend: 0.992 },
+      };
+
+      // Initialize Application
       document.addEventListener("DOMContentLoaded", function () {
-        createPriceTrendsChart();
-        createSeasonalChart();
+        initializeTrendsPage();
+        setupEventListeners();
+        setupSidebar();
+        initializeCharts();
+        initializeAnimations();
+        startRealTimeUpdates();
       });
+
+      function initializeTrendsPage() {
+        console.log("📈 Talazo AgriFinance - Market Trends Initialized");
+      }
+
+      function setupEventListeners() {
+        // Sidebar toggle
+        document
+          .getElementById("sidebar-toggle")
+          .addEventListener("click", toggleSidebar);
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", toggleMobileSidebar);
+        document
+          .getElementById("sidebar-overlay")
+          .addEventListener("click", closeMobileSidebar);
+
+        // Navigation links
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            document.querySelectorAll(".nav-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+            this.closest(".nav-item").classList.add("active");
+            if (window.innerWidth <= 768) {
+              closeMobileSidebar();
+            }
+          });
+        });
+
+        // Time range filter
+        document.querySelectorAll(".time-filter-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            document
+              .querySelectorAll(".time-filter-btn")
+              .forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+            trendsState.timeRange = this.dataset.range;
+            updateChartsForTimeRange();
+          });
+        });
+
+        // Commodity selection
+        document.querySelectorAll(".commodity-card").forEach((card) => {
+          card.addEventListener("click", function () {
+            selectCommodity(this.dataset.commodity);
+          });
+        });
+
+        // Control filters
+        document
+          .getElementById("market-filter")
+          .addEventListener("change", function (e) {
+            trendsState.marketFilter = e.target.value;
+            updateChartsForMarket();
+          });
+
+        document
+          .getElementById("currency-filter")
+          .addEventListener("change", function (e) {
+            trendsState.currency = e.target.value;
+            updatePricesForCurrency();
+          });
+
+        document
+          .getElementById("chart-type")
+          .addEventListener("change", function (e) {
+            trendsState.chartType = e.target.value;
+            updateMainChart();
+          });
+
+        // Action buttons
+        document
+          .getElementById("export-data")
+          .addEventListener("click", exportMarketData);
+        document
+          .getElementById("reset-controls")
+          .addEventListener("click", resetControls);
+        document
+          .getElementById("toggle-chart-type")
+          .addEventListener("click", toggleChartType);
+        document
+          .getElementById("add-alert")
+          .addEventListener("click", addPriceAlert);
+        document
+          .getElementById("view-all-news")
+          .addEventListener("click", viewAllNews);
+
+        // Window resize
+        window.addEventListener("resize", handleResize);
+      }
+
+      function setupSidebar() {
+        // Restore sidebar state
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+        if (isCollapsed) {
+          document.getElementById("sidebar").classList.add("collapsed");
+          document.body.classList.add("sidebar-collapsed");
+        }
+        handleResize();
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        sidebar.classList.toggle("collapsed");
+        body.classList.toggle("sidebar-collapsed");
+
+        localStorage.setItem(
+          "sidebarCollapsed",
+          sidebar.classList.contains("collapsed")
+        );
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.toggle("mobile-open");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = sidebar.classList.contains("mobile-open")
+          ? "hidden"
+          : "";
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.remove("mobile-open");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function handleResize() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        if (window.innerWidth <= 768) {
+          body.classList.add("mobile");
+          closeMobileSidebar();
+        } else {
+          body.classList.remove("mobile");
+          sidebar.classList.remove("mobile-open");
+          document.getElementById("sidebar-overlay").classList.remove("active");
+          document.body.style.overflow = "";
+        }
+
+        // Resize charts
+        setTimeout(() => {
+          if (typeof Plotly !== "undefined") {
+            const chartIds = [
+              "price-trends-chart",
+              "comparative-chart",
+              "seasonal-chart",
+            ];
+            chartIds.forEach((id) => {
+              if (document.getElementById(id)) {
+                Plotly.Plots.resize(id);
+              }
+            });
+
+            // Resize mini charts
+            const miniCharts = [
+              "maize",
+              "tobacco",
+              "soybeans",
+              "cotton",
+              "wheat",
+              "coffee",
+            ];
+            miniCharts.forEach((commodity) => {
+              const chartId = `${commodity}-mini-chart`;
+              if (document.getElementById(chartId)) {
+                Plotly.Plots.resize(chartId);
+              }
+            });
+          }
+        }, 100);
+      }
+
+      function initializeCharts() {
+        createPriceTrendsChart();
+        createComparativeChart();
+        createSeasonalChart();
+        createMiniCharts();
+      }
 
       function createPriceTrendsChart() {
         const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-        const maize = {
+        const maizeData = {
           x: months,
           y: [245, 255, 268, 275, 280, 285],
           type: "scatter",
           mode: "lines+markers",
           name: "Maize",
           line: { color: "#2d7d32", width: 3 },
+          marker: { size: 8 },
+          hovertemplate:
+            "<b>%{fullData.name}</b><br>%{x}: $%{y}/ton<extra></extra>",
         };
 
-        const tobacco = {
+        const tobaccoData = {
           x: months,
           y: [4600, 4720, 4850, 4900, 4880, 4850],
           type: "scatter",
           mode: "lines+markers",
           name: "Tobacco",
           line: { color: "#8bc34a", width: 3 },
+          marker: { size: 8 },
           yaxis: "y2",
+          hovertemplate:
+            "<b>%{fullData.name}</b><br>%{x}: $%{y}/ton<extra></extra>",
         };
 
-        const soybeans = {
+        const soybeansData = {
           x: months,
           y: [480, 485, 495, 505, 515, 520],
           type: "scatter",
           mode: "lines+markers",
           name: "Soybeans",
           line: { color: "#ff8f00", width: 3 },
+          marker: { size: 8 },
+          hovertemplate:
+            "<b>%{fullData.name}</b><br>%{x}: $%{y}/ton<extra></extra>",
+        };
+
+        const cottonData = {
+          x: months,
+          y: [1650, 1665, 1670, 1675, 1680, 1680],
+          type: "scatter",
+          mode: "lines+markers",
+          name: "Cotton",
+          line: { color: "#2196f3", width: 3 },
+          marker: { size: 8 },
+          hovertemplate:
+            "<b>%{fullData.name}</b><br>%{x}: $%{y}/ton<extra></extra>",
         };
 
         const layout = {
-          title: "Commodity Price Trends (6 Months)",
-          xaxis: { title: "Month" },
-          yaxis: { title: "Price ($/ton)", side: "left" },
+          title: {
+            text: "Commodity Price Trends (6 Months)",
+            font: { family: "Inter, sans-serif", size: 18, color: "#212121" },
+          },
+          xaxis: {
+            title: "Month",
+            gridcolor: "rgba(0,0,0,0.1)",
+          },
+          yaxis: {
+            title: "Price ($/ton)",
+            side: "left",
+            gridcolor: "rgba(0,0,0,0.1)",
+          },
           yaxis2: {
             title: "Tobacco Price ($/ton)",
             side: "right",
             overlaying: "y",
+            gridcolor: "rgba(0,0,0,0.05)",
           },
-          margin: { t: 50, b: 50, l: 60, r: 60 },
+          legend: {
+            orientation: "h",
+            y: -0.15,
+            x: 0.5,
+            xanchor: "center",
+          },
+          margin: { t: 60, b: 80, l: 80, r: 80 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif", color: "#212121" },
+          hovermode: "x unified",
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
         };
 
         Plotly.newPlot(
           "price-trends-chart",
-          [maize, soybeans, tobacco],
+          [maizeData, soybeansData, cottonData, tobaccoData],
           layout,
-          { responsive: true }
+          config
         );
       }
 
-      function createSeasonalChart() {
-        const data = [
-          {
-            x: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ],
-            y: [1, 1, 2, 3, 3, 2, 1, 1, 1, 2, 3, 3],
-            type: "scatter",
-            mode: "lines+markers",
-            fill: "tonexty",
-            name: "Planting Season",
-            line: { color: "#4caf50" },
-          },
-        ];
+      function createComparativeChart() {
+        const commodities = ["Maize", "Soybeans", "Cotton", "Wheat"];
+        const currentPrices = [285, 520, 1680, 245];
+        const previousPrices = [277, 495, 1680, 241];
+
+        const trace1 = {
+          x: commodities,
+          y: previousPrices,
+          type: "bar",
+          name: "Previous Month",
+          marker: { color: "#e0e0e0" },
+        };
+
+        const trace2 = {
+          x: commodities,
+          y: currentPrices,
+          type: "bar",
+          name: "Current Month",
+          marker: { color: "#2d7d32" },
+        };
 
         const layout = {
-          title: "Optimal Planting Seasons",
+          title: {
+            text: "Month-over-Month Price Comparison",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
+          xaxis: { title: "Commodities" },
+          yaxis: { title: "Price ($/ton)" },
+          barmode: "group",
+          legend: { orientation: "h", y: -0.2 },
+          margin: { t: 50, b: 80, l: 60, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("comparative-chart", [trace1, trace2], layout, config);
+      }
+
+      function createSeasonalChart() {
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        const plantingSeason = {
+          x: months,
+          y: [1, 1, 2, 3, 3, 2, 1, 1, 1, 2, 3, 3],
+          type: "scatter",
+          mode: "lines+markers",
+          fill: "tonexty",
+          name: "Planting Activity",
+          line: { color: "#4caf50", width: 3 },
+          marker: { size: 6 },
+          fillcolor: "rgba(76, 175, 80, 0.3)",
+        };
+
+        const harvestSeason = {
+          x: months,
+          y: [3, 3, 2, 1, 1, 1, 2, 3, 3, 2, 1, 1],
+          type: "scatter",
+          mode: "lines+markers",
+          name: "Harvest Activity",
+          line: { color: "#ff8f00", width: 3 },
+          marker: { size: 6 },
+        };
+
+        const layout = {
+          title: {
+            text: "Seasonal Agricultural Activity",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
           xaxis: { title: "Month" },
           yaxis: {
             title: "Activity Level",
             tickvals: [1, 2, 3],
             ticktext: ["Low", "Medium", "High"],
           },
-          margin: { t: 50, b: 50, l: 60, r: 20 },
+          legend: { orientation: "h", y: -0.2 },
+          margin: { t: 50, b: 80, l: 60, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
         };
 
-        Plotly.newPlot("seasonal-chart", data, layout, { responsive: true });
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot(
+          "seasonal-chart",
+          [plantingSeason, harvestSeason],
+          layout,
+          config
+        );
       }
+
+      function createMiniCharts() {
+        const commodities = [
+          "maize",
+          "tobacco",
+          "soybeans",
+          "cotton",
+          "wheat",
+          "coffee",
+        ];
+
+        commodities.forEach((commodity) => {
+          createMiniChart(commodity);
+        });
+      }
+
+      function createMiniChart(commodity) {
+        const data = generateMiniChartData(commodity);
+
+        const trace = {
+          x: [1, 2, 3, 4, 5, 6, 7],
+          y: data,
+          type: "scatter",
+          mode: "lines",
+          line: {
+            color: data[data.length - 1] > data[0] ? "#4caf50" : "#f44336",
+            width: 2,
+          },
+          hoverinfo: "none",
+        };
+
+        const layout = {
+          margin: { t: 0, b: 0, l: 0, r: 0 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          xaxis: { visible: false },
+          yaxis: { visible: false },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot(`${commodity}-mini-chart`, [trace], layout, config);
+      }
+
+      function generateMiniChartData(commodity) {
+        const baseData = marketData[commodity];
+        const data = [];
+        let price = baseData.basePrice * 0.95; // Start slightly below current price
+
+        for (let i = 0; i < 7; i++) {
+          const change = (Math.random() - 0.5) * baseData.volatility * 2;
+          price += price * change;
+          data.push(price);
+        }
+
+        // Ensure the last value trends toward the current price
+        data[6] = baseData.basePrice * baseData.trend;
+
+        return data;
+      }
+
+      function selectCommodity(commodity) {
+        // Update UI
+        document.querySelectorAll(".commodity-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+        document
+          .querySelector(`[data-commodity="${commodity}"]`)
+          .classList.add("selected");
+
+        trendsState.selectedCommodity = commodity;
+
+        // Update detailed analysis for selected commodity
+        updateCommodityAnalysis(commodity);
+        showToast(`Selected ${commodity} for detailed analysis`, "info");
+      }
+
+      function updateCommodityAnalysis(commodity) {
+        // This would typically update additional charts or data specific to the commodity
+        // For now, we'll just highlight it visually
+        console.log(`Analyzing ${commodity} in detail`);
+      }
+
+      function updateChartsForTimeRange() {
+        showToast(
+          `Updated charts for ${trendsState.timeRange} timeframe`,
+          "info"
+        );
+        // Recreate charts with new time range data
+        setTimeout(() => {
+          createPriceTrendsChart();
+          createComparativeChart();
+        }, 300);
+      }
+
+      function updateChartsForMarket() {
+        showToast(
+          `Updated for ${trendsState.marketFilter} market data`,
+          "info"
+        );
+        // Update charts based on market selection
+        setTimeout(() => {
+          createPriceTrendsChart();
+        }, 300);
+      }
+
+      function updatePricesForCurrency() {
+        showToast(
+          `Converted prices to ${trendsState.currency.toUpperCase()}`,
+          "info"
+        );
+        // Update all price displays for new currency
+        // This would typically involve currency conversion
+      }
+
+      function updateMainChart() {
+        showToast(`Changed to ${trendsState.chartType} chart view`, "info");
+        // Update the main chart type
+        createPriceTrendsChart();
+      }
+
+      function startRealTimeUpdates() {
+        if (!trendsState.realTimeEnabled) return;
+
+        setInterval(() => {
+          updateRealTimePrices();
+        }, TrendsConfig.priceUpdateInterval);
+      }
+
+      function updateRealTimePrices() {
+        // Simulate real-time price updates
+        Object.keys(marketData).forEach((commodity) => {
+          const data = marketData[commodity];
+          const change = (Math.random() - 0.5) * data.volatility * 2;
+          const newPrice = data.basePrice * (1 + change);
+
+          // Update the display price
+          const card = document.querySelector(
+            `[data-commodity="${commodity}"]`
+          );
+          if (card) {
+            const priceElement = card.querySelector(".current-price");
+            const changeElement = card.querySelector(".price-change");
+
+            if (priceElement) {
+              priceElement.textContent = `$${Math.round(newPrice)}/ton`;
+            }
+
+            // Update change percentage
+            const changePercent = (
+              ((newPrice - data.basePrice) / data.basePrice) *
+              100
+            ).toFixed(1);
+            if (changeElement) {
+              changeElement.textContent = `${
+                changePercent >= 0 ? "+" : ""
+              }${changePercent}%`;
+              changeElement.className = `price-change ${
+                changePercent >= 0 ? "positive" : "negative"
+              }`;
+            }
+          }
+
+          // Update the base price for next iteration
+          data.basePrice = newPrice;
+        });
+      }
+
+      function exportMarketData() {
+        showLoadingOverlay();
+
+        setTimeout(() => {
+          hideLoadingOverlay();
+          showToast("Market data exported successfully!", "success");
+        }, 2000);
+      }
+
+      function resetControls() {
+        document.getElementById("market-filter").value = "zimbabwe";
+        document.getElementById("exchange-filter").value = "zse";
+        document.getElementById("currency-filter").value = "usd";
+        document.getElementById("chart-type").value = "line";
+
+        trendsState.marketFilter = "zimbabwe";
+        trendsState.currency = "usd";
+        trendsState.chartType = "line";
+
+        updateChartsForMarket();
+        showToast("Controls reset to default values", "info");
+      }
+
+      function toggleChartType() {
+        const currentType = trendsState.chartType;
+        trendsState.chartType = currentType === "line" ? "bar" : "line";
+        document.getElementById("chart-type").value = trendsState.chartType;
+        updateMainChart();
+      }
+
+      function addPriceAlert() {
+        showToast("Price alert feature coming soon!", "info");
+        // This would open a modal to configure price alerts
+      }
+
+      function viewAllNews() {
+        showToast("Redirecting to full news section...", "info");
+        // This would navigate to a dedicated news page
+      }
+
+      function initializeAnimations() {
+        const cards = document.querySelectorAll(".slide-in-up, .fade-in");
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+            card.style.transition = "all 0.6s ease-out";
+
+            setTimeout(() => {
+              card.style.opacity = "1";
+              card.style.transform = "translateY(0)";
+            }, 50);
+          }, index * TrendsConfig.animationDelay);
+        });
+      }
+
+      function showLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.remove("hidden");
+      }
+
+      function hideLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.add("hidden");
+      }
+
+      function showToast(message, type = "info") {
+        const toastConfig = {
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background:
+              type === "success"
+                ? "#4caf50"
+                : type === "error"
+                ? "#f44336"
+                : type === "warning"
+                ? "#ff9800"
+                : "#2196f3",
+            borderRadius: "8px",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "500",
+          },
+        };
+
+        if (typeof Toastify !== "undefined") {
+          Toastify(toastConfig).showToast();
+        } else {
+          console.log(`Toast: ${message} (${type})`);
+        }
+      }
+
+      // Quick actions functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        // Additional quick action handlers
+        document.querySelectorAll(".quick-action").forEach((button) => {
+          button.addEventListener("click", function () {
+            const title = this.getAttribute("title");
+            if (title.includes("Refresh")) {
+              updateChartsForTimeRange();
+            } else if (title.includes("Alerts")) {
+              addPriceAlert();
+            } else if (title.includes("Export")) {
+              exportMarketData();
+            } else {
+              showToast(`${title} feature activated!`, "info");
+            }
+          });
+        });
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "r") {
+          e.preventDefault();
+          updateChartsForTimeRange();
+        }
+
+        if (e.ctrlKey && e.key === "e") {
+          e.preventDefault();
+          exportMarketData();
+        }
+
+        // Number keys to select commodities
+        const keyMap = {
+          1: "maize",
+          2: "tobacco",
+          3: "soybeans",
+          4: "cotton",
+          5: "wheat",
+          6: "coffee",
+        };
+
+        if (keyMap[e.key]) {
+          selectCommodity(keyMap[e.key]);
+        }
+      });
+
+      // Error handling
+      window.addEventListener("error", function (e) {
+        console.error("Market Trends Page Error:", e.error);
+        showToast("An error occurred. Please refresh the page.", "error");
+      });
+
+      // Final initialization check
+      document.addEventListener("DOMContentLoaded", function () {
+        // Verify all critical elements are loaded
+        const criticalElements = [
+          "price-trends-chart",
+          "comparative-chart",
+          "seasonal-chart",
+          "market-filter",
+          "currency-filter",
+        ];
+
+        const missing = criticalElements.filter(
+          (id) => !document.getElementById(id)
+        );
+
+        if (missing.length > 0) {
+          console.warn("Missing critical elements:", missing);
+        } else {
+          console.log("✅ All critical elements loaded successfully");
+        }
+      });
     </script>
   </body>
 </html>

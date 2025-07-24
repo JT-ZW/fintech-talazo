@@ -3,144 +3,1585 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Talazo AgriFinance - Soil Analysis</title>
+    <title>Soil Analysis - Talazo AgriFinance</title>
     <meta
       name="description"
-      content="Soil analysis and financial index calculator for Zimbabwean farmers"
+      content="Advanced soil analysis and financial index calculator for Zimbabwean farmers"
     />
 
-    <!-- Favicon -->
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='img/favicon.ico') }}"
-      type="image/x-icon"
-    />
-
-    <!-- Stylesheet links -->
+    <!-- External Libraries -->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/dashboard.css') }}"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/soil_analysis.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- JavaScript dependencies -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gauge-chart@latest/dist/bundle.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
+    />
+
+    <style>
+      /* Talazo AgriFinance - Soil Analysis Professional Styling */
+
+      :root {
+        /* Color Palette - Professional Financial Institution */
+        --primary-color: #2d7d32; /* Forest Green */
+        --primary-light: #4caf50; /* Light Green */
+        --primary-dark: #1b5e20; /* Dark Green */
+        --secondary-color: #ff8f00; /* Amber */
+        --secondary-light: #ffb74d; /* Light Amber */
+        --accent-color: #795548; /* Brown */
+        --accent-light: #a1887f; /* Light Brown */
+
+        /* Neutral Colors */
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --gray: #9e9e9e;
+        --dark-gray: #424242;
+        --charcoal: #212121;
+
+        /* Financial Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --error: #f44336;
+        --info: #2196f3;
+        --excellent: #0d7377;
+        --good: #14a085;
+        --fair: #f39c12;
+        --poor: #e74c3c;
+
+        /* Soil Health Colors */
+        --optimal: #4caf50;
+        --good-soil: #8bc34a;
+        --average: #ffc107;
+        --poor-soil: #ff9800;
+        --critical: #f44336;
+
+        /* Typography */
+        --font-primary: "Inter", sans-serif;
+        --font-display: "Playfair Display", serif;
+
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        /* Border Radius */
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(
+          135deg,
+          #f8fffe 0%,
+          #e8f5e8 50%,
+          #f0f8f0 100%
+        );
+        color: var(--charcoal);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-left: 280px; /* Account for sidebar */
+        transition: padding-left var(--transition-normal);
+        overflow-x: hidden;
+      }
+
+      body.sidebar-collapsed {
+        padding-left: 80px;
+      }
+
+      body.mobile {
+        padding-left: 0;
+      }
+
+      /* Sidebar Styles - Matching Dashboard */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--charcoal) 0%, #1a1a1a 100%);
+        color: var(--white);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition-normal);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .sidebar.collapsed {
+        width: 80px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-logo .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .logo-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .sidebar-toggle {
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        opacity: 1;
+      }
+
+      .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar.collapsed .sidebar-toggle {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .user-profile {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .profile-avatar {
+        font-size: 2.5rem;
+        color: var(--primary-light);
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .profile-info {
+        opacity: 0;
+        width: 0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .profile-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: var(--spacing-lg) 0;
+        margin: 0;
+        flex: 1;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+      }
+
+      .nav-item.active .nav-link {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-item.active .nav-indicator {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-radius: 0 25px 25px 0;
+        margin-right: var(--spacing-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-badge {
+        background: var(--primary-color);
+        color: var(--white);
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-badge {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-indicator {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scaleY(0);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-light);
+        border-radius: 0 2px 2px 0;
+        transition: var(--transition-fast);
+        opacity: 0;
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: var(--spacing-md) var(--spacing-lg);
+      }
+
+      .nav-section {
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-section-title {
+        opacity: 0;
+      }
+
+      .sidebar-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        justify-content: space-between;
+      }
+
+      .quick-action {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quick-action:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        justify-content: center;
+      }
+
+      .logout-btn:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: var(--error);
+        color: var(--white);
+      }
+
+      .sidebar.collapsed .logout-btn .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      /* Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition-normal);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-xl);
+        gap: var(--spacing-lg);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        flex: 1;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--charcoal);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .mobile-menu-toggle:hover {
+        background: var(--light-gray);
+      }
+
+      .page-header {
+        flex: 1;
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .page-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .breadcrumb i {
+        color: var(--primary-color);
+      }
+
+      .breadcrumb .fas.fa-chevron-right {
+        font-size: 0.75rem;
+        color: var(--gray);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .farmer-selector {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        min-width: 200px;
+      }
+
+      .farmer-selector:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+      }
+
+      /* Stats Overview */
+      .stats-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .stat-card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--charcoal);
+        line-height: 1;
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .stat-label {
+        color: var(--gray);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-trend {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        margin-top: var(--spacing-sm);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .trend-up {
+        color: var(--success);
+      }
+
+      .trend-down {
+        color: var(--error);
+      }
+
+      /* Main Grid Layout */
+      .soil-analysis-grid {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .soil-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      .soil-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      /* Card Styles */
+      .card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .card-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .card-title h2 {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .card-title i {
+        color: var(--primary-color);
+      }
+
+      .card-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+      }
+
+      /* Form Styles */
+      .grid-inputs {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group label {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+        font-size: 0.875rem;
+      }
+
+      .form-group input,
+      .form-group select {
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        font-size: 1rem;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      .param-range {
+        font-size: 0.75rem;
+        color: var(--gray);
+        margin-top: var(--spacing-xs);
+        font-style: italic;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        font-family: var(--font-primary);
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--light-gray);
+        color: var(--charcoal);
+        border: 1px solid rgba(45, 125, 50, 0.2);
+      }
+
+      .btn-secondary:hover {
+        background: var(--gray);
+        color: var(--white);
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-md);
+      }
+
+      /* Financial Index Display */
+      .index-results-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .index-gauge-container {
+        text-align: center;
+      }
+
+      .gauge-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .gauge-value .unit {
+        font-size: 1rem;
+        color: var(--gray);
+        font-weight: 500;
+      }
+
+      .risk-level {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--gray);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .financial-implications h3 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .implication-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .implication-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .implication-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1rem;
+      }
+
+      .implication-title {
+        font-weight: 600;
+        color: var(--gray);
+        margin-bottom: var(--spacing-xs);
+        font-size: 0.875rem;
+      }
+
+      .implication-value {
+        font-weight: 700;
+        color: var(--charcoal);
+        font-size: 1.125rem;
+      }
+
+      /* Parameter Scores */
+      .parameter-scores {
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .parameter-scores h3 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .chart-container {
+        height: 350px;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      /* View Selector */
+      .view-selector {
+        display: flex;
+        gap: var(--spacing-xs);
+        background: var(--light-gray);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-xs);
+      }
+
+      .view-btn {
+        padding: var(--spacing-sm);
+        border: none;
+        background: none;
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        transition: var(--transition-fast);
+        color: var(--gray);
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .view-btn.active {
+        background: var(--primary-color);
+        color: var(--white);
+      }
+
+      .view-btn:hover {
+        color: var(--primary-color);
+      }
+
+      /* Parameter Legend */
+      .parameter-legend {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-lg);
+        flex-wrap: wrap;
+        margin-top: var(--spacing-lg);
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: var(--radius-sm);
+      }
+
+      .legend-color.optimal {
+        background: var(--optimal);
+      }
+
+      .legend-color.good {
+        background: var(--good-soil);
+      }
+
+      .legend-color.average {
+        background: var(--average);
+      }
+
+      .legend-color.poor {
+        background: var(--poor-soil);
+      }
+
+      .legend-color.critical {
+        background: var(--critical);
+      }
+
+      /* AI Chat Interface */
+      .chat-container {
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: var(--spacing-md);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-md);
+      }
+
+      .chat-message {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        align-items: flex-start;
+      }
+
+      .chat-message.user {
+        flex-direction: row-reverse;
+      }
+
+      .message-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+        flex-shrink: 0;
+      }
+
+      .chat-message.bot .message-avatar {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+      }
+
+      .chat-message.user .message-avatar {
+        background: var(--info);
+        color: var(--white);
+      }
+
+      .message-content {
+        background: var(--white);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+        max-width: 80%;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+      }
+
+      .chat-message.user .message-content {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+      }
+
+      .chat-input-container {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+      }
+
+      .chat-input-container input {
+        flex: 1;
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+      }
+
+      .chat-input-container input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      .quick-questions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xs);
+      }
+
+      .quick-question {
+        padding: var(--spacing-sm) var(--spacing-md);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--charcoal);
+      }
+
+      .quick-question:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      /* Loading States */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: var(--transition-normal);
+      }
+
+      .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--light-gray);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        margin-top: var(--spacing-md);
+        color: var(--charcoal);
+        font-weight: 500;
+      }
+
+      /* Utility Classes */
+      .hidden {
+        display: none !important;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .mb-lg {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .mt-lg {
+        margin-top: var(--spacing-lg);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .soil-analysis-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .index-results-container {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-inputs {
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+
+        body.mobile {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .container {
+          padding: var(--spacing-md);
+        }
+
+        .header-actions {
+          flex-direction: column;
+          width: 100%;
+          gap: var(--spacing-sm);
+        }
+
+        .stats-overview {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-inputs {
+          grid-template-columns: 1fr;
+        }
+
+        .parameter-legend {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .chat-container {
+          height: 300px;
+        }
+
+        .message-content {
+          max-width: 90%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .card-actions {
+          flex-direction: column;
+        }
+
+        .form-actions {
+          flex-direction: column;
+        }
+
+        .view-selector {
+          justify-content: center;
+        }
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in-up {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* Stagger animations for stats cards */
+      .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .stat-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
   </head>
+
   <body>
-    <div class="dashboard-layout">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <img
-            src="{{ url_for('static', filename='img/logo.png') }}"
-            alt="Talazo AgriFinance"
-            class="logo"
-          />
-          <h1>Talazo<span>AgriFinance</span></h1>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <div class="loading-text">Analyzing soil data...</div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <span class="logo-text">Talazo AgriFinance</span>
+        </div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="user-profile">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Financial Officer</div>
+            <div class="profile-role">AgriFinance Division</div>
+          </div>
         </div>
 
-        <nav class="sidebar-nav">
-          <ul>
-            <li>
-              <a href="{{ url_for('main.dashboard') }}"
-                ><i class="fas fa-chart-line"></i> Dashboard</a
-              >
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-users"></i> Farmers</a>
-            </li>
-            <li class="active">
-              <a href="{{ url_for('main.soil_analysis') }}"
-                ><i class="fas fa-seedling"></i> Soil Analysis</a
-              >
-            </li>
-            <li>
-              <a href="{{ url_for('main.loans') }}"
-                ><i class="fas fa-money-bill-wave"></i> Loans</a
-              >
-            </li>
-            <li>
-              <a href="{{ url_for('main.insurance') }}"
-                ><i class="fas fa-umbrella"></i> Insurance</a
-              >
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            </li>
-          </ul>
-        </nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/farmers" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Farmers</span>
+              <div class="nav-badge">156</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/loans" class="nav-link">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="nav-text">Loans</span>
+              <div class="nav-badge">23</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/insurance" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span class="nav-text">Insurance</span>
+              <div class="nav-badge">89</div>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/soil_analysis" class="nav-link">
+              <i class="fas fa-vial"></i>
+              <span class="nav-text">Soil Analysis</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/ai_recommendations" class="nav-link">
+              <i class="fas fa-brain"></i>
+              <span class="nav-text">AI Recommendations</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">Analytics</span>
+          </li>
+          <li class="nav-item">
+            <a href="/reports" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/trends" class="nav-link">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-text">Market Trends</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">System</span>
+          </li>
+          <li class="nav-item">
+            <a href="/settings" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/help" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help & Support</span>
+            </a>
+          </li>
+        </ul>
 
         <div class="sidebar-footer">
-          <div class="user-info">
-            <img
-              src="{{ url_for('static', filename='img/user-avatar.png') }}"
-              alt="User"
-              class="user-avatar"
-            />
-            <div class="user-details">
-              <h3>John Moyo</h3>
-              <p>Financial Officer</p>
+          <div class="quick-actions">
+            <button class="quick-action" title="Analyze Soil">
+              <i class="fas fa-flask"></i>
+            </button>
+            <button class="quick-action" title="Generate Report">
+              <i class="fas fa-file-alt"></i>
+            </button>
+            <button class="quick-action" title="AI Assistant">
+              <i class="fas fa-robot"></i>
+            </button>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="page-header">
+            <div class="breadcrumb">
+              <i class="fas fa-vial"></i>
+              <span>Soil Analysis</span>
+              <i class="fas fa-chevron-right"></i>
+              <span>Financial Index</span>
+            </div>
+            <h1 class="page-title">Soil Analysis</h1>
+            <p class="page-subtitle">
+              Analyze soil health metrics and calculate financial ratings
+            </p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <select id="farmer-selector" class="farmer-selector">
+            <option value="">Select Farmer</option>
+            <option value="1">John Moyo (Harare)</option>
+            <option value="2">Mary Ncube (Bulawayo)</option>
+            <option value="3">Robert Dube (Mutare)</option>
+          </select>
+          <button id="refresh-data" class="btn btn-secondary">
+            <i class="fas fa-sync"></i> Refresh
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Stats Overview -->
+      <div class="stats-overview">
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">85.2</div>
+              <div class="stat-label">Avg Soil Health Score</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>+3.8% this month</span>
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-seedling"></i>
             </div>
           </div>
         </div>
-      </aside>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <header class="top-header">
-          <div class="page-title">
-            <h2>Soil Analysis & Financial Index</h2>
-            <p>Analyze soil health metrics and calculate financial ratings</p>
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">124</div>
+              <div class="stat-label">Tests Conducted</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>18 this week</span>
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-flask"></i>
+            </div>
           </div>
+        </div>
 
-          <div class="header-controls">
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="Search farmer or location..." />
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">78%</div>
+              <div class="stat-label">Optimal pH Levels</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>Improvement noted</span>
+              </div>
             </div>
-
-            <div class="farmer-select">
-              <select id="farmer-selector">
-                <option value="">Select Farmer</option>
-                <option value="1">John Moyo (Harare)</option>
-                <option value="2">Mary Ncube (Bulawayo)</option>
-                <option value="3">Robert Dube (Mutare)</option>
-              </select>
+            <div class="stat-icon">
+              <i class="fas fa-balance-scale"></i>
             </div>
-
-            <div class="last-update">
-              Last Update: <span id="last-update-time">--</span>
-            </div>
-
-            <button id="refresh-data" class="refresh-button">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
           </div>
-        </header>
+        </div>
 
-        <div class="dashboard-grid soil-analysis-layout">
-          <!-- Soil Metrics Input Card -->
-          <div class="card soil-metrics-card">
-            <div class="card-header">
-              <h2><i class="fas fa-flask"></i> Soil Health Metrics</h2>
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">92%</div>
+              <div class="stat-label">Recommendations Accuracy</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>AI-powered insights</span>
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Soil Analysis Grid -->
+      <div class="soil-analysis-grid">
+        <!-- Main Content -->
+        <div class="soil-main">
+          <!-- Soil Metrics Input -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-flask"></i>
+                <span>Soil Health Metrics</span>
+              </h2>
               <div class="card-actions">
                 <button id="randomize-data" class="btn btn-primary">
                   <i class="fas fa-random"></i> Randomize
@@ -153,148 +1594,150 @@
                 </button>
               </div>
             </div>
-            <div class="card-body">
-              <form id="soil-metrics-form">
-                <div class="grid-inputs">
-                  <div class="form-group">
-                    <label for="ph_level">pH Level</label>
-                    <input
-                      type="number"
-                      id="ph_level"
-                      name="ph_level"
-                      step="0.1"
-                      min="3.0"
-                      max="10.0"
-                      placeholder="6.0-7.0"
-                    />
-                    <div class="param-range">Ideal: 6.0-7.0</div>
-                  </div>
 
-                  <div class="form-group">
-                    <label for="nitrogen_level">Nitrogen (mg/kg)</label>
-                    <input
-                      type="number"
-                      id="nitrogen_level"
-                      name="nitrogen_level"
-                      step="0.1"
-                      min="0"
-                      max="100"
-                      placeholder="20.0-40.0"
-                    />
-                    <div class="param-range">Ideal: 20.0-40.0</div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="phosphorus_level">Phosphorus (mg/kg)</label>
-                    <input
-                      type="number"
-                      id="phosphorus_level"
-                      name="phosphorus_level"
-                      step="0.1"
-                      min="0"
-                      max="100"
-                      placeholder="15.0-30.0"
-                    />
-                    <div class="param-range">Ideal: 15.0-30.0</div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="potassium_level">Potassium (mg/kg)</label>
-                    <input
-                      type="number"
-                      id="potassium_level"
-                      name="potassium_level"
-                      step="0.1"
-                      min="0"
-                      max="500"
-                      placeholder="150.0-250.0"
-                    />
-                    <div class="param-range">Ideal: 150.0-250.0</div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="organic_matter">Organic Matter (%)</label>
-                    <input
-                      type="number"
-                      id="organic_matter"
-                      name="organic_matter"
-                      step="0.1"
-                      min="0"
-                      max="10"
-                      placeholder="3.0-5.0"
-                    />
-                    <div class="param-range">Ideal: 3.0-5.0</div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="cation_exchange_capacity"
-                      >Cation Exchange Capacity (cmol/kg)</label
-                    >
-                    <input
-                      type="number"
-                      id="cation_exchange_capacity"
-                      name="cation_exchange_capacity"
-                      step="0.1"
-                      min="0"
-                      max="50"
-                      placeholder="10.0-20.0"
-                    />
-                    <div class="param-range">Ideal: 10.0-20.0</div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="moisture_content">Moisture Content (%)</label>
-                    <input
-                      type="number"
-                      id="moisture_content"
-                      name="moisture_content"
-                      step="0.1"
-                      min="0"
-                      max="100"
-                      placeholder="20.0-30.0"
-                    />
-                    <div class="param-range">Ideal: 20.0-30.0</div>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="region">Region</label>
-                    <select id="region" name="region">
-                      <option value="">-- Select Region --</option>
-                      <option value="mashonaland_central">
-                        Mashonaland Central
-                      </option>
-                      <option value="mashonaland_east">Mashonaland East</option>
-                      <option value="mashonaland_west">Mashonaland West</option>
-                      <option value="manicaland">Manicaland</option>
-                      <option value="masvingo">Masvingo</option>
-                      <option value="matabeleland_north">
-                        Matabeleland North
-                      </option>
-                      <option value="matabeleland_south">
-                        Matabeleland South
-                      </option>
-                      <option value="midlands">Midlands</option>
-                    </select>
-                  </div>
+            <form id="soil-metrics-form">
+              <div class="grid-inputs">
+                <div class="form-group">
+                  <label for="ph_level">pH Level</label>
+                  <input
+                    type="number"
+                    id="ph_level"
+                    name="ph_level"
+                    step="0.1"
+                    min="3.0"
+                    max="10.0"
+                    placeholder="6.0-7.0"
+                  />
+                  <div class="param-range">Ideal: 6.0-7.0</div>
                 </div>
 
-                <div class="form-actions">
-                  <button
-                    type="submit"
-                    id="calculate-index"
-                    class="btn btn-primary"
+                <div class="form-group">
+                  <label for="nitrogen_level">Nitrogen (mg/kg)</label>
+                  <input
+                    type="number"
+                    id="nitrogen_level"
+                    name="nitrogen_level"
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    placeholder="20.0-40.0"
+                  />
+                  <div class="param-range">Ideal: 20.0-40.0</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="phosphorus_level">Phosphorus (mg/kg)</label>
+                  <input
+                    type="number"
+                    id="phosphorus_level"
+                    name="phosphorus_level"
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    placeholder="15.0-30.0"
+                  />
+                  <div class="param-range">Ideal: 15.0-30.0</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="potassium_level">Potassium (mg/kg)</label>
+                  <input
+                    type="number"
+                    id="potassium_level"
+                    name="potassium_level"
+                    step="0.1"
+                    min="0"
+                    max="500"
+                    placeholder="150.0-250.0"
+                  />
+                  <div class="param-range">Ideal: 150.0-250.0</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="organic_matter">Organic Matter (%)</label>
+                  <input
+                    type="number"
+                    id="organic_matter"
+                    name="organic_matter"
+                    step="0.1"
+                    min="0"
+                    max="10"
+                    placeholder="3.0-5.0"
+                  />
+                  <div class="param-range">Ideal: 3.0-5.0</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="cation_exchange_capacity"
+                    >Cation Exchange Capacity (cmol/kg)</label
                   >
-                    <i class="fas fa-calculator"></i> Calculate Financial Index
-                  </button>
+                  <input
+                    type="number"
+                    id="cation_exchange_capacity"
+                    name="cation_exchange_capacity"
+                    step="0.1"
+                    min="0"
+                    max="50"
+                    placeholder="10.0-20.0"
+                  />
+                  <div class="param-range">Ideal: 10.0-20.0</div>
                 </div>
-              </form>
-            </div>
+
+                <div class="form-group">
+                  <label for="moisture_content">Moisture Content (%)</label>
+                  <input
+                    type="number"
+                    id="moisture_content"
+                    name="moisture_content"
+                    step="0.1"
+                    min="0"
+                    max="100"
+                    placeholder="20.0-30.0"
+                  />
+                  <div class="param-range">Ideal: 20.0-30.0</div>
+                </div>
+
+                <div class="form-group">
+                  <label for="region">Region</label>
+                  <select id="region" name="region">
+                    <option value="">-- Select Region --</option>
+                    <option value="mashonaland_central">
+                      Mashonaland Central
+                    </option>
+                    <option value="mashonaland_east">Mashonaland East</option>
+                    <option value="mashonaland_west">Mashonaland West</option>
+                    <option value="manicaland">Manicaland</option>
+                    <option value="masvingo">Masvingo</option>
+                    <option value="matabeleland_north">
+                      Matabeleland North
+                    </option>
+                    <option value="matabeleland_south">
+                      Matabeleland South
+                    </option>
+                    <option value="midlands">Midlands</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  type="submit"
+                  id="calculate-index"
+                  class="btn btn-primary"
+                >
+                  <i class="fas fa-calculator"></i> Calculate Financial Index
+                </button>
+              </div>
+            </form>
           </div>
 
-          <!-- Financial Index Results Card -->
-          <div class="card financial-index-card">
-            <div class="card-header">
-              <h2><i class="fas fa-chart-pie"></i> Financial Health Index</h2>
+          <!-- Financial Index Results -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-chart-pie"></i>
+                <span>Financial Health Index</span>
+              </h2>
               <div class="card-actions">
                 <button id="save-results" class="btn btn-secondary">
                   <i class="fas fa-save"></i> Save Results
@@ -304,206 +1747,1831 @@
                 </button>
               </div>
             </div>
-            <div class="card-body">
-              <div class="index-results-container">
-                <div class="index-gauge-container">
-                  <div id="financial-index-gauge"></div>
-                  <div class="gauge-value">
-                    <span id="financial-index-score">--</span>
-                    <span class="unit">/100</span>
+
+            <div class="index-results-container">
+              <div class="index-gauge-container">
+                <div id="financial-index-gauge" class="chart-container"></div>
+                <div class="gauge-value">
+                  <span id="financial-index-score">--</span>
+                  <span class="unit">/100</span>
+                </div>
+                <div class="risk-level">
+                  Risk Level: <span id="risk-level">--</span>
+                </div>
+              </div>
+
+              <div class="financial-implications">
+                <h3>Financial Implications</h3>
+                <div class="implication-item">
+                  <div class="implication-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
                   </div>
-                  <div class="risk-level">
-                    Risk Level: <span id="risk-level">--</span>
+                  <div class="implication-details">
+                    <div class="implication-title">Loan Eligibility</div>
+                    <div class="implication-value">
+                      <span id="loan-eligibility">--</span>
+                    </div>
                   </div>
                 </div>
 
-                <div class="financial-implications">
-                  <h3>Financial Implications</h3>
-                  <div class="implication-item">
-                    <div class="implication-icon">
-                      <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <div class="implication-details">
-                      <div class="implication-title">Loan Eligibility</div>
-                      <div class="implication-value">
-                        <span id="loan-eligibility">--</span>
-                      </div>
+                <div class="implication-item">
+                  <div class="implication-icon">
+                    <i class="fas fa-percentage"></i>
+                  </div>
+                  <div class="implication-details">
+                    <div class="implication-title">Interest Rate</div>
+                    <div class="implication-value">
+                      <span id="interest-rate">--</span>%
                     </div>
                   </div>
+                </div>
 
-                  <div class="implication-item">
-                    <div class="implication-icon">
-                      <i class="fas fa-percentage"></i>
-                    </div>
-                    <div class="implication-details">
-                      <div class="implication-title">Interest Rate</div>
-                      <div class="implication-value">
-                        <span id="interest-rate">--</span>%
-                      </div>
+                <div class="implication-item">
+                  <div class="implication-icon">
+                    <i class="fas fa-shield-alt"></i>
+                  </div>
+                  <div class="implication-details">
+                    <div class="implication-title">Insurance Premium</div>
+                    <div class="implication-value">
+                      $<span id="insurance-premium">--</span> /ha
                     </div>
                   </div>
+                </div>
 
-                  <div class="implication-item">
-                    <div class="implication-icon">
-                      <i class="fas fa-umbrella"></i>
-                    </div>
-                    <div class="implication-details">
-                      <div class="implication-title">Insurance Premium</div>
-                      <div class="implication-value">
-                        $<span id="insurance-premium">--</span> /ha
-                      </div>
-                    </div>
+                <div class="implication-item">
+                  <div class="implication-icon">
+                    <i class="fas fa-seedling"></i>
                   </div>
-
-                  <div class="implication-item">
-                    <div class="implication-icon">
-                      <i class="fas fa-seedling"></i>
-                    </div>
-                    <div class="implication-details">
-                      <div class="implication-title">Predicted Yield</div>
-                      <div class="implication-value">
-                        <span id="predicted-yield">--</span> tons/ha
-                      </div>
+                  <div class="implication-details">
+                    <div class="implication-title">Predicted Yield</div>
+                    <div class="implication-value">
+                      <span id="predicted-yield">--</span> tons/ha
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div class="parameter-scores">
-                <h3>Parameter Scores</h3>
-                <div id="parameter-chart"></div>
-              </div>
+            <div class="parameter-scores">
+              <h3>Parameter Scores</h3>
+              <div id="parameter-chart" class="chart-container"></div>
             </div>
           </div>
 
-          <!-- Parameter Details Card -->
-          <div class="card parameter-details-card">
-            <div class="card-header">
-              <h2><i class="fas fa-list-ul"></i> Parameter Details</h2>
+          <!-- Parameter Details -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-list-ul"></i>
+                <span>Parameter Details</span>
+              </h2>
               <div class="card-actions">
                 <div class="view-selector">
-                  <button class="view-btn active" data-view="bar">
+                  <button
+                    class="view-btn active"
+                    data-view="bar"
+                    title="Bar Chart"
+                  >
                     <i class="fas fa-chart-bar"></i>
                   </button>
-                  <button class="view-btn" data-view="radar">
+                  <button
+                    class="view-btn"
+                    data-view="radar"
+                    title="Radar Chart"
+                  >
                     <i class="fas fa-chart-pie"></i>
                   </button>
-                  <button class="view-btn" data-view="table">
+                  <button class="view-btn" data-view="table" title="Table View">
                     <i class="fas fa-table"></i>
                   </button>
                 </div>
               </div>
             </div>
-            <div class="card-body">
-              <div id="parameter-details-view" class="bar-view">
-                <!-- Content will be injected by JS -->
-              </div>
 
-              <div class="parameter-legend">
-                <div class="legend-item">
-                  <span class="legend-color optimal"></span>
-                  <span class="legend-text">Optimal (80-100)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color good"></span>
-                  <span class="legend-text">Good (60-79)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color average"></span>
-                  <span class="legend-text">Average (40-59)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color poor"></span>
-                  <span class="legend-text">Poor (20-39)</span>
-                </div>
-                <div class="legend-item">
-                  <span class="legend-color critical"></span>
-                  <span class="legend-text">Critical (0-19)</span>
-                </div>
+            <div id="parameter-details-view" class="chart-container bar-view">
+              <!-- Content will be injected by JS -->
+            </div>
+
+            <div class="parameter-legend">
+              <div class="legend-item">
+                <span class="legend-color optimal"></span>
+                <span class="legend-text">Optimal (80-100)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color good"></span>
+                <span class="legend-text">Good (60-79)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color average"></span>
+                <span class="legend-text">Average (40-59)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color poor"></span>
+                <span class="legend-text">Poor (20-39)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color critical"></span>
+                <span class="legend-text">Critical (0-19)</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- AI Advisor Card -->
-          <div class="card ai-advisor-card">
-            <div class="card-header">
-              <h2><i class="fas fa-robot"></i> AI Soil Health Advisor</h2>
+        <!-- Sidebar Content -->
+        <div class="soil-sidebar">
+          <!-- AI Advisor -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <h2>
+                <i class="fas fa-robot"></i>
+                <span>AI Soil Health Advisor</span>
+              </h2>
               <div class="card-actions">
                 <button id="clear-chat" class="btn btn-secondary">
                   <i class="fas fa-trash"></i> Clear Chat
                 </button>
               </div>
             </div>
-            <div class="card-body">
-              <div class="chat-container">
-                <div class="chat-messages" id="chat-messages">
-                  <div class="chat-message bot">
-                    <div class="message-avatar">
-                      <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="message-content">
-                      <p>
-                        Hello! I'm your AI Soil Health Advisor. I can help you
-                        improve your soil health and financial index score.
-                        Calculate your financial index first, then ask me
-                        questions about how to improve your specific soil
-                        parameters.
-                      </p>
-                    </div>
+
+            <div class="chat-container">
+              <div class="chat-messages" id="chat-messages">
+                <div class="chat-message bot">
+                  <div class="message-avatar">
+                    <i class="fas fa-robot"></i>
+                  </div>
+                  <div class="message-content">
+                    <p>
+                      Hello! I'm your AI Soil Health Advisor. I can help you
+                      improve your soil health and financial index score.
+                      Calculate your financial index first, then ask me
+                      questions about how to improve your specific soil
+                      parameters.
+                    </p>
                   </div>
                 </div>
+              </div>
 
-                <div class="chat-input-container">
-                  <input
-                    type="text"
-                    id="chat-input"
-                    placeholder="Ask me about your soil health..."
-                  />
-                  <button id="send-message" class="btn btn-primary">
-                    <i class="fas fa-paper-plane"></i>
-                  </button>
+              <div class="chat-input-container">
+                <input
+                  type="text"
+                  id="chat-input"
+                  placeholder="Ask me about your soil health..."
+                />
+                <button id="send-message" class="btn btn-primary">
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+
+              <div class="quick-questions">
+                <div
+                  class="quick-question"
+                  data-question="How can I improve my soil health score?"
+                >
+                  How can I improve my soil health score?
                 </div>
-
-                <div class="quick-questions">
-                  <div
-                    class="quick-question"
-                    data-question="How can I improve my soil health score?"
-                  >
-                    How can I improve my soil health score?
-                  </div>
-                  <div
-                    class="quick-question"
-                    data-question="What should I do about my pH level?"
-                  >
-                    What should I do about my pH level?
-                  </div>
-                  <div
-                    class="quick-question"
-                    data-question="How do soil parameters affect my financial index?"
-                  >
-                    How do soil parameters affect my financial index?
-                  </div>
-                  <div
-                    class="quick-question"
-                    data-question="What crops are best for my soil?"
-                  >
-                    What crops are best for my soil?
-                  </div>
+                <div
+                  class="quick-question"
+                  data-question="What should I do about my pH level?"
+                >
+                  What should I do about my pH level?
+                </div>
+                <div
+                  class="quick-question"
+                  data-question="How do soil parameters affect my financial index?"
+                >
+                  How do soil parameters affect my financial index?
+                </div>
+                <div
+                  class="quick-question"
+                  data-question="What crops are best for my soil?"
+                >
+                  What crops are best for my soil?
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
 
-    <!-- Loading overlay -->
-    <div id="loading-overlay" class="loading-overlay hidden">
-      <div class="spinner"></div>
-      <p>Processing data...</p>
-    </div>
+    <!-- JavaScript -->
+    <script>
+      // Soil Analysis Configuration and State Management
+      const SoilAnalysisConfig = {
+        refreshInterval: 30000,
+        animationDelay: 100,
+      };
 
-    <!-- JavaScript files -->
-    <script src="{{ url_for('static', filename='js/soil_analysis.js') }}"></script>
+      let soilState = {
+        currentFarmer: "",
+        financialIndexScore: 0,
+        riskLevel: "Medium",
+        currentView: "bar",
+        analysisResults: null,
+        chatHistory: [],
+      };
+
+      // Initialize Application
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeSoilAnalysisPage();
+        setupEventListeners();
+        setupSidebar();
+        initializeCharts();
+        initializeAnimations();
+      });
+
+      function initializeSoilAnalysisPage() {
+        console.log("🌱 Talazo AgriFinance - Soil Analysis Initialized");
+      }
+
+      function setupEventListeners() {
+        // Sidebar toggle
+        document
+          .getElementById("sidebar-toggle")
+          .addEventListener("click", toggleSidebar);
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", toggleMobileSidebar);
+        document
+          .getElementById("sidebar-overlay")
+          .addEventListener("click", closeMobileSidebar);
+
+        // Navigation links
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            document.querySelectorAll(".nav-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+            this.closest(".nav-item").classList.add("active");
+            if (window.innerWidth <= 768) {
+              closeMobileSidebar();
+            }
+          });
+        });
+
+        // Form submissions
+        document
+          .getElementById("soil-metrics-form")
+          .addEventListener("submit", handleFinancialIndexCalculation);
+
+        // Data management buttons
+        document
+          .getElementById("randomize-data")
+          .addEventListener("click", randomizeData);
+        document
+          .getElementById("load-sample-data")
+          .addEventListener("click", loadSampleData);
+        document
+          .getElementById("clear-form")
+          .addEventListener("click", clearForm);
+
+        // Results actions
+        document
+          .getElementById("save-results")
+          .addEventListener("click", saveResults);
+        document
+          .getElementById("print-results")
+          .addEventListener("click", printResults);
+
+        // View switching
+        document.querySelectorAll(".view-btn").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            switchParameterView(this.dataset.view);
+          });
+        });
+
+        // Chat functionality
+        document
+          .getElementById("send-message")
+          .addEventListener("click", sendChatMessage);
+        document
+          .getElementById("chat-input")
+          .addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              sendChatMessage();
+            }
+          });
+        document
+          .getElementById("clear-chat")
+          .addEventListener("click", clearChat);
+
+        // Quick questions
+        document.querySelectorAll(".quick-question").forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const question = this.dataset.question;
+            document.getElementById("chat-input").value = question;
+            sendChatMessage();
+          });
+        });
+
+        // Farmer selector
+        document
+          .getElementById("farmer-selector")
+          .addEventListener("change", function (e) {
+            soilState.currentFarmer = e.target.value;
+            if (e.target.value) {
+              loadFarmerData(e.target.value);
+            }
+          });
+
+        // Refresh button
+        document
+          .getElementById("refresh-data")
+          .addEventListener("click", refreshData);
+
+        // Window resize
+        window.addEventListener("resize", handleResize);
+      }
+
+      function setupSidebar() {
+        // Restore sidebar state
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+        if (isCollapsed) {
+          document.getElementById("sidebar").classList.add("collapsed");
+          document.body.classList.add("sidebar-collapsed");
+        }
+        handleResize();
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        sidebar.classList.toggle("collapsed");
+        body.classList.toggle("sidebar-collapsed");
+
+        localStorage.setItem(
+          "sidebarCollapsed",
+          sidebar.classList.contains("collapsed")
+        );
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.toggle("mobile-open");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = sidebar.classList.contains("mobile-open")
+          ? "hidden"
+          : "";
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.remove("mobile-open");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function handleResize() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        if (window.innerWidth <= 768) {
+          body.classList.add("mobile");
+          closeMobileSidebar();
+        } else {
+          body.classList.remove("mobile");
+          sidebar.classList.remove("mobile-open");
+          document.getElementById("sidebar-overlay").classList.remove("active");
+          document.body.style.overflow = "";
+        }
+
+        // Resize charts
+        setTimeout(() => {
+          if (typeof Plotly !== "undefined") {
+            Plotly.Plots.resize("financial-index-gauge");
+            Plotly.Plots.resize("parameter-chart");
+            Plotly.Plots.resize("parameter-details-view");
+          }
+        }, 100);
+      }
+
+      function initializeCharts() {
+        createFinancialIndexGauge();
+        createParameterChart();
+        createParameterDetailsView();
+      }
+
+      function createFinancialIndexGauge() {
+        const gaugeData = [
+          {
+            type: "indicator",
+            mode: "gauge+number",
+            value: soilState.financialIndexScore,
+            domain: { x: [0, 1], y: [0, 1] },
+            gauge: {
+              axis: { range: [null, 100] },
+              bar: { color: "#2d7d32" },
+              steps: [
+                { range: [0, 20], color: "#ffcdd2" },
+                { range: [20, 40], color: "#ffecb3" },
+                { range: [40, 60], color: "#fff3e0" },
+                { range: [60, 80], color: "#e8f5e9" },
+                { range: [80, 100], color: "#c8e6c9" },
+              ],
+              threshold: {
+                line: { color: "#1b5e20", width: 4 },
+                thickness: 0.75,
+                value: 85,
+              },
+            },
+            number: { suffix: "/100", font: { size: 20 } },
+          },
+        ];
+
+        const layout = {
+          width: 300,
+          height: 250,
+          margin: { t: 20, b: 20, l: 20, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: {
+            family: "Inter, sans-serif",
+            size: 14,
+            color: "#212121",
+          },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("financial-index-gauge", gaugeData, layout, config);
+      }
+
+      function createParameterChart() {
+        const parameters = [
+          "pH Level",
+          "Nitrogen",
+          "Phosphorus",
+          "Potassium",
+          "Organic Matter",
+          "CEC",
+          "Moisture",
+        ];
+        const scores = [0, 0, 0, 0, 0, 0, 0]; // Will be updated after calculation
+
+        const trace = {
+          x: parameters,
+          y: scores,
+          type: "bar",
+          marker: {
+            color: scores.map((score) =>
+              score >= 80
+                ? "#4caf50"
+                : score >= 60
+                ? "#8bc34a"
+                : score >= 40
+                ? "#ffc107"
+                : score >= 20
+                ? "#ff9800"
+                : "#f44336"
+            ),
+          },
+        };
+
+        const layout = {
+          title: {
+            text: "Soil Parameter Scores",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
+          xaxis: { title: "Parameters" },
+          yaxis: { title: "Score", range: [0, 100] },
+          margin: { t: 50, b: 80, l: 40, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("parameter-chart", [trace], layout, config);
+      }
+
+      function createParameterDetailsView() {
+        // This will be populated when analysis is done
+        const placeholder = document.getElementById("parameter-details-view");
+        placeholder.innerHTML = `
+          <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #9e9e9e;">
+            <div style="text-align: center;">
+              <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+              <p>Calculate financial index to view parameter details</p>
+            </div>
+          </div>
+        `;
+      }
+
+      function handleFinancialIndexCalculation(e) {
+        e.preventDefault();
+
+        showLoadingOverlay();
+
+        // Get form data
+        const formData = new FormData(e.target);
+        const soilData = {};
+
+        for (let [key, value] of formData.entries()) {
+          soilData[key] = parseFloat(value) || value;
+        }
+
+        // Simulate API call
+        setTimeout(() => {
+          const results = calculateFinancialIndex(soilData);
+          displayResults(results);
+          updateCharts(results);
+          hideLoadingOverlay();
+          showToast("Financial index calculated successfully!", "success");
+        }, 2000);
+      }
+
+      function calculateFinancialIndex(soilData) {
+        // Comprehensive financial index calculation
+        let totalScore = 0;
+        let parameterScores = {};
+
+        // pH Level scoring (25% weight)
+        let phScore = 0;
+        if (soilData.ph_level >= 6.0 && soilData.ph_level <= 7.0) {
+          phScore = 100;
+        } else if (soilData.ph_level >= 5.5 && soilData.ph_level <= 7.5) {
+          phScore = 80;
+        } else if (soilData.ph_level >= 5.0 && soilData.ph_level <= 8.0) {
+          phScore = 60;
+        } else if (soilData.ph_level >= 4.5 && soilData.ph_level <= 8.5) {
+          phScore = 40;
+        } else {
+          phScore = 20;
+        }
+        parameterScores.ph = phScore;
+        totalScore += phScore * 0.25;
+
+        // Nitrogen scoring (15% weight)
+        let nitrogenScore = 0;
+        if (soilData.nitrogen_level >= 20 && soilData.nitrogen_level <= 40) {
+          nitrogenScore = 100;
+        } else if (
+          soilData.nitrogen_level >= 15 &&
+          soilData.nitrogen_level <= 45
+        ) {
+          nitrogenScore = 80;
+        } else if (
+          soilData.nitrogen_level >= 10 &&
+          soilData.nitrogen_level <= 50
+        ) {
+          nitrogenScore = 60;
+        } else if (
+          soilData.nitrogen_level >= 5 &&
+          soilData.nitrogen_level <= 55
+        ) {
+          nitrogenScore = 40;
+        } else {
+          nitrogenScore = 20;
+        }
+        parameterScores.nitrogen = nitrogenScore;
+        totalScore += nitrogenScore * 0.15;
+
+        // Phosphorus scoring (15% weight)
+        let phosphorusScore = 0;
+        if (
+          soilData.phosphorus_level >= 15 &&
+          soilData.phosphorus_level <= 30
+        ) {
+          phosphorusScore = 100;
+        } else if (
+          soilData.phosphorus_level >= 10 &&
+          soilData.phosphorus_level <= 35
+        ) {
+          phosphorusScore = 80;
+        } else if (
+          soilData.phosphorus_level >= 5 &&
+          soilData.phosphorus_level <= 40
+        ) {
+          phosphorusScore = 60;
+        } else if (
+          soilData.phosphorus_level >= 2 &&
+          soilData.phosphorus_level <= 45
+        ) {
+          phosphorusScore = 40;
+        } else {
+          phosphorusScore = 20;
+        }
+        parameterScores.phosphorus = phosphorusScore;
+        totalScore += phosphorusScore * 0.15;
+
+        // Potassium scoring (15% weight)
+        let potassiumScore = 0;
+        if (
+          soilData.potassium_level >= 150 &&
+          soilData.potassium_level <= 250
+        ) {
+          potassiumScore = 100;
+        } else if (
+          soilData.potassium_level >= 120 &&
+          soilData.potassium_level <= 280
+        ) {
+          potassiumScore = 80;
+        } else if (
+          soilData.potassium_level >= 90 &&
+          soilData.potassium_level <= 320
+        ) {
+          potassiumScore = 60;
+        } else if (
+          soilData.potassium_level >= 60 &&
+          soilData.potassium_level <= 360
+        ) {
+          potassiumScore = 40;
+        } else {
+          potassiumScore = 20;
+        }
+        parameterScores.potassium = potassiumScore;
+        totalScore += potassiumScore * 0.15;
+
+        // Organic Matter scoring (20% weight)
+        let organicScore = 0;
+        if (soilData.organic_matter >= 3.0 && soilData.organic_matter <= 5.0) {
+          organicScore = 100;
+        } else if (
+          soilData.organic_matter >= 2.0 &&
+          soilData.organic_matter <= 6.0
+        ) {
+          organicScore = 80;
+        } else if (
+          soilData.organic_matter >= 1.5 &&
+          soilData.organic_matter <= 7.0
+        ) {
+          organicScore = 60;
+        } else if (
+          soilData.organic_matter >= 1.0 &&
+          soilData.organic_matter <= 8.0
+        ) {
+          organicScore = 40;
+        } else {
+          organicScore = 20;
+        }
+        parameterScores.organic = organicScore;
+        totalScore += organicScore * 0.2;
+
+        // CEC scoring (5% weight)
+        let cecScore = 0;
+        if (
+          soilData.cation_exchange_capacity >= 10 &&
+          soilData.cation_exchange_capacity <= 20
+        ) {
+          cecScore = 100;
+        } else if (
+          soilData.cation_exchange_capacity >= 7 &&
+          soilData.cation_exchange_capacity <= 25
+        ) {
+          cecScore = 80;
+        } else if (
+          soilData.cation_exchange_capacity >= 5 &&
+          soilData.cation_exchange_capacity <= 30
+        ) {
+          cecScore = 60;
+        } else if (
+          soilData.cation_exchange_capacity >= 3 &&
+          soilData.cation_exchange_capacity <= 35
+        ) {
+          cecScore = 40;
+        } else {
+          cecScore = 20;
+        }
+        parameterScores.cec = cecScore;
+        totalScore += cecScore * 0.05;
+
+        // Moisture scoring (5% weight)
+        let moistureScore = 0;
+        if (
+          soilData.moisture_content >= 20 &&
+          soilData.moisture_content <= 30
+        ) {
+          moistureScore = 100;
+        } else if (
+          soilData.moisture_content >= 15 &&
+          soilData.moisture_content <= 35
+        ) {
+          moistureScore = 80;
+        } else if (
+          soilData.moisture_content >= 10 &&
+          soilData.moisture_content <= 40
+        ) {
+          moistureScore = 60;
+        } else if (
+          soilData.moisture_content >= 5 &&
+          soilData.moisture_content <= 50
+        ) {
+          moistureScore = 40;
+        } else {
+          moistureScore = 20;
+        }
+        parameterScores.moisture = moistureScore;
+        totalScore += moistureScore * 0.05;
+
+        // Calculate financial implications
+        const financialIndexScore = Math.round(totalScore);
+        let riskLevel,
+          loanEligibility,
+          interestRate,
+          insurancePremium,
+          predictedYield;
+
+        if (financialIndexScore >= 80) {
+          riskLevel = "Low";
+          loanEligibility = "Highly Eligible";
+          interestRate = 7.5;
+          insurancePremium = 120;
+          predictedYield = 4.5;
+        } else if (financialIndexScore >= 60) {
+          riskLevel = "Medium-Low";
+          loanEligibility = "Eligible";
+          interestRate = 8.5;
+          insurancePremium = 155;
+          predictedYield = 3.8;
+        } else if (financialIndexScore >= 40) {
+          riskLevel = "Medium";
+          loanEligibility = "Conditionally Eligible";
+          interestRate = 10.0;
+          insurancePremium = 190;
+          predictedYield = 3.2;
+        } else if (financialIndexScore >= 20) {
+          riskLevel = "Medium-High";
+          loanEligibility = "Limited Eligibility";
+          interestRate = 12.5;
+          insurancePremium = 240;
+          predictedYield = 2.5;
+        } else {
+          riskLevel = "High";
+          loanEligibility = "Not Eligible";
+          interestRate = 15.0;
+          insurancePremium = 300;
+          predictedYield = 1.8;
+        }
+
+        return {
+          financialIndexScore,
+          riskLevel,
+          loanEligibility,
+          interestRate,
+          insurancePremium,
+          predictedYield,
+          parameterScores,
+          soilData,
+        };
+      }
+
+      function displayResults(results) {
+        soilState.analysisResults = results;
+        soilState.financialIndexScore = results.financialIndexScore;
+        soilState.riskLevel = results.riskLevel;
+
+        // Update UI elements
+        document.getElementById("financial-index-score").textContent =
+          results.financialIndexScore;
+        document.getElementById("risk-level").textContent = results.riskLevel;
+        document.getElementById("loan-eligibility").textContent =
+          results.loanEligibility;
+        document.getElementById("interest-rate").textContent =
+          results.interestRate;
+        document.getElementById("insurance-premium").textContent =
+          results.insurancePremium;
+        document.getElementById("predicted-yield").textContent =
+          results.predictedYield;
+      }
+
+      function updateCharts(results) {
+        // Update financial index gauge
+        const gaugeData = [
+          {
+            type: "indicator",
+            mode: "gauge+number",
+            value: results.financialIndexScore,
+            domain: { x: [0, 1], y: [0, 1] },
+            gauge: {
+              axis: { range: [null, 100] },
+              bar: { color: "#2d7d32" },
+              steps: [
+                { range: [0, 20], color: "#ffcdd2" },
+                { range: [20, 40], color: "#ffecb3" },
+                { range: [40, 60], color: "#fff3e0" },
+                { range: [60, 80], color: "#e8f5e9" },
+                { range: [80, 100], color: "#c8e6c9" },
+              ],
+              threshold: {
+                line: { color: "#1b5e20", width: 4 },
+                thickness: 0.75,
+                value: 85,
+              },
+            },
+            number: { suffix: "/100", font: { size: 20 } },
+          },
+        ];
+
+        const layout = {
+          width: 300,
+          height: 250,
+          margin: { t: 20, b: 20, l: 20, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: {
+            family: "Inter, sans-serif",
+            size: 14,
+            color: "#212121",
+          },
+        };
+
+        Plotly.react("financial-index-gauge", gaugeData, layout);
+
+        // Update parameter chart
+        const parameters = [
+          "pH Level",
+          "Nitrogen",
+          "Phosphorus",
+          "Potassium",
+          "Organic Matter",
+          "CEC",
+          "Moisture",
+        ];
+        const scores = [
+          results.parameterScores.ph,
+          results.parameterScores.nitrogen,
+          results.parameterScores.phosphorus,
+          results.parameterScores.potassium,
+          results.parameterScores.organic,
+          results.parameterScores.cec,
+          results.parameterScores.moisture,
+        ];
+
+        const trace = {
+          x: parameters,
+          y: scores,
+          type: "bar",
+          marker: {
+            color: scores.map((score) =>
+              score >= 80
+                ? "#4caf50"
+                : score >= 60
+                ? "#8bc34a"
+                : score >= 40
+                ? "#ffc107"
+                : score >= 20
+                ? "#ff9800"
+                : "#f44336"
+            ),
+          },
+        };
+
+        const chartLayout = {
+          title: {
+            text: "Soil Parameter Scores",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
+          xaxis: { title: "Parameters" },
+          yaxis: { title: "Score", range: [0, 100] },
+          margin: { t: 50, b: 80, l: 40, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
+        };
+
+        Plotly.react("parameter-chart", [trace], chartLayout);
+
+        // Update parameter details view
+        updateParameterDetailsView(results);
+      }
+
+      function updateParameterDetailsView(results) {
+        const container = document.getElementById("parameter-details-view");
+
+        if (soilState.currentView === "bar") {
+          // Already handled by parameter chart
+          container.innerHTML = "";
+          createParameterDetailsChart(results);
+        } else if (soilState.currentView === "radar") {
+          createRadarChart(results);
+        } else if (soilState.currentView === "table") {
+          createTableView(results);
+        }
+      }
+
+      function createParameterDetailsChart(results) {
+        const parameters = [
+          "pH Level",
+          "Nitrogen",
+          "Phosphorus",
+          "Potassium",
+          "Organic Matter",
+          "CEC",
+          "Moisture",
+        ];
+        const scores = [
+          results.parameterScores.ph,
+          results.parameterScores.nitrogen,
+          results.parameterScores.phosphorus,
+          results.parameterScores.potassium,
+          results.parameterScores.organic,
+          results.parameterScores.cec,
+          results.parameterScores.moisture,
+        ];
+
+        const trace = {
+          x: parameters,
+          y: scores,
+          type: "bar",
+          marker: {
+            color: scores.map((score) =>
+              score >= 80
+                ? "#4caf50"
+                : score >= 60
+                ? "#8bc34a"
+                : score >= 40
+                ? "#ffc107"
+                : score >= 20
+                ? "#ff9800"
+                : "#f44336"
+            ),
+          },
+          text: scores.map((score) => `${score.toFixed(0)}`),
+          textposition: "auto",
+        };
+
+        const layout = {
+          title: {
+            text: "Detailed Parameter Analysis",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
+          xaxis: { title: "Parameters" },
+          yaxis: { title: "Score", range: [0, 100] },
+          margin: { t: 50, b: 80, l: 40, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("parameter-details-view", [trace], layout, config);
+      }
+
+      function createRadarChart(results) {
+        const parameters = [
+          "pH Level",
+          "Nitrogen",
+          "Phosphorus",
+          "Potassium",
+          "Organic Matter",
+          "CEC",
+          "Moisture",
+        ];
+        const scores = [
+          results.parameterScores.ph,
+          results.parameterScores.nitrogen,
+          results.parameterScores.phosphorus,
+          results.parameterScores.potassium,
+          results.parameterScores.organic,
+          results.parameterScores.cec,
+          results.parameterScores.moisture,
+        ];
+
+        const trace = {
+          type: "scatterpolar",
+          r: scores,
+          theta: parameters,
+          fill: "toself",
+          line: { color: "#2d7d32" },
+          fillcolor: "rgba(45, 125, 50, 0.3)",
+        };
+
+        const layout = {
+          polar: {
+            radialaxis: {
+              visible: true,
+              range: [0, 100],
+            },
+          },
+          title: {
+            text: "Soil Health Radar",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
+          margin: { t: 50, b: 50, l: 50, r: 50 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("parameter-details-view", [trace], layout, config);
+      }
+
+      function createTableView(results) {
+        const container = document.getElementById("parameter-details-view");
+        const parameters = [
+          {
+            name: "pH Level",
+            score: results.parameterScores.ph,
+            value: results.soilData.ph_level,
+            unit: "pH",
+            ideal: "6.0-7.0",
+          },
+          {
+            name: "Nitrogen",
+            score: results.parameterScores.nitrogen,
+            value: results.soilData.nitrogen_level,
+            unit: "mg/kg",
+            ideal: "20.0-40.0",
+          },
+          {
+            name: "Phosphorus",
+            score: results.parameterScores.phosphorus,
+            value: results.soilData.phosphorus_level,
+            unit: "mg/kg",
+            ideal: "15.0-30.0",
+          },
+          {
+            name: "Potassium",
+            score: results.parameterScores.potassium,
+            value: results.soilData.potassium_level,
+            unit: "mg/kg",
+            ideal: "150.0-250.0",
+          },
+          {
+            name: "Organic Matter",
+            score: results.parameterScores.organic,
+            value: results.soilData.organic_matter,
+            unit: "%",
+            ideal: "3.0-5.0",
+          },
+          {
+            name: "CEC",
+            score: results.parameterScores.cec,
+            value: results.soilData.cation_exchange_capacity,
+            unit: "cmol/kg",
+            ideal: "10.0-20.0",
+          },
+          {
+            name: "Moisture",
+            score: results.parameterScores.moisture,
+            value: results.soilData.moisture_content,
+            unit: "%",
+            ideal: "20.0-30.0",
+          },
+        ];
+
+        const tableHTML = `
+          <table style="width: 100%; border-collapse: collapse; font-family: Inter, sans-serif;">
+            <thead>
+              <tr style="background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);">
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid rgba(45, 125, 50, 0.1); font-weight: 600;">Parameter</th>
+                <th style="padding: 12px; text-align: center; border-bottom: 2px solid rgba(45, 125, 50, 0.1); font-weight: 600;">Current Value</th>
+                <th style="padding: 12px; text-align: center; border-bottom: 2px solid rgba(45, 125, 50, 0.1); font-weight: 600;">Ideal Range</th>
+                <th style="padding: 12px; text-align: center; border-bottom: 2px solid rgba(45, 125, 50, 0.1); font-weight: 600;">Score</th>
+                <th style="padding: 12px; text-align: center; border-bottom: 2px solid rgba(45, 125, 50, 0.1); font-weight: 600;">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${parameters
+                .map((param) => {
+                  const statusColor =
+                    param.score >= 80
+                      ? "#4caf50"
+                      : param.score >= 60
+                      ? "#8bc34a"
+                      : param.score >= 40
+                      ? "#ffc107"
+                      : param.score >= 20
+                      ? "#ff9800"
+                      : "#f44336";
+                  const statusText =
+                    param.score >= 80
+                      ? "Optimal"
+                      : param.score >= 60
+                      ? "Good"
+                      : param.score >= 40
+                      ? "Average"
+                      : param.score >= 20
+                      ? "Poor"
+                      : "Critical";
+
+                  return `
+                  <tr style="border-bottom: 1px solid rgba(45, 125, 50, 0.1);">
+                    <td style="padding: 12px; font-weight: 600; color: #212121;">${
+                      param.name
+                    }</td>
+                    <td style="padding: 12px; text-align: center; color: #424242;">${
+                      param.value
+                    } ${param.unit}</td>
+                    <td style="padding: 12px; text-align: center; color: #9e9e9e; font-style: italic;">${
+                      param.ideal
+                    }</td>
+                    <td style="padding: 12px; text-align: center; font-weight: 700; color: ${statusColor};">${param.score.toFixed(
+                    0
+                  )}</td>
+                    <td style="padding: 12px; text-align: center;">
+                      <span style="background: ${statusColor}; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">
+                        ${statusText}
+                      </span>
+                    </td>
+                  </tr>
+                `;
+                })
+                .join("")}
+            </tbody>
+          </table>
+        `;
+
+        container.innerHTML = tableHTML;
+      }
+
+      function switchParameterView(view) {
+        soilState.currentView = view;
+
+        // Update view buttons
+        document.querySelectorAll(".view-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.querySelector(`[data-view="${view}"]`).classList.add("active");
+
+        // Update view content
+        if (soilState.analysisResults) {
+          updateParameterDetailsView(soilState.analysisResults);
+        }
+      }
+
+      function randomizeData() {
+        // Generate random but realistic soil data
+        document.getElementById("ph_level").value = (
+          Math.random() * 4 +
+          5
+        ).toFixed(1); // 5.0-9.0
+        document.getElementById("nitrogen_level").value = (
+          Math.random() * 50 +
+          10
+        ).toFixed(1); // 10-60
+        document.getElementById("phosphorus_level").value = (
+          Math.random() * 35 +
+          5
+        ).toFixed(1); // 5-40
+        document.getElementById("potassium_level").value = (
+          Math.random() * 200 +
+          100
+        ).toFixed(1); // 100-300
+        document.getElementById("organic_matter").value = (
+          Math.random() * 6 +
+          1
+        ).toFixed(1); // 1-7
+        document.getElementById("cation_exchange_capacity").value = (
+          Math.random() * 25 +
+          5
+        ).toFixed(1); // 5-30
+        document.getElementById("moisture_content").value = (
+          Math.random() * 30 +
+          10
+        ).toFixed(1); // 10-40
+
+        const regions = [
+          "mashonaland_central",
+          "mashonaland_east",
+          "mashonaland_west",
+          "manicaland",
+          "masvingo",
+          "matabeleland_north",
+          "matabeleland_south",
+          "midlands",
+        ];
+        document.getElementById("region").value =
+          regions[Math.floor(Math.random() * regions.length)];
+
+        showToast("Random soil data generated!", "info");
+      }
+
+      function loadSampleData() {
+        document.getElementById("ph_level").value = "6.8";
+        document.getElementById("nitrogen_level").value = "32.5";
+        document.getElementById("phosphorus_level").value = "22.0";
+        document.getElementById("potassium_level").value = "185.0";
+        document.getElementById("organic_matter").value = "3.8";
+        document.getElementById("cation_exchange_capacity").value = "15.2";
+        document.getElementById("moisture_content").value = "24.5";
+        document.getElementById("region").value = "mashonaland_east";
+
+        showToast("Sample data loaded successfully!", "success");
+      }
+
+      function clearForm() {
+        document.getElementById("soil-metrics-form").reset();
+
+        // Reset charts to empty state
+        createFinancialIndexGauge();
+        createParameterChart();
+        createParameterDetailsView();
+
+        // Clear results
+        document.getElementById("financial-index-score").textContent = "--";
+        document.getElementById("risk-level").textContent = "--";
+        document.getElementById("loan-eligibility").textContent = "--";
+        document.getElementById("interest-rate").textContent = "--";
+        document.getElementById("insurance-premium").textContent = "--";
+        document.getElementById("predicted-yield").textContent = "--";
+
+        soilState.analysisResults = null;
+        showToast("Form cleared successfully!", "info");
+      }
+
+      function loadFarmerData(farmerId) {
+        showLoadingOverlay();
+
+        // Simulate loading farmer data
+        setTimeout(() => {
+          loadSampleData(); // Load sample data for demo
+          hideLoadingOverlay();
+          showToast(`Loaded data for farmer ${farmerId}`, "success");
+        }, 1000);
+      }
+
+      function saveResults() {
+        if (!soilState.analysisResults) {
+          showToast(
+            "No results to save. Please calculate financial index first.",
+            "warning"
+          );
+          return;
+        }
+
+        showLoadingOverlay();
+
+        setTimeout(() => {
+          hideLoadingOverlay();
+          showToast("Results saved successfully!", "success");
+        }, 1000);
+      }
+
+      function printResults() {
+        if (!soilState.analysisResults) {
+          showToast(
+            "No results to print. Please calculate financial index first.",
+            "warning"
+          );
+          return;
+        }
+
+        window.print();
+      }
+
+      function refreshData() {
+        showToast("Refreshing soil analysis data...", "info");
+
+        if (soilState.currentFarmer) {
+          loadFarmerData(soilState.currentFarmer);
+        }
+
+        // Update charts
+        updateCharts(
+          soilState.analysisResults || {
+            financialIndexScore: 0,
+            parameterScores: {},
+          }
+        );
+      }
+
+      // Chat functionality
+      function sendChatMessage() {
+        const input = document.getElementById("chat-input");
+        const message = input.value.trim();
+
+        if (!message) {
+          return;
+        }
+
+        // Add user message to chat
+        addChatMessage(message, "user");
+        input.value = "";
+
+        // Generate AI response
+        setTimeout(() => {
+          const response = generateAIResponse(message);
+          addChatMessage(response, "bot");
+        }, 1000);
+      }
+
+      function addChatMessage(message, sender) {
+        const chatMessages = document.getElementById("chat-messages");
+        const messageDiv = document.createElement("div");
+        messageDiv.className = `chat-message ${sender}`;
+
+        const avatar =
+          sender === "bot"
+            ? '<i class="fas fa-robot"></i>'
+            : '<i class="fas fa-user"></i>';
+
+        messageDiv.innerHTML = `
+          <div class="message-avatar">
+            ${avatar}
+          </div>
+          <div class="message-content">
+            <p>${message}</p>
+          </div>
+        `;
+
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Store in chat history
+        soilState.chatHistory.push({ message, sender, timestamp: new Date() });
+      }
+
+      function generateAIResponse(userMessage) {
+        const message = userMessage.toLowerCase();
+
+        if (!soilState.analysisResults) {
+          return "Please calculate your financial index first so I can provide personalized recommendations based on your soil analysis results.";
+        }
+
+        const results = soilState.analysisResults;
+        const scores = results.parameterScores;
+
+        if (message.includes("improve") && message.includes("score")) {
+          const lowScores = Object.entries(scores).filter(
+            ([key, score]) => score < 60
+          );
+          if (lowScores.length === 0) {
+            return "Your soil health is excellent! All parameters are in good ranges. Continue your current management practices.";
+          }
+          const suggestions = lowScores.map(([param, score]) => {
+            switch (param) {
+              case "ph":
+                return "Consider lime application to optimize pH levels";
+              case "nitrogen":
+                return "Add nitrogen-rich fertilizers or organic compost";
+              case "phosphorus":
+                return "Apply phosphate fertilizers to boost phosphorus levels";
+              case "potassium":
+                return "Use potash fertilizers to increase potassium content";
+              case "organic":
+                return "Incorporate more organic matter through compost or cover crops";
+              case "cec":
+                return "Improve soil structure with organic amendments";
+              case "moisture":
+                return "Implement better irrigation or drainage systems";
+              default:
+                return `Improve ${param} levels`;
+            }
+          });
+          return `To improve your soil health score, focus on: ${suggestions.join(
+            ", "
+          )}.`;
+        }
+
+        if (message.includes("ph")) {
+          if (scores.ph >= 80) {
+            return "Your pH levels are optimal! This supports excellent nutrient availability and root development.";
+          } else if (scores.ph >= 60) {
+            return "Your pH is in a good range, but could be optimized. Consider slight adjustments with lime or sulfur.";
+          } else {
+            return "Your pH needs attention. Apply agricultural lime if too acidic, or sulfur if too alkaline. Test quarterly to monitor changes.";
+          }
+        }
+
+        if (message.includes("financial") || message.includes("index")) {
+          return `Your financial index score of ${
+            results.financialIndexScore
+          } indicates ${results.riskLevel.toLowerCase()} risk. This affects your loan eligibility (${
+            results.loanEligibility
+          }) and interest rates (${
+            results.interestRate
+          }%). Focus on improving soil parameters to enhance your financial standing.`;
+        }
+
+        if (message.includes("crop") || message.includes("plant")) {
+          if (results.financialIndexScore >= 80) {
+            return "With your excellent soil health, you can grow premium crops like tobacco, horticulture, or high-value cash crops.";
+          } else if (results.financialIndexScore >= 60) {
+            return "Your soil supports most staple crops well. Consider maize, soybeans, or groundnuts for good yields.";
+          } else {
+            return "Focus on soil-improving crops like legumes or consider crop rotation to build soil health before intensive cropping.";
+          }
+        }
+
+        if (message.includes("fertilizer") || message.includes("nutrient")) {
+          const needsNitrogen = scores.nitrogen < 60;
+          const needsPhosphorus = scores.phosphorus < 60;
+          const needsPotassium = scores.potassium < 60;
+
+          let recommendations = [];
+          if (needsNitrogen)
+            recommendations.push("nitrogen (urea or ammonium sulfate)");
+          if (needsPhosphorus)
+            recommendations.push("phosphorus (triple superphosphate)");
+          if (needsPotassium)
+            recommendations.push("potassium (muriate of potash)");
+
+          if (recommendations.length === 0) {
+            return "Your nutrient levels are well-balanced. Focus on maintenance fertilization and organic matter.";
+          }
+
+          return `Based on your soil analysis, prioritize: ${recommendations.join(
+            ", "
+          )}. Apply according to soil test recommendations and crop requirements.`;
+        }
+
+        // Default responses
+        const defaultResponses = [
+          "That's an interesting question about soil health. Could you be more specific about which parameter you'd like to discuss?",
+          "Based on your soil analysis, I can provide specific recommendations. What aspect would you like to focus on?",
+          "Your soil health affects both crop productivity and financial outcomes. How can I help you optimize both?",
+          "I can help you understand how to improve your soil parameters. Which area concerns you most?",
+          "Soil health management is crucial for sustainable farming. What specific challenge are you facing?",
+        ];
+
+        return defaultResponses[
+          Math.floor(Math.random() * defaultResponses.length)
+        ];
+      }
+
+      function clearChat() {
+        const chatMessages = document.getElementById("chat-messages");
+        chatMessages.innerHTML = `
+          <div class="chat-message bot">
+            <div class="message-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="message-content">
+              <p>
+                Hello! I'm your AI Soil Health Advisor. I can help you
+                improve your soil health and financial index score.
+                Calculate your financial index first, then ask me
+                questions about how to improve your specific soil
+                parameters.
+              </p>
+            </div>
+          </div>
+        `;
+
+        soilState.chatHistory = [];
+        showToast("Chat cleared!", "info");
+      }
+
+      function initializeAnimations() {
+        const cards = document.querySelectorAll(".slide-in-up, .fade-in");
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+            card.style.transition = "all 0.6s ease-out";
+
+            setTimeout(() => {
+              card.style.opacity = "1";
+              card.style.transform = "translateY(0)";
+            }, 50);
+          }, index * SoilAnalysisConfig.animationDelay);
+        });
+      }
+
+      function showLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.remove("hidden");
+      }
+
+      function hideLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.add("hidden");
+      }
+
+      function showToast(message, type = "info") {
+        const toastConfig = {
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background:
+              type === "success"
+                ? "#4caf50"
+                : type === "error"
+                ? "#f44336"
+                : type === "warning"
+                ? "#ff9800"
+                : "#2196f3",
+            borderRadius: "8px",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "500",
+          },
+        };
+
+        if (typeof Toastify !== "undefined") {
+          Toastify(toastConfig).showToast();
+        } else {
+          console.log(`Toast: ${message} (${type})`);
+        }
+      }
+
+      // Quick actions functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        // Additional quick action handlers
+        document.querySelectorAll(".quick-action").forEach((button) => {
+          button.addEventListener("click", function () {
+            const title = this.getAttribute("title");
+            if (title.includes("Analyze")) {
+              document.getElementById("calculate-index").click();
+            } else if (title.includes("Report")) {
+              printResults();
+            } else if (title.includes("AI")) {
+              document.getElementById("chat-input").focus();
+            } else {
+              showToast(`${title} feature activated!`, "info");
+            }
+          });
+        });
+      });
+
+      // Form validation
+      document
+        .getElementById("soil-metrics-form")
+        .addEventListener("input", function (e) {
+          const input = e.target;
+          const value = parseFloat(input.value);
+
+          // Validate input ranges
+          if (input.type === "number" && value) {
+            let isValid = true;
+            let message = "";
+
+            switch (input.id) {
+              case "ph_level":
+                isValid = value >= 3.0 && value <= 10.0;
+                message = "pH should be between 3.0 and 10.0";
+                break;
+              case "nitrogen_level":
+              case "phosphorus_level":
+                isValid = value >= 0 && value <= 100;
+                message = "Value should be between 0 and 100 mg/kg";
+                break;
+              case "potassium_level":
+                isValid = value >= 0 && value <= 500;
+                message = "Value should be between 0 and 500 mg/kg";
+                break;
+              case "organic_matter":
+                isValid = value >= 0 && value <= 10;
+                message = "Value should be between 0 and 10%";
+                break;
+              case "cation_exchange_capacity":
+                isValid = value >= 0 && value <= 50;
+                message = "Value should be between 0 and 50 cmol/kg";
+                break;
+              case "moisture_content":
+                isValid = value >= 0 && value <= 100;
+                message = "Value should be between 0 and 100%";
+                break;
+            }
+
+            if (!isValid) {
+              input.style.borderColor = "#f44336";
+              if (
+                !input.nextElementSibling ||
+                !input.nextElementSibling.classList.contains("error-message")
+              ) {
+                const errorDiv = document.createElement("div");
+                errorDiv.className = "error-message";
+                errorDiv.style.color = "#f44336";
+                errorDiv.style.fontSize = "0.75rem";
+                errorDiv.style.marginTop = "0.25rem";
+                errorDiv.textContent = message;
+                input.parentNode.insertBefore(
+                  errorDiv,
+                  input.nextElementSibling
+                );
+              }
+            } else {
+              input.style.borderColor = "";
+              const errorMsg = input.parentNode.querySelector(".error-message");
+              if (errorMsg) {
+                errorMsg.remove();
+              }
+            }
+          }
+        });
+
+      // Auto-save functionality for form data
+      function autoSaveFormData() {
+        const formData = new FormData(
+          document.getElementById("soil-metrics-form")
+        );
+        const data = {};
+
+        for (let [key, value] of formData.entries()) {
+          if (value) {
+            data[key] = value;
+          }
+        }
+
+        if (Object.keys(data).length > 0) {
+          localStorage.setItem("soilAnalysisFormData", JSON.stringify(data));
+        }
+      }
+
+      function loadSavedFormData() {
+        const savedData = localStorage.getItem("soilAnalysisFormData");
+        if (savedData) {
+          try {
+            const data = JSON.parse(savedData);
+            Object.keys(data).forEach((key) => {
+              const input = document.getElementById(key);
+              if (input) {
+                input.value = data[key];
+              }
+            });
+          } catch (e) {
+            console.warn("Could not load saved form data");
+          }
+        }
+      }
+
+      // Auto-save form data on input
+      document
+        .getElementById("soil-metrics-form")
+        .addEventListener("input", debounce(autoSaveFormData, 1000));
+
+      // Debounce utility function
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      // Load saved data on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        loadSavedFormData();
+      });
+
+      // Print styles
+      const printStyles = `
+        @media print {
+          .sidebar, .header, .loading-overlay, .chat-container {
+            display: none !important;
+          }
+          
+          body {
+            padding-left: 0 !important;
+            background: white !important;
+          }
+          
+          .container {
+            max-width: none !important;
+            padding: 0 !important;
+          }
+          
+          .card {
+            break-inside: avoid;
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          .chart-container {
+            height: 200px !important;
+          }
+          
+          .btn, .card-actions {
+            display: none !important;
+          }
+        }
+      `;
+
+      // Add print styles to document
+      const printStyleSheet = document.createElement("style");
+      printStyleSheet.textContent = printStyles;
+      document.head.appendChild(printStyleSheet);
+
+      // Error handling
+      window.addEventListener("error", function (e) {
+        console.error("Soil Analysis Page Error:", e.error);
+        showToast("An error occurred. Please refresh the page.", "error");
+      });
+
+      // Unload warning for unsaved changes
+      window.addEventListener("beforeunload", function (e) {
+        const form = document.getElementById("soil-metrics-form");
+        const hasData = Array.from(new FormData(form)).some(
+          ([key, value]) => value.trim() !== ""
+        );
+
+        if (hasData && !soilState.analysisResults) {
+          e.preventDefault();
+          e.returnValue =
+            "You have unsaved soil data. Are you sure you want to leave?";
+          return e.returnValue;
+        }
+      });
+
+      // Performance optimization - lazy load charts
+      const observerOptions = {
+        root: null,
+        rootMargin: "50px",
+        threshold: 0.1,
+      };
+
+      const chartObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const chartId = entry.target.id;
+            if (
+              chartId &&
+              typeof window[`create${chartId.replace("-", "")}Chart`] ===
+                "function"
+            ) {
+              // Initialize chart when it comes into view
+              setTimeout(() => {
+                if (typeof Plotly !== "undefined") {
+                  Plotly.Plots.resize(chartId);
+                }
+              }, 100);
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Observe chart containers
+      document.addEventListener("DOMContentLoaded", function () {
+        const chartContainers = document.querySelectorAll(".chart-container");
+        chartContainers.forEach((container) => {
+          chartObserver.observe(container);
+        });
+      });
+
+      // Add smooth scrolling for better UX
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Enhanced keyboard shortcuts
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && e.key === "Enter") {
+          const calculateBtn = document.getElementById("calculate-index");
+          if (calculateBtn && !calculateBtn.disabled) {
+            calculateBtn.click();
+          }
+        }
+
+        if (e.ctrlKey && e.key === "r") {
+          e.preventDefault();
+          randomizeData();
+        }
+
+        if (e.ctrlKey && e.key === "s") {
+          e.preventDefault();
+          saveResults();
+        }
+      });
+
+      // Final initialization check
+      document.addEventListener("DOMContentLoaded", function () {
+        // Verify all critical elements are loaded
+        const criticalElements = [
+          "soil-metrics-form",
+          "calculate-index",
+          "financial-index-gauge",
+          "parameter-chart",
+          "chat-messages",
+          "chat-input",
+        ];
+
+        const missing = criticalElements.filter(
+          (id) => !document.getElementById(id)
+        );
+
+        if (missing.length > 0) {
+          console.warn("Missing critical elements:", missing);
+        } else {
+          console.log("✅ All critical elements loaded successfully");
+        }
+      });
+    </script>
   </body>
 </html>

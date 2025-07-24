@@ -3,216 +3,1737 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Talazo AgriFinance - Loans</title>
+    <title>Loans Management - Talazo AgriFinance</title>
     <meta
       name="description"
-      content="Soil-based loan services for Zimbabwean farmers"
+      content="Soil-based loan services and financial opportunities for Zimbabwean farmers"
     />
 
-    <!-- Favicon -->
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='img/favicon.ico') }}"
-      type="image/x-icon"
-    />
-
-    <!-- Stylesheet links -->
+    <!-- External Libraries -->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/dashboard.css') }}"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/loans.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- JavaScript dependencies -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
+    />
+
+    <style>
+      /* Talazo AgriFinance - Loans Management Professional Styling */
+
+      :root {
+        /* Color Palette - Professional Financial Institution */
+        --primary-color: #2d7d32; /* Forest Green */
+        --primary-light: #4caf50; /* Light Green */
+        --primary-dark: #1b5e20; /* Dark Green */
+        --secondary-color: #ff8f00; /* Amber */
+        --secondary-light: #ffb74d; /* Light Amber */
+        --accent-color: #795548; /* Brown */
+        --accent-light: #a1887f; /* Light Brown */
+
+        /* Neutral Colors */
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --gray: #9e9e9e;
+        --dark-gray: #424242;
+        --charcoal: #212121;
+
+        /* Financial Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --error: #f44336;
+        --info: #2196f3;
+        --excellent: #0d7377;
+        --good: #14a085;
+        --fair: #f39c12;
+        --poor: #e74c3c;
+
+        /* Typography */
+        --font-primary: "Inter", sans-serif;
+        --font-display: "Playfair Display", serif;
+
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        /* Border Radius */
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(
+          135deg,
+          #f8fffe 0%,
+          #e8f5e8 50%,
+          #f0f8f0 100%
+        );
+        color: var(--charcoal);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-left: 280px; /* Account for sidebar */
+        transition: padding-left var(--transition-normal);
+        overflow-x: hidden;
+      }
+
+      body.sidebar-collapsed {
+        padding-left: 80px;
+      }
+
+      body.mobile {
+        padding-left: 0;
+      }
+
+      /* Sidebar Styles - Matching Dashboard */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--charcoal) 0%, #1a1a1a 100%);
+        color: var(--white);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition-normal);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .sidebar.collapsed {
+        width: 80px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-logo .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .logo-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .sidebar-toggle {
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        opacity: 1;
+      }
+
+      .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar.collapsed .sidebar-toggle {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .user-profile {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .profile-avatar {
+        font-size: 2.5rem;
+        color: var(--primary-light);
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .profile-info {
+        opacity: 0;
+        width: 0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .profile-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: var(--spacing-lg) 0;
+        margin: 0;
+        flex: 1;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+      }
+
+      .nav-item.active .nav-link {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-item.active .nav-indicator {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-radius: 0 25px 25px 0;
+        margin-right: var(--spacing-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-badge {
+        background: var(--primary-color);
+        color: var(--white);
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-badge {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-indicator {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scaleY(0);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-light);
+        border-radius: 0 2px 2px 0;
+        transition: var(--transition-fast);
+        opacity: 0;
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: var(--spacing-md) var(--spacing-lg);
+      }
+
+      .nav-section {
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-section-title {
+        opacity: 0;
+      }
+
+      .sidebar-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        justify-content: space-between;
+      }
+
+      .quick-action {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quick-action:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        justify-content: center;
+      }
+
+      .logout-btn:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: var(--error);
+        color: var(--white);
+      }
+
+      .sidebar.collapsed .logout-btn .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      /* Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition-normal);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-xl);
+        gap: var(--spacing-lg);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        flex: 1;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--charcoal);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .mobile-menu-toggle:hover {
+        background: var(--light-gray);
+      }
+
+      .page-header {
+        flex: 1;
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .page-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .breadcrumb i {
+        color: var(--primary-color);
+      }
+
+      .breadcrumb .fas.fa-chevron-right {
+        font-size: 0.75rem;
+        color: var(--gray);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .farmer-selector {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        min-width: 200px;
+      }
+
+      .farmer-selector:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+      }
+
+      /* Stats Overview */
+      .stats-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .stat-card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--charcoal);
+        line-height: 1;
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .stat-label {
+        color: var(--gray);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .stat-trend {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        margin-top: var(--spacing-sm);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .trend-up {
+        color: var(--success);
+      }
+
+      .trend-down {
+        color: var(--error);
+      }
+
+      /* Main Grid Layout */
+      .loans-grid {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .loans-main {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      .loans-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      /* Card Styles */
+      .card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+      }
+
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .card-title {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .card-title i {
+        color: var(--primary-color);
+      }
+
+      /* Loan Eligibility Section */
+      .eligibility-gauge {
+        text-align: center;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .gauge-container {
+        position: relative;
+        display: inline-block;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .eligibility-score {
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .eligibility-status {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .eligibility-status.approved {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--success);
+      }
+
+      .eligibility-status.conditional {
+        background: rgba(255, 152, 0, 0.1);
+        color: var(--warning);
+      }
+
+      .eligibility-status.pending {
+        background: rgba(33, 150, 243, 0.1);
+        color: var(--info);
+      }
+
+      .loan-details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+      }
+
+      .loan-detail-item {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        text-align: center;
+      }
+
+      .loan-detail-label {
+        display: block;
+        font-size: 0.875rem;
+        color: var(--gray);
+        font-weight: 500;
+        margin-bottom: var(--spacing-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .loan-detail-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--charcoal);
+      }
+
+      /* Loan Application Form */
+      .form-section {
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .form-section h3 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-sm);
+        border-bottom: 2px solid var(--light-gray);
+      }
+
+      .form-group {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+        font-size: 0.875rem;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        font-size: 1rem;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      /* Slider Styles */
+      .slider {
+        width: 100%;
+        height: 8px;
+        border-radius: var(--radius-sm);
+        background: var(--light-gray);
+        outline: none;
+        margin: var(--spacing-md) 0;
+      }
+
+      .slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .slider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        cursor: pointer;
+        border: none;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .slider-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: var(--gray);
+        font-weight: 500;
+      }
+
+      .amount-display {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      /* Calculation Summary */
+      .calculation-summary {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .calculation-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-sm);
+        font-weight: 500;
+      }
+
+      .calculation-item:last-child {
+        margin-bottom: 0;
+        padding-top: var(--spacing-sm);
+        border-top: 1px solid rgba(45, 125, 50, 0.1);
+        font-weight: 700;
+      }
+
+      .calculation-label {
+        color: var(--gray);
+      }
+
+      .calculation-value {
+        color: var(--charcoal);
+        font-weight: 600;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        font-family: var(--font-primary);
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--light-gray);
+        color: var(--charcoal);
+        border: 1px solid rgba(45, 125, 50, 0.2);
+      }
+
+      .btn-secondary:hover {
+        background: var(--gray);
+        color: var(--white);
+      }
+
+      .btn-group {
+        display: flex;
+        gap: var(--spacing-md);
+        justify-content: flex-start;
+      }
+
+      /* Loan History Table */
+      .table-container {
+        overflow-x: auto;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--white);
+      }
+
+      .data-table th {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--off-white) 100%
+        );
+        padding: var(--spacing-md);
+        text-align: left;
+        font-weight: 600;
+        color: var(--charcoal);
+        border-bottom: 2px solid rgba(45, 125, 50, 0.1);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .data-table td {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        vertical-align: middle;
+      }
+
+      .data-table tbody tr {
+        transition: var(--transition-fast);
+      }
+
+      .data-table tbody tr:hover {
+        background: rgba(45, 125, 50, 0.03);
+      }
+
+      .status-badge {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+      }
+
+      .status-badge.approved {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--success);
+      }
+
+      .status-badge.pending {
+        background: rgba(255, 152, 0, 0.1);
+        color: var(--warning);
+      }
+
+      .status-badge.rejected {
+        background: rgba(244, 67, 54, 0.1);
+        color: var(--error);
+      }
+
+      .status-badge.active {
+        background: rgba(33, 150, 243, 0.1);
+        color: var(--info);
+      }
+
+      /* Financial Institutions Grid */
+      .institutions-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+      }
+
+      .institution-card {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        cursor: pointer;
+      }
+
+      .institution-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+        border-color: var(--primary-light);
+      }
+
+      .institution-header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .institution-logo {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1rem;
+      }
+
+      .institution-name {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .institution-details {
+        font-size: 0.875rem;
+        color: var(--gray);
+      }
+
+      /* Recommendations */
+      .recommendations-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+      }
+
+      .recommendation-item {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+        border-left: 4px solid var(--primary-color);
+        transition: var(--transition-normal);
+      }
+
+      .recommendation-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .recommendation-title {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .recommendation-description {
+        font-size: 0.875rem;
+        color: var(--gray);
+        line-height: 1.5;
+      }
+
+      .recommendation-impact {
+        font-size: 0.875rem;
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-top: var(--spacing-xs);
+      }
+
+      /* Charts and Visualizations */
+      .chart-container {
+        height: 300px;
+        margin-bottom: var(--spacing-md);
+      }
+
+      /* Modals */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        max-width: 90vw;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(-20px);
+        transition: var(--transition-normal);
+        padding: var(--spacing-xl);
+        min-width: 500px;
+      }
+
+      .modal.active .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .modal-header h3 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        flex: 1;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+      }
+
+      .modal-close:hover {
+        color: var(--error);
+        background: rgba(244, 67, 54, 0.1);
+      }
+
+      .modal-body {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--spacing-md);
+      }
+
+      /* Loading States */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: var(--transition-normal);
+      }
+
+      .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--light-gray);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        margin-top: var(--spacing-md);
+        color: var(--charcoal);
+        font-weight: 500;
+      }
+
+      /* Empty States */
+      .empty-state {
+        text-align: center;
+        padding: var(--spacing-xxl);
+        color: var(--gray);
+      }
+
+      .empty-state i {
+        font-size: 4rem;
+        margin-bottom: var(--spacing-lg);
+        color: var(--gray);
+      }
+
+      .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-md);
+        color: var(--charcoal);
+      }
+
+      .empty-state p {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      /* Utility Classes */
+      .hidden {
+        display: none !important;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .mb-lg {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .mt-lg {
+        margin-top: var(--spacing-lg);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .loans-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .loan-details-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+
+        body.mobile {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .container {
+          padding: var(--spacing-md);
+        }
+
+        .header-actions {
+          flex-direction: column;
+          width: 100%;
+          gap: var(--spacing-sm);
+        }
+
+        .stats-overview {
+          grid-template-columns: 1fr;
+        }
+
+        .btn-group {
+          flex-direction: column;
+        }
+
+        .modal-content {
+          min-width: auto;
+          margin: var(--spacing-md);
+          padding: var(--spacing-lg);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .data-table th:nth-child(n + 4),
+        .data-table td:nth-child(n + 4) {
+          display: none;
+        }
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in-up {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* Stagger animations for stats cards */
+      .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .stat-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
   </head>
+
   <body>
-    <div class="dashboard-layout">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <img
-            src="{{ url_for('static', filename='img/logo.png') }}"
-            alt="Talazo AgriFinance"
-            class="logo"
-          />
-          <h1>Talazo<span>AgriFinance</span></h1>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <div class="loading-text">Processing loan application...</div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <span class="logo-text">Talazo AgriFinance</span>
+        </div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="user-profile">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Financial Officer</div>
+            <div class="profile-role">AgriFinance Division</div>
+          </div>
         </div>
 
-        <nav class="sidebar-nav">
-          <ul>
-            <li>
-              <a href="{{ url_for('main.dashboard') }}"
-                ><i class="fas fa-chart-line"></i> Dashboard</a
-              >
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-users"></i> Farmers</a>
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-seedling"></i> Soil Analysis</a>
-            </li>
-            <li class="active">
-              <a href="{{ url_for('main.loans') }}"
-                ><i class="fas fa-money-bill-wave"></i> Loans</a
-              >
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-umbrella"></i> Insurance</a>
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            </li>
-          </ul>
-        </nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/farmers" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Farmers</span>
+              <div class="nav-badge">156</div>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/loans" class="nav-link">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="nav-text">Loans</span>
+              <div class="nav-badge">23</div>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/insurance" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span class="nav-text">Insurance</span>
+              <div class="nav-badge">89</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/soil_analysis" class="nav-link">
+              <i class="fas fa-vial"></i>
+              <span class="nav-text">Soil Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/ai_recommendations" class="nav-link">
+              <i class="fas fa-brain"></i>
+              <span class="nav-text">AI Recommendations</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">Analytics</span>
+          </li>
+          <li class="nav-item">
+            <a href="/reports" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/trends" class="nav-link">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-text">Market Trends</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">System</span>
+          </li>
+          <li class="nav-item">
+            <a href="/settings" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/help" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help & Support</span>
+            </a>
+          </li>
+        </ul>
 
         <div class="sidebar-footer">
-          <div class="user-info">
-            <img
-              src="{{ url_for('static', filename='img/user-avatar.png') }}"
-              alt="User"
-              class="user-avatar"
-            />
-            <div class="user-details">
-              <h3>John Moyo</h3>
-              <p>Financial Officer</p>
+          <div class="quick-actions">
+            <button class="quick-action" title="Process Loan">
+              <i class="fas fa-dollar-sign"></i>
+            </button>
+            <button class="quick-action" title="Generate Report">
+              <i class="fas fa-file-alt"></i>
+            </button>
+            <button class="quick-action" title="Send Notification">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="page-header">
+            <div class="breadcrumb">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span>Loans</span>
+              <i class="fas fa-chevron-right"></i>
+              <span>Management</span>
+            </div>
+            <h1 class="page-title">Loan Services</h1>
+            <p class="page-subtitle">
+              Soil-based financial opportunities for agricultural growth
+            </p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <select id="farmer-selector" class="farmer-selector">
+            <option value="">All Farmers</option>
+            <option value="1" selected>John Moyo (Harare)</option>
+            <option value="2">Mary Ncube (Bulawayo)</option>
+            <option value="3">Robert Dube (Mutare)</option>
+          </select>
+          <button id="refresh-data" class="btn btn-secondary">
+            <i class="fas fa-sync"></i> Refresh
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Stats Overview -->
+      <div class="stats-overview">
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">$1.2M</div>
+              <div class="stat-label">Total Loans Disbursed</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>+15.3% this month</span>
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-dollar-sign"></i>
             </div>
           </div>
         </div>
-      </aside>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <header class="top-header">
-          <div class="page-title">
-            <h2>Soil-Based Loan Services</h2>
-            <p>Financial opportunities based on soil health metrics</p>
-          </div>
-
-          <div class="header-controls">
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" placeholder="Search loans..." />
-            </div>
-
-            <div class="farmer-select">
-              <select id="farmer-selector">
-                <option value="">All Farmers</option>
-                <option value="1" selected>John Moyo (Harare)</option>
-                <option value="2">Mary Ncube (Bulawayo)</option>
-                <option value="3">Robert Dube (Mutare)</option>
-              </select>
-            </div>
-
-            <button id="refresh-data" class="refresh-button">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-          </div>
-        </header>
-
-        <div class="loans-grid">
-          <!-- Loan Eligibility Card -->
-          <div class="card loan-eligibility-card">
-            <div class="card-header">
-              <h2><i class="fas fa-chart-pie"></i> Loan Eligibility</h2>
-              <div class="card-actions">
-                <button class="card-action-button" title="View Details">
-                  <i class="fas fa-expand"></i>
-                </button>
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">89%</div>
+              <div class="stat-label">Approval Rate</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>+5.2% improvement</span>
               </div>
             </div>
-            <div class="card-body">
-              <div class="loan-eligibility-status">
-                <div class="status-indicator" id="loan-status-indicator">
-                  <!-- Status indicator will be inserted here -->
+            <div class="stat-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">23</div>
+              <div class="stat-label">Active Loans</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>3 new this week</span>
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-file-contract"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">$2,160</div>
+              <div class="stat-label">Average Loan Amount</div>
+              <div class="stat-trend trend-up">
+                <i class="fas fa-arrow-up"></i>
+                <span>Based on soil health</span>
+              </div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-calculator"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Loans Grid -->
+      <div class="loans-grid">
+        <!-- Main Content -->
+        <div class="loans-main">
+          <!-- Loan Eligibility Assessment -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <i class="fas fa-chart-pie"></i>
+              <span>Loan Eligibility Assessment</span>
+            </div>
+
+            <div class="eligibility-gauge">
+              <div id="eligibility-gauge-chart" class="chart-container"></div>
+
+              <div class="eligibility-score">85.2</div>
+              <div class="eligibility-status approved">Loan Approved</div>
+            </div>
+
+            <div class="loan-details-grid">
+              <div class="loan-detail-item">
+                <span class="loan-detail-label">Financial Health Index</span>
+                <div class="loan-detail-value">
+                  <span id="financial-index">85.2</span>/100
                 </div>
-                <div class="loan-details">
-                  <div class="loan-detail-item">
-                    <span class="label">Financial Health Index</span>
-                    <span class="value"
-                      ><span id="financial-index">72</span>/100</span
-                    >
-                  </div>
-                  <div class="loan-detail-item">
-                    <span class="label">Max Loan Amount</span>
-                    <span class="value"
-                      >$<span id="max-loan-amount">2,160.00</span></span
-                    >
-                  </div>
-                  <div class="loan-detail-item">
-                    <span class="label">Interest Rate</span>
-                    <span class="value"
-                      ><span id="interest-rate">8.25</span>%</span
-                    >
-                  </div>
-                  <div class="loan-detail-item">
-                    <span class="label">Term</span>
-                    <span class="value"
-                      >Up to <span id="loan-term">24</span> months</span
-                    >
-                  </div>
+              </div>
+              <div class="loan-detail-item">
+                <span class="loan-detail-label">Max Loan Amount</span>
+                <div class="loan-detail-value">
+                  $<span id="max-loan-amount">25,000</span>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <!-- Soil Impact on Loans Card -->
-          <div class="card soil-impact-card">
-            <div class="card-header">
-              <h2><i class="fas fa-seedling"></i> Soil Health Impact</h2>
-              <div class="card-actions">
-                <button class="card-action-button" title="View Details">
-                  <i class="fas fa-expand"></i>
-                </button>
+              <div class="loan-detail-item">
+                <span class="loan-detail-label">Interest Rate</span>
+                <div class="loan-detail-value">
+                  <span id="interest-rate">8.25</span>%
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <div class="soil-impact-visualization">
-                <div id="soil-impact-chart"></div>
-              </div>
-              <div class="impact-explanation">
-                <p>
-                  This chart shows how improving soil health parameters affects
-                  your loan terms.
-                </p>
-                <p>
-                  <strong>Example:</strong> Increasing organic matter by 1%
-                  could increase your maximum loan amount by $320.
-                </p>
+              <div class="loan-detail-item">
+                <span class="loan-detail-label">Term Length</span>
+                <div class="loan-detail-value">
+                  Up to <span id="loan-term">24</span> months
+                </div>
               </div>
             </div>
           </div>
 
           <!-- Loan Application Form -->
-          <div class="card loan-application-card">
-            <div class="card-header">
-              <h2>
-                <i class="fas fa-file-invoice-dollar"></i> Loan Application
-              </h2>
-              <div class="application-status">
-                <span class="status-label">Status:</span>
-                <span class="status-value">Ready to Apply</span>
-              </div>
+          <div class="card fade-in">
+            <div class="card-title">
+              <i class="fas fa-file-invoice-dollar"></i>
+              <span>Loan Application</span>
             </div>
-            <div class="card-body">
-              <form id="loan-application-form">
+
+            <form id="loan-application-form">
+              <div class="form-section">
                 <div class="form-group">
                   <label for="loan-purpose">Purpose of Loan</label>
                   <select id="loan-purpose" required>
@@ -228,23 +1749,25 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="loan-amount"
-                    >Requested Amount: $<span id="amount-display"
-                      >1000</span
-                    ></label
-                  >
+                  <label for="loan-amount">
+                    Requested Amount: $<span
+                      id="amount-display"
+                      class="amount-display"
+                      >15,000</span
+                    >
+                  </label>
                   <input
                     type="range"
                     id="loan-amount"
-                    min="100"
-                    max="2160"
-                    step="10"
-                    value="1000"
+                    min="1000"
+                    max="25000"
+                    step="500"
+                    value="15000"
                     class="slider"
                   />
                   <div class="slider-labels">
-                    <span>$100</span>
-                    <span>$<span id="max-slider-value">2,160</span></span>
+                    <span>$1,000</span>
+                    <span>$<span id="max-slider-value">25,000</span></span>
                   </div>
                 </div>
 
@@ -258,132 +1781,691 @@
                   </select>
                 </div>
 
-                <div class="form-calculation">
+                <div class="calculation-summary">
                   <div class="calculation-item">
-                    <span class="label">Monthly Payment:</span>
-                    <span class="value"
-                      >$<span id="monthly-payment">45.36</span></span
+                    <span class="calculation-label">Monthly Payment:</span>
+                    <span class="calculation-value"
+                      >$<span id="monthly-payment">685</span></span
                     >
                   </div>
                   <div class="calculation-item">
-                    <span class="label">Total Interest:</span>
-                    <span class="value"
-                      >$<span id="total-interest">88.64</span></span
+                    <span class="calculation-label">Total Interest:</span>
+                    <span class="calculation-value"
+                      >$<span id="total-interest">1,440</span></span
+                    >
+                  </div>
+                  <div class="calculation-item">
+                    <span class="calculation-label">Total Amount:</span>
+                    <span class="calculation-value"
+                      >$<span id="total-amount">16,440</span></span
                     >
                   </div>
                 </div>
 
-                <div class="form-actions">
+                <div class="btn-group">
                   <button type="submit" class="btn btn-primary">
-                    Submit Application
+                    <i class="fas fa-paper-plane"></i> Submit Application
                   </button>
-                  <button type="button" class="btn btn-secondary">
-                    Save Draft
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="save-draft-btn"
+                  >
+                    <i class="fas fa-save"></i> Save Draft
                   </button>
                 </div>
-              </form>
+              </div>
+            </form>
+          </div>
+
+          <!-- Soil Health Impact -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <i class="fas fa-seedling"></i>
+              <span>Soil Health Impact on Loans</span>
+            </div>
+
+            <div id="soil-impact-chart" class="chart-container"></div>
+
+            <div class="impact-explanation">
+              <p>
+                This visualization shows how improving soil health parameters
+                directly affects your loan terms and eligibility.
+              </p>
+              <p>
+                <strong>Current Impact:</strong> Your excellent soil health
+                score has increased your maximum loan amount by $8,000 and
+                reduced your interest rate by 1.5%.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="loans-sidebar">
+          <!-- Loan History -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <i class="fas fa-history"></i>
+              <span>Recent Loan History</span>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>LN-2024-001</td>
+                    <td>$12,500</td>
+                    <td><span class="status-badge active">Active</span></td>
+                    <td>Dec 15, 2024</td>
+                  </tr>
+                  <tr>
+                    <td>LN-2024-002</td>
+                    <td>$8,000</td>
+                    <td><span class="status-badge approved">Paid</span></td>
+                    <td>Nov 8, 2024</td>
+                  </tr>
+                  <tr>
+                    <td>LN-2024-003</td>
+                    <td>$15,200</td>
+                    <td>
+                      <span class="status-badge pending">Processing</span>
+                    </td>
+                    <td>Jan 5, 2025</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <!-- Loan History Card -->
-          <div class="card loan-history-card">
-            <div class="card-header">
-              <h2><i class="fas fa-history"></i> Loan History</h2>
-              <div class="card-actions">
-                <button class="card-action-button" title="View All">
-                  <i class="fas fa-list"></i>
-                </button>
-              </div>
+          <!-- Financial Institutions -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <i class="fas fa-university"></i>
+              <span>Partner Institutions</span>
             </div>
-            <div class="card-body">
-              <div class="table-container">
-                <table class="loan-history-table">
-                  <thead>
-                    <tr>
-                      <th>Loan ID</th>
-                      <th>Date</th>
-                      <th>Amount</th>
-                      <th>Purpose</th>
-                      <th>Status</th>
-                      <th>Soil Score</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody id="loan-history-body">
-                    <!-- Loan history will be populated here -->
-                  </tbody>
-                </table>
+
+            <div class="institutions-grid">
+              <div class="institution-card">
+                <div class="institution-header">
+                  <div class="institution-logo">
+                    <i class="fas fa-university"></i>
+                  </div>
+                  <div>
+                    <div class="institution-name">AgriBank Zimbabwe</div>
+                    <div class="institution-details">7.5% - 9.5% APR</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="institution-card">
+                <div class="institution-header">
+                  <div class="institution-logo">
+                    <i class="fas fa-handshake"></i>
+                  </div>
+                  <div>
+                    <div class="institution-name">CBZ Agricultural Finance</div>
+                    <div class="institution-details">8.0% - 10.0% APR</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="institution-card">
+                <div class="institution-header">
+                  <div class="institution-logo">
+                    <i class="fas fa-leaf"></i>
+                  </div>
+                  <div>
+                    <div class="institution-name">FarmCredit Zimbabwe</div>
+                    <div class="institution-details">7.8% - 9.8% APR</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Financial Institution Integration -->
-          <div class="card institutions-card">
-            <div class="card-header">
-              <h2><i class="fas fa-university"></i> Financial Institutions</h2>
-              <div class="card-actions">
-                <button class="card-action-button" title="View All">
-                  <i class="fas fa-external-link-alt"></i>
-                </button>
-              </div>
+          <!-- AI Recommendations -->
+          <div class="card fade-in">
+            <div class="card-title">
+              <i class="fas fa-brain"></i>
+              <span>AI Recommendations</span>
             </div>
-            <div class="card-body">
-              <div class="institutions-grid" id="institutions-grid">
-                <!-- Institutions will be populated here -->
-              </div>
-            </div>
-          </div>
 
-          <!-- Loan Recommendations -->
-          <div class="card recommendations-card">
-            <div class="card-header">
-              <h2><i class="fas fa-lightbulb"></i> Loan Recommendations</h2>
-              <div class="recommendation-source">
-                <span>AI-powered</span>
+            <div class="recommendations-list">
+              <div class="recommendation-item">
+                <div class="recommendation-title">Improve Organic Matter</div>
+                <div class="recommendation-description">
+                  Increasing organic matter by 1% could boost your maximum loan
+                  amount.
+                </div>
+                <div class="recommendation-impact">
+                  Potential increase: $3,200
+                </div>
               </div>
-            </div>
-            <div class="card-body">
-              <div class="recommendations-container" id="loan-recommendations">
-                <!-- Recommendations will be populated here -->
+
+              <div class="recommendation-item">
+                <div class="recommendation-title">Optimize pH Levels</div>
+                <div class="recommendation-description">
+                  Balancing soil pH to 6.5-7.0 range will improve your financial
+                  health score.
+                </div>
+                <div class="recommendation-impact">
+                  Score improvement: +5.8 points
+                </div>
+              </div>
+
+              <div class="recommendation-item">
+                <div class="recommendation-title">Consider Shorter Term</div>
+                <div class="recommendation-description">
+                  A 18-month term could reduce your total interest payments.
+                </div>
+                <div class="recommendation-impact">
+                  Savings: $480 in interest
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
 
-    <!-- Loading overlay -->
-    <div id="loading-overlay" class="loading-overlay hidden">
-      <div class="spinner"></div>
-      <p>Processing...</p>
-    </div>
-
-    <!-- Application Success Modal -->
-    <div id="success-modal" class="modal-overlay hidden">
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <i class="fas fa-check-circle" style="color: #2ecc71"></i>
+          <i
+            class="fas fa-check-circle"
+            style="color: #4caf50; font-size: 2rem"
+          ></i>
           <h3>Application Submitted!</h3>
-          <button class="modal-close"><i class="fas fa-times"></i></button>
+          <button class="modal-close" id="modal-close-btn">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
         <div class="modal-body">
           <p>
             Your loan application has been successfully submitted for
             processing.
           </p>
-          <p>Application ID: <strong>LOAN-2025-0342</strong></p>
+          <p>
+            <strong>Application ID:</strong>
+            <span id="application-id">LOAN-2025-0342</span>
+          </p>
           <p>
             You will receive updates on your application status within 24-48
-            hours.
+            hours via SMS and email.
           </p>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary">Continue</button>
+          <button class="btn btn-primary" id="continue-btn">
+            <i class="fas fa-arrow-right"></i> Continue
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- JavaScript files -->
-    <script src="{{ url_for('static', filename='js/loans.js') }}"></script>
+    <!-- JavaScript -->
+    <script>
+      // Loans Configuration and State Management
+      const LoansConfig = {
+        refreshInterval: 30000,
+        animationDelay: 100,
+      };
+
+      let loansState = {
+        currentFarmer: "1",
+        loanAmount: 15000,
+        loanTerm: 24,
+        interestRate: 8.25,
+        maxLoanAmount: 25000,
+        financialIndex: 85.2,
+      };
+
+      // Initialize Application
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeLoansPage();
+        setupEventListeners();
+        setupSidebar();
+        initializeCharts();
+        calculateLoanTerms();
+        initializeAnimations();
+      });
+
+      function initializeLoansPage() {
+        console.log("🌱 Talazo AgriFinance - Loans Management Initialized");
+        updateLoanEligibility();
+      }
+
+      function setupEventListeners() {
+        // Sidebar toggle
+        document
+          .getElementById("sidebar-toggle")
+          .addEventListener("click", toggleSidebar);
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", toggleMobileSidebar);
+        document
+          .getElementById("sidebar-overlay")
+          .addEventListener("click", closeMobileSidebar);
+
+        // Navigation links
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            document.querySelectorAll(".nav-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+            this.closest(".nav-item").classList.add("active");
+            if (window.innerWidth <= 768) {
+              closeMobileSidebar();
+            }
+          });
+        });
+
+        // Farmer selector
+        document
+          .getElementById("farmer-selector")
+          .addEventListener("change", function (e) {
+            loansState.currentFarmer = e.target.value;
+            updateLoanEligibility();
+            updateCharts();
+          });
+
+        // Loan amount slider
+        document
+          .getElementById("loan-amount")
+          .addEventListener("input", function (e) {
+            loansState.loanAmount = parseInt(e.target.value);
+            document.getElementById("amount-display").textContent =
+              loansState.loanAmount.toLocaleString();
+            calculateLoanTerms();
+          });
+
+        // Loan term selector
+        document
+          .getElementById("loan-term-select")
+          .addEventListener("change", function (e) {
+            loansState.loanTerm = parseInt(e.target.value);
+            calculateLoanTerms();
+          });
+
+        // Form submission
+        document
+          .getElementById("loan-application-form")
+          .addEventListener("submit", handleLoanSubmission);
+
+        // Save draft button
+        document
+          .getElementById("save-draft-btn")
+          .addEventListener("click", saveLoanDraft);
+
+        // Modal controls
+        document
+          .getElementById("modal-close-btn")
+          .addEventListener("click", closeModal);
+        document
+          .getElementById("continue-btn")
+          .addEventListener("click", closeModal);
+
+        // Refresh button
+        document
+          .getElementById("refresh-data")
+          .addEventListener("click", refreshData);
+
+        // Window resize
+        window.addEventListener("resize", handleResize);
+      }
+
+      function setupSidebar() {
+        // Restore sidebar state
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+        if (isCollapsed) {
+          document.getElementById("sidebar").classList.add("collapsed");
+          document.body.classList.add("sidebar-collapsed");
+        }
+        handleResize();
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        sidebar.classList.toggle("collapsed");
+        body.classList.toggle("sidebar-collapsed");
+
+        localStorage.setItem(
+          "sidebarCollapsed",
+          sidebar.classList.contains("collapsed")
+        );
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.toggle("mobile-open");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = sidebar.classList.contains("mobile-open")
+          ? "hidden"
+          : "";
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.remove("mobile-open");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function handleResize() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        if (window.innerWidth <= 768) {
+          body.classList.add("mobile");
+          closeMobileSidebar();
+        } else {
+          body.classList.remove("mobile");
+          sidebar.classList.remove("mobile-open");
+          document.getElementById("sidebar-overlay").classList.remove("active");
+          document.body.style.overflow = "";
+        }
+
+        // Resize charts
+        setTimeout(() => {
+          if (typeof Plotly !== "undefined") {
+            Plotly.Plots.resize("eligibility-gauge-chart");
+            Plotly.Plots.resize("soil-impact-chart");
+          }
+        }, 100);
+      }
+
+      function initializeCharts() {
+        createEligibilityGauge();
+        createSoilImpactChart();
+      }
+
+      function createEligibilityGauge() {
+        const gaugeData = [
+          {
+            type: "indicator",
+            mode: "gauge+number",
+            value: loansState.financialIndex,
+            domain: { x: [0, 1], y: [0, 1] },
+            gauge: {
+              axis: { range: [null, 100] },
+              bar: { color: "#2d7d32" },
+              steps: [
+                { range: [0, 40], color: "#ffcdd2" },
+                { range: [40, 60], color: "#fff3e0" },
+                { range: [60, 80], color: "#e8f5e9" },
+                { range: [80, 100], color: "#c8e6c9" },
+              ],
+              threshold: {
+                line: { color: "#1b5e20", width: 4 },
+                thickness: 0.75,
+                value: 90,
+              },
+            },
+            number: { suffix: "/100", font: { size: 20 } },
+          },
+        ];
+
+        const layout = {
+          width: 350,
+          height: 250,
+          margin: { t: 20, b: 20, l: 20, r: 20 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: {
+            family: "Inter, sans-serif",
+            size: 14,
+            color: "#212121",
+          },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("eligibility-gauge-chart", gaugeData, layout, config);
+      }
+
+      function createSoilImpactChart() {
+        const scenarios = [
+          "Current",
+          "Improved pH",
+          "Better Organic Matter",
+          "Optimal Nutrients",
+        ];
+        const loanAmounts = [25000, 27200, 28800, 32000];
+        const interestRates = [8.25, 7.8, 7.3, 6.9];
+
+        const trace1 = {
+          x: scenarios,
+          y: loanAmounts,
+          type: "bar",
+          name: "Max Loan Amount ($)",
+          marker: { color: "#4caf50" },
+          yaxis: "y",
+        };
+
+        const trace2 = {
+          x: scenarios,
+          y: interestRates,
+          type: "scatter",
+          mode: "lines+markers",
+          name: "Interest Rate (%)",
+          line: { color: "#ff9800", width: 3 },
+          marker: { size: 8 },
+          yaxis: "y2",
+        };
+
+        const layout = {
+          title: {
+            text: "Soil Health Impact on Loan Terms",
+            font: { family: "Inter, sans-serif", size: 16 },
+          },
+          xaxis: { title: "Soil Health Scenarios" },
+          yaxis: {
+            title: "Loan Amount ($)",
+            side: "left",
+          },
+          yaxis2: {
+            title: "Interest Rate (%)",
+            side: "right",
+            overlaying: "y",
+          },
+          margin: { t: 50, b: 50, l: 60, r: 60 },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
+          font: { family: "Inter, sans-serif" },
+          legend: { x: 0, y: 1 },
+        };
+
+        const config = {
+          displayModeBar: false,
+          responsive: true,
+        };
+
+        Plotly.newPlot("soil-impact-chart", [trace1, trace2], layout, config);
+      }
+
+      function updateLoanEligibility() {
+        // Update based on selected farmer
+        const farmerData = getFarmerData(loansState.currentFarmer);
+
+        loansState.financialIndex = farmerData.financialIndex;
+        loansState.maxLoanAmount = farmerData.maxLoanAmount;
+        loansState.interestRate = farmerData.interestRate;
+
+        document.getElementById("financial-index").textContent =
+          loansState.financialIndex;
+        document.getElementById("max-loan-amount").textContent =
+          loansState.maxLoanAmount.toLocaleString();
+        document.getElementById("interest-rate").textContent =
+          loansState.interestRate;
+        document.getElementById("max-slider-value").textContent =
+          loansState.maxLoanAmount.toLocaleString();
+
+        // Update slider max value
+        document.getElementById("loan-amount").max = loansState.maxLoanAmount;
+
+        calculateLoanTerms();
+      }
+
+      function getFarmerData(farmerId) {
+        const farmers = {
+          1: { financialIndex: 85.2, maxLoanAmount: 25000, interestRate: 8.25 },
+          2: { financialIndex: 72.8, maxLoanAmount: 18500, interestRate: 9.1 },
+          3: { financialIndex: 68.4, maxLoanAmount: 15200, interestRate: 9.75 },
+        };
+        return farmers[farmerId] || farmers["1"];
+      }
+
+      function calculateLoanTerms() {
+        const principal = loansState.loanAmount;
+        const annualRate = loansState.interestRate / 100;
+        const monthlyRate = annualRate / 12;
+        const numPayments = loansState.loanTerm;
+
+        const monthlyPayment =
+          (principal * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) /
+          (Math.pow(1 + monthlyRate, numPayments) - 1);
+
+        const totalPayment = monthlyPayment * numPayments;
+        const totalInterest = totalPayment - principal;
+
+        document.getElementById("monthly-payment").textContent =
+          Math.round(monthlyPayment).toLocaleString();
+        document.getElementById("total-interest").textContent =
+          Math.round(totalInterest).toLocaleString();
+        document.getElementById("total-amount").textContent =
+          Math.round(totalPayment).toLocaleString();
+      }
+
+      function handleLoanSubmission(e) {
+        e.preventDefault();
+
+        const purpose = document.getElementById("loan-purpose").value;
+        if (!purpose) {
+          showToast("Please select a loan purpose", "warning");
+          return;
+        }
+
+        showLoadingOverlay();
+
+        setTimeout(() => {
+          hideLoadingOverlay();
+
+          // Generate application ID
+          const applicationId =
+            "LOAN-" +
+            new Date().getFullYear() +
+            "-" +
+            String(Math.floor(Math.random() * 10000)).padStart(4, "0");
+          document.getElementById("application-id").textContent = applicationId;
+
+          // Show success modal
+          document.getElementById("success-modal").classList.add("active");
+
+          showToast("Loan application submitted successfully!", "success");
+        }, 2000);
+      }
+
+      function saveLoanDraft() {
+        showLoadingOverlay();
+
+        setTimeout(() => {
+          hideLoadingOverlay();
+          showToast("Loan application draft saved successfully!", "success");
+        }, 800);
+      }
+
+      function closeModal() {
+        document.getElementById("success-modal").classList.remove("active");
+      }
+
+      function updateCharts() {
+        // Update charts based on selected farmer
+        createEligibilityGauge();
+        createSoilImpactChart();
+      }
+
+      function refreshData() {
+        showToast("Refreshing loan data...", "info");
+        updateLoanEligibility();
+        updateCharts();
+      }
+
+      function initializeAnimations() {
+        const cards = document.querySelectorAll(".slide-in-up, .fade-in");
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+            card.style.transition = "all 0.6s ease-out";
+
+            setTimeout(() => {
+              card.style.opacity = "1";
+              card.style.transform = "translateY(0)";
+            }, 50);
+          }, index * LoansConfig.animationDelay);
+        });
+      }
+
+      function showLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.remove("hidden");
+      }
+
+      function hideLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.add("hidden");
+      }
+
+      function showToast(message, type = "info") {
+        const toastConfig = {
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background:
+              type === "success"
+                ? "#4caf50"
+                : type === "error"
+                ? "#f44336"
+                : type === "warning"
+                ? "#ff9800"
+                : "#2196f3",
+            borderRadius: "8px",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "500",
+          },
+        };
+
+        if (typeof Toastify !== "undefined") {
+          Toastify(toastConfig).showToast();
+        } else {
+          console.log(`Toast: ${message} (${type})`);
+        }
+      }
+
+      // Error handling
+      window.addEventListener("error", function (e) {
+        console.error("Loans Page Error:", e.error);
+        showToast("An error occurred. Please refresh the page.", "error");
+      });
+    </script>
   </body>
 </html>

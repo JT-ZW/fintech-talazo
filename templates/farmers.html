@@ -6,229 +6,1998 @@
     <title>Farmers Management - Talazo AgriFinance</title>
     <meta
       name="description"
-      content="Manage farmers and their soil-based financial data in the Talazo AgriFinance platform"
+      content="Comprehensive farmer management and financial assessment platform"
     />
 
-    <!-- Favicon -->
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='img/favicon.ico') }}"
-      type="image/x-icon"
-    />
-
-    <!-- Stylesheet links -->
+    <!-- External Libraries -->
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/dashboard.css') }}"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/farmers.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- JavaScript dependencies -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gauge-chart@latest/dist/bundle.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.11.2/toastify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
+    />
+
+    <style>
+      /* Talazo AgriFinance - Farmers Management Professional Styling */
+
+      :root {
+        /* Color Palette - Professional Financial Institution */
+        --primary-color: #2d7d32; /* Forest Green */
+        --primary-light: #4caf50; /* Light Green */
+        --primary-dark: #1b5e20; /* Dark Green */
+        --secondary-color: #ff8f00; /* Amber */
+        --secondary-light: #ffb74d; /* Light Amber */
+        --accent-color: #795548; /* Brown */
+        --accent-light: #a1887f; /* Light Brown */
+
+        /* Neutral Colors */
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --gray: #9e9e9e;
+        --dark-gray: #424242;
+        --charcoal: #212121;
+
+        /* Financial Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --error: #f44336;
+        --info: #2196f3;
+        --excellent: #0d7377;
+        --good: #14a085;
+        --fair: #f39c12;
+        --poor: #e74c3c;
+
+        /* Typography */
+        --font-primary: "Inter", sans-serif;
+        --font-display: "Playfair Display", serif;
+
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        /* Border Radius */
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(
+          135deg,
+          #f8fffe 0%,
+          #e8f5e8 50%,
+          #f0f8f0 100%
+        );
+        color: var(--charcoal);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-left: 280px; /* Account for sidebar */
+        transition: padding-left var(--transition-normal);
+        overflow-x: hidden;
+      }
+
+      body.sidebar-collapsed {
+        padding-left: 80px;
+      }
+
+      body.mobile {
+        padding-left: 0;
+      }
+
+      /* Sidebar Styles - Matching Dashboard */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--charcoal) 0%, #1a1a1a 100%);
+        color: var(--white);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition-normal);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .sidebar.collapsed {
+        width: 80px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-logo .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .logo-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .sidebar-toggle {
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        opacity: 1;
+      }
+
+      .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar.collapsed .sidebar-toggle {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .user-profile {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .profile-avatar {
+        font-size: 2.5rem;
+        color: var(--primary-light);
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .profile-info {
+        opacity: 0;
+        width: 0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .profile-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: var(--spacing-lg) 0;
+        margin: 0;
+        flex: 1;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+      }
+
+      .nav-item.active .nav-link {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-item.active .nav-indicator {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-radius: 0 25px 25px 0;
+        margin-right: var(--spacing-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-badge {
+        background: var(--primary-color);
+        color: var(--white);
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-badge {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-indicator {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scaleY(0);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-light);
+        border-radius: 0 2px 2px 0;
+        transition: var(--transition-fast);
+        opacity: 0;
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: var(--spacing-md) var(--spacing-lg);
+      }
+
+      .nav-section {
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-section-title {
+        opacity: 0;
+      }
+
+      .sidebar-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        justify-content: space-between;
+      }
+
+      .quick-action {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quick-action:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        justify-content: center;
+      }
+
+      .logout-btn:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: var(--error);
+        color: var(--white);
+      }
+
+      .sidebar.collapsed .logout-btn .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      /* Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition-normal);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-xl);
+        gap: var(--spacing-lg);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+        flex: 1;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--charcoal);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .mobile-menu-toggle:hover {
+        background: var(--light-gray);
+      }
+
+      .page-header {
+        flex: 1;
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .page-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        font-weight: 500;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .breadcrumb i {
+        color: var(--primary-color);
+      }
+
+      .breadcrumb .fas.fa-chevron-right {
+        font-size: 0.75rem;
+        color: var(--gray);
+      }
+
+      .header-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+      }
+
+      /* Stats Overview */
+      .stats-overview {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .stat-card {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .stat-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--charcoal);
+        line-height: 1;
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .stat-label {
+        color: var(--gray);
+        font-weight: 500;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Search and Filter Bar */
+      .search-filter-bar {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        margin-bottom: var(--spacing-xl);
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .search-box {
+        position: relative;
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 3rem;
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        font-size: 1rem;
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      .search-box i {
+        position: absolute;
+        left: var(--spacing-md);
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        font-size: 1.25rem;
+      }
+
+      .filter-select {
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        min-width: 150px;
+      }
+
+      .filter-select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      /* View Toggle */
+      .view-toggle-container {
+        display: flex;
+        gap: var(--spacing-xs);
+        background: var(--light-gray);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-xs);
+        margin-bottom: var(--spacing-xl);
+        width: fit-content;
+      }
+
+      .view-toggle {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: none;
+        background: none;
+        cursor: pointer;
+        border-radius: var(--radius-sm);
+        transition: var(--transition-fast);
+        color: var(--gray);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+      }
+
+      .view-toggle.active {
+        background: var(--primary-color);
+        color: var(--white);
+      }
+
+      .view-toggle:hover {
+        color: var(--primary-color);
+      }
+
+      /* Action Buttons */
+      .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        font-family: var(--font-primary);
+        white-space: nowrap;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--light-gray);
+        color: var(--charcoal);
+        border: 1px solid rgba(45, 125, 50, 0.2);
+      }
+
+      .btn-secondary:hover {
+        background: var(--gray);
+        color: var(--white);
+      }
+
+      .btn-danger {
+        background: var(--error);
+        color: var(--white);
+      }
+
+      .btn-danger:hover {
+        background: #d32f2f;
+      }
+
+      /* Farmers Container */
+      .farmers-container {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        overflow: hidden;
+      }
+
+      .farmers-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(
+          135deg,
+          var(--off-white) 0%,
+          var(--white) 100%
+        );
+      }
+
+      .farmers-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
+      .farmers-title i {
+        color: var(--primary-color);
+      }
+
+      /* Table View */
+      .farmers-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--white);
+      }
+
+      .farmers-table th {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--off-white) 100%
+        );
+        padding: var(--spacing-md);
+        text-align: left;
+        font-weight: 600;
+        color: var(--charcoal);
+        border-bottom: 2px solid rgba(45, 125, 50, 0.1);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .farmers-table th i {
+        margin-left: var(--spacing-xs);
+        opacity: 0.5;
+        cursor: pointer;
+        transition: var(--transition-fast);
+      }
+
+      .farmers-table th i:hover {
+        opacity: 1;
+        color: var(--primary-color);
+      }
+
+      .farmers-table td {
+        padding: var(--spacing-md);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        vertical-align: middle;
+      }
+
+      .farmers-table tbody tr {
+        transition: var(--transition-fast);
+      }
+
+      .farmers-table tbody tr:hover {
+        background: rgba(45, 125, 50, 0.03);
+      }
+
+      .farmer-name {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .farmer-id {
+        font-size: 0.875rem;
+        color: var(--gray);
+      }
+
+      .location-info {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        color: var(--charcoal);
+      }
+
+      .location-info i {
+        color: var(--primary-color);
+        font-size: 0.875rem;
+      }
+
+      .crop-badge {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+      }
+
+      .farm-size {
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .financial-index {
+        font-weight: 700;
+        font-size: 1.25rem;
+      }
+
+      .financial-index.excellent {
+        color: var(--excellent);
+      }
+
+      .financial-index.good {
+        color: var(--good);
+      }
+
+      .financial-index.fair {
+        color: var(--fair);
+      }
+
+      .financial-index.poor {
+        color: var(--poor);
+      }
+
+      .risk-badge {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--radius-md);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+      }
+
+      .risk-badge.low {
+        background: rgba(76, 175, 80, 0.1);
+        color: var(--success);
+      }
+
+      .risk-badge.medium-low {
+        background: rgba(139, 195, 74, 0.1);
+        color: #689f38;
+      }
+
+      .risk-badge.medium {
+        background: rgba(255, 152, 0, 0.1);
+        color: var(--warning);
+      }
+
+      .risk-badge.medium-high {
+        background: rgba(255, 87, 34, 0.1);
+        color: #f57c00;
+      }
+
+      .risk-badge.high {
+        background: rgba(244, 67, 54, 0.1);
+        color: var(--error);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: var(--spacing-xs);
+      }
+
+      .action-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+      }
+
+      .action-btn.view {
+        background: rgba(33, 150, 243, 0.1);
+        color: var(--info);
+      }
+
+      .action-btn.view:hover {
+        background: var(--info);
+        color: var(--white);
+      }
+
+      .action-btn.edit {
+        background: rgba(255, 152, 0, 0.1);
+        color: var(--warning);
+      }
+
+      .action-btn.edit:hover {
+        background: var(--warning);
+        color: var(--white);
+      }
+
+      .action-btn.delete {
+        background: rgba(244, 67, 54, 0.1);
+        color: var(--error);
+      }
+
+      .action-btn.delete:hover {
+        background: var(--error);
+        color: var(--white);
+      }
+
+      /* Grid View */
+      .farmers-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg);
+      }
+
+      .farmer-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-lg);
+        box-shadow: var(--shadow-sm);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .farmer-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .farmer-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .farmer-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .farmer-card-avatar {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .farmer-card-info h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .farmer-card-id {
+        font-size: 0.875rem;
+        color: var(--gray);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .farmer-card-details {
+        margin-bottom: var(--spacing-md);
+      }
+
+      .farmer-card-detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-xs);
+        font-size: 0.875rem;
+      }
+
+      .farmer-card-detail-label {
+        color: var(--gray);
+        font-weight: 500;
+      }
+
+      .farmer-card-detail-value {
+        color: var(--charcoal);
+        font-weight: 600;
+      }
+
+      .farmer-card-actions {
+        display: flex;
+        gap: var(--spacing-xs);
+        justify-content: flex-end;
+      }
+
+      /* Pagination */
+      .pagination-container {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(45, 125, 50, 0.1);
+        background: linear-gradient(
+          135deg,
+          var(--off-white) 0%,
+          var(--white) 100%
+        );
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-md);
+      }
+
+      .pagination-info {
+        color: var(--gray);
+        font-weight: 500;
+      }
+
+      .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
+      .pagination-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(45, 125, 50, 0.2);
+        background: var(--white);
+        color: var(--gray);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pagination-btn:hover:not(:disabled) {
+        background: var(--primary-color);
+        color: var(--white);
+        border-color: var(--primary-color);
+      }
+
+      .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .page-select {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border: 1px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+      }
+
+      /* Modals */
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        max-width: 90vw;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: translateY(-20px);
+        transition: var(--transition-normal);
+      }
+
+      .modal.active .modal-content {
+        transform: translateY(0);
+      }
+
+      .modal-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background: var(--white);
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        z-index: 10;
+      }
+
+      .modal-header h2 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+      }
+
+      .close-modal {
+        font-size: 1.5rem;
+        color: var(--gray);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+      }
+
+      .close-modal:hover {
+        color: var(--error);
+        background: rgba(244, 67, 54, 0.1);
+      }
+
+      .modal-body {
+        padding: var(--spacing-lg);
+        min-width: 600px;
+      }
+
+      .modal-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(45, 125, 50, 0.1);
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--spacing-md);
+        position: sticky;
+        bottom: 0;
+        background: var(--white);
+        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+      }
+
+      /* Form Styles */
+      .form-section {
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .form-section h3 {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-sm);
+        border-bottom: 2px solid var(--light-gray);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-group label {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-xs);
+        font-size: 0.875rem;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        background: var(--white);
+        color: var(--charcoal);
+        font-family: var(--font-primary);
+        font-weight: 500;
+        transition: var(--transition-fast);
+        font-size: 1rem;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-xl);
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid var(--light-gray);
+      }
+
+      /* Loading States */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        transition: var(--transition-normal);
+      }
+
+      .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--light-gray);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        margin-top: var(--spacing-md);
+        color: var(--charcoal);
+        font-weight: 500;
+      }
+
+      /* Empty States */
+      .empty-state {
+        text-align: center;
+        padding: var(--spacing-xxl);
+        color: var(--gray);
+      }
+
+      .empty-state i {
+        font-size: 4rem;
+        margin-bottom: var(--spacing-lg);
+        color: var(--gray);
+      }
+
+      .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-md);
+        color: var(--charcoal);
+      }
+
+      .empty-state p {
+        font-size: 1rem;
+        margin-bottom: var(--spacing-lg);
+      }
+
+      /* Utility Classes */
+      .hidden {
+        display: none !important;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .mb-lg {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .mt-lg {
+        margin-top: var(--spacing-lg);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+
+        body.mobile {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .container {
+          padding: var(--spacing-md);
+        }
+
+        .search-filter-bar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .header-actions {
+          flex-direction: column;
+          width: 100%;
+          gap: var(--spacing-sm);
+        }
+
+        .stats-overview {
+          grid-template-columns: 1fr;
+        }
+
+        .farmers-table {
+          font-size: 0.875rem;
+        }
+
+        .farmers-table th,
+        .farmers-table td {
+          padding: var(--spacing-sm);
+        }
+
+        .pagination-container {
+          flex-direction: column;
+          gap: var(--spacing-sm);
+        }
+
+        .farmers-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .modal-body {
+          min-width: auto;
+          padding: var(--spacing-md);
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .view-toggle-container {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .farmers-table th:nth-child(n+5),
+        .farmers-table td:nth-child(n+5) {
+          display: none;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+        }
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in-up {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* Stagger animations for stats cards */
+      .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .stat-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
   </head>
+
   <body>
-    <div class="dashboard-layout">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <img
-            src="{{ url_for('static', filename='img/logo.png') }}"
-            alt="Talazo AgriFinance"
-            class="logo"
-          />
-          <h1>Talazo<span>AgriFinance</span></h1>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading farmers data...</div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <span class="logo-text">Talazo AgriFinance</span>
+        </div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="user-profile">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Financial Officer</div>
+            <div class="profile-role">AgriFinance Division</div>
+          </div>
         </div>
 
-        <nav class="sidebar-nav">
-          <ul>
-            <li>
-              <a href="{{ url_for('main.dashboard') }}"
-                ><i class="fas fa-chart-line"></i> Dashboard</a
-              >
-            </li>
-            <li class="active">
-              <a href="{{ url_for('main.farmers') }}"
-                ><i class="fas fa-users"></i> Farmers</a
-              >
-            </li>
-            <li>
-              <a href="{{ url_for('main.soil_analysis') }}"
-                ><i class="fas fa-seedling"></i> Soil Analysis</a
-              >
-            </li>
-            <li>
-              <a href="{{ url_for('main.loans') }}"
-                ><i class="fas fa-money-bill-wave"></i> Loans</a
-              >
-            </li>
-            <li>
-              <a href="{{ url_for('main.insurance') }}"
-                ><i class="fas fa-umbrella"></i> Insurance</a
-              >
-            </li>
-            <li>
-              <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            </li>
-          </ul>
-        </nav>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/farmers" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Farmers</span>
+              <div class="nav-badge">156</div>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/loans" class="nav-link">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="nav-text">Loans</span>
+              <div class="nav-badge">23</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/insurance" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span class="nav-text">Insurance</span>
+              <div class="nav-badge">89</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/soil_analysis" class="nav-link">
+              <i class="fas fa-vial"></i>
+              <span class="nav-text">Soil Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/ai_recommendations" class="nav-link">
+              <i class="fas fa-brain"></i>
+              <span class="nav-text">AI Recommendations</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">Analytics</span>
+          </li>
+          <li class="nav-item">
+            <a href="/reports" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/trends" class="nav-link">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-text">Market Trends</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">System</span>
+          </li>
+          <li class="nav-item">
+            <a href="/settings" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/help" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help & Support</span>
+            </a>
+          </li>
+        </ul>
 
         <div class="sidebar-footer">
-          <div class="user-info">
-            <img
-              src="{{ url_for('static', filename='img/user-avatar.png') }}"
-              alt="User"
-              class="user-avatar"
-            />
-            <div class="user-details">
-              <h3>John Moyo</h3>
-              <p>Financial Officer</p>
+          <div class="quick-actions">
+            <button class="quick-action" title="Add New Farmer">
+              <i class="fas fa-user-plus"></i>
+            </button>
+            <button class="quick-action" title="Export Data">
+              <i class="fas fa-download"></i>
+            </button>
+            <button class="quick-action" title="Send Notifications">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="page-header">
+            <div class="breadcrumb">
+              <i class="fas fa-users"></i>
+              <span>Farmers</span>
+              <i class="fas fa-chevron-right"></i>
+              <span>Management</span>
+            </div>
+            <h1 class="page-title">Farmers Management</h1>
+            <p class="page-subtitle">
+              Manage and track farmers' soil health and financial metrics
+            </p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="add-farmer-btn" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Add Farmer
+          </button>
+          <button id="refresh-data" class="btn btn-secondary">
+            <i class="fas fa-sync"></i> Refresh
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Stats Overview -->
+      <div class="stats-overview">
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">156</div>
+              <div class="stat-label">Total Farmers</div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-users"></i>
             </div>
           </div>
         </div>
-      </aside>
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <header class="top-header">
-          <div class="page-title">
-            <h2>Farmers Management</h2>
-            <p>Manage and track farmers' soil health and financial metrics</p>
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">89%</div>
+              <div class="stat-label">Eligibility Rate</div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
           </div>
-
-          <div class="header-controls">
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input
-                type="text"
-                id="farmer-search"
-                placeholder="Search by name, location, or ID..."
-              />
-            </div>
-
-            <div class="filter-dropdown">
-              <select id="region-filter">
-                <option value="">All Regions</option>
-                <option value="mashonaland_central">Mashonaland Central</option>
-                <option value="mashonaland_east">Mashonaland East</option>
-                <option value="mashonaland_west">Mashonaland West</option>
-                <option value="matabeleland_north">Matabeleland North</option>
-                <option value="matabeleland_south">Matabeleland South</option>
-                <option value="midlands">Midlands</option>
-                <option value="masvingo">Masvingo</option>
-                <option value="manicaland">Manicaland</option>
-                <option value="harare">Harare</option>
-                <option value="bulawayo">Bulawayo</option>
-              </select>
-            </div>
-
-            <div class="filter-dropdown">
-              <select id="crop-filter">
-                <option value="">All Crops</option>
-                <option value="maize">Maize</option>
-                <option value="tobacco">Tobacco</option>
-                <option value="cotton">Cotton</option>
-                <option value="groundnuts">Groundnuts</option>
-                <option value="soybeans">Soybeans</option>
-                <option value="wheat">Wheat</option>
-                <option value="sorghum">Sorghum</option>
-                <option value="millet">Millet</option>
-              </select>
-            </div>
-
-            <div class="filter-dropdown">
-              <select id="risk-filter">
-                <option value="">All Risk Levels</option>
-                <option value="low">Low Risk</option>
-                <option value="medium-low">Medium-Low Risk</option>
-                <option value="medium">Medium Risk</option>
-                <option value="medium-high">Medium-High Risk</option>
-                <option value="high">High Risk</option>
-              </select>
-            </div>
-
-            <button id="add-farmer-btn" class="btn btn-primary">
-              <i class="fas fa-plus"></i> Add Farmer
-            </button>
-
-            <div class="last-update">
-              Last Update: <span id="last-update-time">--</span>
-            </div>
-
-            <button id="refresh-data" class="refresh-button">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-          </div>
-        </header>
-
-        <!-- View toggle buttons -->
-        <div class="view-toggle-container">
-          <button class="view-toggle active" data-view="list">
-            <i class="fas fa-list"></i> List View
-          </button>
-          <button class="view-toggle" data-view="grid">
-            <i class="fas fa-th"></i> Grid View
-          </button>
-          <button class="view-toggle" data-view="map">
-            <i class="fas fa-map-marked-alt"></i> Map View
-          </button>
         </div>
 
-        <!-- Main farmers container -->
-        <div class="farmers-container">
-          <!-- List View (default) -->
-          <div class="farmers-list-view" id="farmers-list-view">
-            <table class="farmers-table">
-              <thead>
-                <tr>
-                  <th>ID <i class="fas fa-sort"></i></th>
-                  <th>Name <i class="fas fa-sort"></i></th>
-                  <th>Location <i class="fas fa-sort"></i></th>
-                  <th>Primary Crop <i class="fas fa-sort"></i></th>
-                  <th>Farm Size <i class="fas fa-sort"></i></th>
-                  <th>Financial Index <i class="fas fa-sort"></i></th>
-                  <th>Risk Level <i class="fas fa-sort"></i></th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="farmers-table-body">
-                <!-- Farmers will be loaded dynamically -->
-                <tr class="loading-row">
-                  <td colspan="8">
-                    <div class="loading-spinner"></div>
-                    <p>Loading farmers data...</p>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">2,847</div>
+              <div class="stat-label">Total Hectares</div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-seedling"></i>
+            </div>
+          </div>
+        </div>
 
-            <!-- Pagination controls -->
+        <div class="stat-card slide-in-up">
+          <div class="stat-header">
+            <div>
+              <div class="stat-value">$1.2M</div>
+              <div class="stat-label">Total Loans</div>
+            </div>
+            <div class="stat-icon">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search and Filter Bar -->
+      <div class="search-filter-bar fade-in">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input
+            type="text"
+            id="farmer-search"
+            class="search-input"
+            placeholder="Search by name, location, or ID..."
+          />
+        </div>
+        <select id="region-filter" class="filter-select">
+          <option value="">All Regions</option>
+          <option value="mashonaland_central">Mashonaland Central</option>
+          <option value="mashonaland_east">Mashonaland East</option>
+          <option value="mashonaland_west">Mashonaland West</option>
+          <option value="matabeleland_north">Matabeleland North</option>
+          <option value="matabeleland_south">Matabeleland South</option>
+          <option value="midlands">Midlands</option>
+          <option value="masvingo">Masvingo</option>
+          <option value="manicaland">Manicaland</option>
+          <option value="harare">Harare</option>
+          <option value="bulawayo">Bulawayo</option>
+        </select>
+        <select id="crop-filter" class="filter-select">
+          <option value="">All Crops</option>
+          <option value="maize">Maize</option>
+          <option value="tobacco">Tobacco</option>
+          <option value="cotton">Cotton</option>
+          <option value="groundnuts">Groundnuts</option>
+          <option value="soybeans">Soybeans</option>
+          <option value="wheat">Wheat</option>
+          <option value="sorghum">Sorghum</option>
+          <option value="millet">Millet</option>
+        </select>
+        <select id="risk-filter" class="filter-select">
+          <option value="">All Risk Levels</option>
+          <option value="low">Low Risk</option>
+          <option value="medium-low">Medium-Low Risk</option>
+          <option value="medium">Medium Risk</option>
+          <option value="medium-high">Medium-High Risk</option>
+          <option value="high">High Risk</option>
+        </select>
+      </div>
+
+      <!-- View Toggle -->
+      <div class="view-toggle-container fade-in">
+        <button class="view-toggle active" data-view="list">
+          <i class="fas fa-list"></i> List View
+        </button>
+        <button class="view-toggle" data-view="grid">
+          <i class="fas fa-th"></i> Grid View
+        </button>
+        <button class="view-toggle" data-view="map">
+          <i class="fas fa-map-marked-alt"></i> Map View
+        </button>
+      </div>
+
+      <!-- Farmers Container -->
+      <div class="farmers-container fade-in">
+        <div class="farmers-header">
+          <div class="farmers-title">
+            <i class="fas fa-users"></i>
+            <span>Registered Farmers</span>
+          </div>
+        </div>
+
+        <!-- List View (default) -->
+        <div class="farmers-list-view" id="farmers-list-view">
+          <table class="farmers-table">
+            <thead>
+              <tr>
+                <th>ID <i class="fas fa-sort"></i></th>
+                <th>Name <i class="fas fa-sort"></i></th>
+                <th>Location <i class="fas fa-sort"></i></th>
+                <th>Primary Crop <i class="fas fa-sort"></i></th>
+                <th>Farm Size <i class="fas fa-sort"></i></th>
+                <th>Financial Index <i class="fas fa-sort"></i></th>
+                <th>Risk Level <i class="fas fa-sort"></i></th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="farmers-table-body">
+              <!-- Sample Data - Replace with dynamic content -->
+              <tr>
+                <td>
+                  <div class="farmer-id">FA-001</div>
+                </td>
+                <td>
+                  <div class="farmer-name">John Moyo</div>
+                  <div class="farmer-id">Contact: +263 77 123 4567</div>
+                </td>
+                <td>
+                  <div class="location-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Harare, Zimbabwe</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="crop-badge">Maize</span>
+                </td>
+                <td>
+                  <div class="farm-size">15.5 ha</div>
+                </td>
+                <td>
+                  <div class="financial-index excellent">85.2</div>
+                </td>
+                <td>
+                  <span class="risk-badge low">Low Risk</span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn view" title="View Details">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn edit" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="farmer-id">FA-002</div>
+                </td>
+                <td>
+                  <div class="farmer-name">Mary Ncube</div>
+                  <div class="farmer-id">Contact: +263 71 987 6543</div>
+                </td>
+                <td>
+                  <div class="location-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Bulawayo, Zimbabwe</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="crop-badge">Tobacco</span>
+                </td>
+                <td>
+                  <div class="farm-size">8.2 ha</div>
+                </td>
+                <td>
+                  <div class="financial-index good">72.8</div>
+                </td>
+                <td>
+                  <span class="risk-badge medium-low">Medium-Low</span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn view" title="View Details">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn edit" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="farmer-id">FA-003</div>
+                </td>
+                <td>
+                  <div class="farmer-name">Peter Chikwanha</div>
+                  <div class="farmer-id">Contact: +263 78 456 7890</div>
+                </td>
+                <td>
+                  <div class="location-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Manicaland, Zimbabwe</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="crop-badge">Cotton</span>
+                </td>
+                <td>
+                  <div class="farm-size">22.1 ha</div>
+                </td>
+                <td>
+                  <div class="financial-index fair">68.4</div>
+                </td>
+                <td>
+                  <span class="risk-badge medium">Medium</span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn view" title="View Details">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="action-btn edit" title="Edit">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="action-btn delete" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div class="pagination-container">
+            <div class="pagination-info">
+              Showing 1-3 of 156 farmers
+            </div>
             <div class="pagination-controls">
-              <button id="prev-page" disabled>
+              <button id="prev-page" class="pagination-btn" disabled>
                 <i class="fas fa-chevron-left"></i>
               </button>
-              <span id="page-indicator">Page 1 of 1</span>
-              <button id="next-page" disabled>
+              <span id="page-indicator">Page 1 of 52</span>
+              <button id="next-page" class="pagination-btn">
                 <i class="fas fa-chevron-right"></i>
               </button>
-              <select id="page-size">
+              <select id="page-size" class="page-select">
                 <option value="10">10 per page</option>
                 <option value="25">25 per page</option>
                 <option value="50">50 per page</option>
@@ -236,393 +2005,149 @@
               </select>
             </div>
           </div>
+        </div>
 
-          <!-- Grid View -->
-          <div class="farmers-grid-view hidden" id="farmers-grid-view">
-            <div id="farmers-grid-container" class="farmers-grid-container">
-              <!-- Farmers cards will be loaded dynamically -->
-              <div class="farmer-card loading-card">
-                <div class="loading-spinner"></div>
-                <p>Loading farmers data...</p>
+        <!-- Grid View -->
+        <div class="farmers-grid-view hidden" id="farmers-grid-view">
+          <div class="farmers-grid">
+            <!-- Sample Grid Cards - Replace with dynamic content -->
+            <div class="farmer-card">
+              <div class="farmer-card-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="farmer-card-info">
+                <h3>John Moyo</h3>
+                <div class="farmer-card-id">FA-001</div>
+              </div>
+              <div class="farmer-card-details">
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Location:</span>
+                  <span class="farmer-card-detail-value">Harare</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Crop:</span>
+                  <span class="farmer-card-detail-value">Maize</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Farm Size:</span>
+                  <span class="farmer-card-detail-value">15.5 ha</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Financial Index:</span>
+                  <span class="farmer-card-detail-value financial-index excellent">85.2</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Risk Level:</span>
+                  <span class="risk-badge low">Low Risk</span>
+                </div>
+              </div>
+              <div class="farmer-card-actions">
+                <button class="action-btn view" title="View Details">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="action-btn edit" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
               </div>
             </div>
 
-            <!-- Pagination for grid view -->
-            <div class="pagination-controls">
-              <button id="grid-prev-page" disabled>
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <span id="grid-page-indicator">Page 1 of 1</span>
-              <button id="grid-next-page" disabled>
-                <i class="fas fa-chevron-right"></i>
-              </button>
+            <div class="farmer-card">
+              <div class="farmer-card-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="farmer-card-info">
+                <h3>Mary Ncube</h3>
+                <div class="farmer-card-id">FA-002</div>
+              </div>
+              <div class="farmer-card-details">
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Location:</span>
+                  <span class="farmer-card-detail-value">Bulawayo</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Crop:</span>
+                  <span class="farmer-card-detail-value">Tobacco</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Farm Size:</span>
+                  <span class="farmer-card-detail-value">8.2 ha</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Financial Index:</span>
+                  <span class="farmer-card-detail-value financial-index good">72.8</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Risk Level:</span>
+                  <span class="risk-badge medium-low">Medium-Low</span>
+                </div>
+              </div>
+              <div class="farmer-card-actions">
+                <button class="action-btn view" title="View Details">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="action-btn edit" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
-          </div>
 
-          <!-- Map View -->
-          <div class="farmers-map-view hidden" id="farmers-map-view">
-            <div id="farmers-map" class="farmers-map">
-              <!-- Map will be loaded dynamically -->
-              <div class="map-loading">
-                <div class="loading-spinner"></div>
-                <p>Loading map data...</p>
+            <div class="farmer-card">
+              <div class="farmer-card-avatar">
+                <i class="fas fa-user"></i>
               </div>
-            </div>
-            <div class="map-legend">
-              <h3>Risk Level</h3>
-              <div class="legend-item">
-                <span class="legend-color low-risk"></span>
-                <span>Low Risk</span>
+              <div class="farmer-card-info">
+                <h3>Peter Chikwanha</h3>
+                <div class="farmer-card-id">FA-003</div>
               </div>
-              <div class="legend-item">
-                <span class="legend-color medium-low-risk"></span>
-                <span>Medium-Low Risk</span>
+              <div class="farmer-card-details">
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Location:</span>
+                  <span class="farmer-card-detail-value">Manicaland</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Crop:</span>
+                  <span class="farmer-card-detail-value">Cotton</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Farm Size:</span>
+                  <span class="farmer-card-detail-value">22.1 ha</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Financial Index:</span>
+                  <span class="farmer-card-detail-value financial-index fair">68.4</span>
+                </div>
+                <div class="farmer-card-detail">
+                  <span class="farmer-card-detail-label">Risk Level:</span>
+                  <span class="risk-badge medium">Medium</span>
+                </div>
               </div>
-              <div class="legend-item">
-                <span class="legend-color medium-risk"></span>
-                <span>Medium Risk</span>
-              </div>
-              <div class="legend-item">
-                <span class="legend-color medium-high-risk"></span>
-                <span>Medium-High Risk</span>
-              </div>
-              <div class="legend-item">
-                <span class="legend-color high-risk"></span>
-                <span>High Risk</span>
+              <div class="farmer-card-actions">
+                <button class="action-btn view" title="View Details">
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button class="action-btn edit" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="action-btn delete" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
               </div>
             </div>
           </div>
         </div>
-      </main>
-    </div>
 
-    <!-- Farmer Detail Modal -->
-    <div id="farmer-detail-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Farmer Details</h2>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <!-- Tabs for different sections -->
-          <div class="detail-tabs">
-            <button class="tab-btn active" data-tab="profile">Profile</button>
-            <button class="tab-btn" data-tab="farm">Farm Data</button>
-            <button class="tab-btn" data-tab="financial">Financial</button>
-            <button class="tab-btn" data-tab="soil">Soil Health</button>
-            <button class="tab-btn" data-tab="documents">Documents</button>
-            <button class="tab-btn" data-tab="communication">
-              Communication
-            </button>
-          </div>
-
-          <!-- Profile Tab Content -->
-          <div id="profile-tab" class="tab-content active">
-            <div class="farmer-profile-header">
-              <div class="farmer-avatar">
-                <i class="fas fa-user-circle"></i>
-              </div>
-              <div class="farmer-basic-info">
-                <h3 id="farmer-name">Loading...</h3>
-                <p id="farmer-location">Loading...</p>
-                <p id="farmer-contact">Loading...</p>
-                <div class="farmer-risk-badge" id="farmer-risk-badge">
-                  Medium Risk
-                </div>
-              </div>
-            </div>
-            <div class="profile-details">
-              <div class="detail-row">
-                <div class="detail-label">Farmer ID:</div>
-                <div class="detail-value" id="farmer-id">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Registration Date:</div>
-                <div class="detail-value" id="registration-date">
-                  Loading...
-                </div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Gender:</div>
-                <div class="detail-value" id="farmer-gender">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Age:</div>
-                <div class="detail-value" id="farmer-age">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Education:</div>
-                <div class="detail-value" id="farmer-education">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Household Size:</div>
-                <div class="detail-value" id="farmer-household">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Years Farming:</div>
-                <div class="detail-value" id="farmer-experience">
-                  Loading...
-                </div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Farming Type:</div>
-                <div class="detail-value" id="farming-type">Loading...</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Farm Data Tab Content -->
-          <div id="farm-tab" class="tab-content">
-            <div class="farm-header">
-              <h3>Farm Information</h3>
-            </div>
-            <div class="farm-location-map" id="farm-location-map">
-              <!-- Farm map will be loaded here -->
-            </div>
-            <div class="farm-details">
-              <div class="detail-row">
-                <div class="detail-label">Farm Size:</div>
-                <div class="detail-value" id="farm-size">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Primary Crop:</div>
-                <div class="detail-value" id="primary-crop">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Secondary Crops:</div>
-                <div class="detail-value" id="secondary-crops">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Irrigation Type:</div>
-                <div class="detail-value" id="irrigation-type">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Soil Type:</div>
-                <div class="detail-value" id="soil-type">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Last Soil Test:</div>
-                <div class="detail-value" id="last-soil-test">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Equipment:</div>
-                <div class="detail-value" id="farm-equipment">Loading...</div>
-              </div>
-              <div class="detail-row">
-                <div class="detail-label">Certifications:</div>
-                <div class="detail-value" id="farm-certifications">
-                  Loading...
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Financial Tab Content -->
-          <div id="financial-tab" class="tab-content">
-            <div class="financial-header">
-              <h3>Financial Overview</h3>
-            </div>
-            <div class="financial-summary">
-              <div class="financial-metric">
-                <div class="metric-label">Financial Index</div>
-                <div class="metric-value" id="financial-index">Loading...</div>
-              </div>
-              <div class="financial-metric">
-                <div class="metric-label">Loan Eligibility</div>
-                <div class="metric-value" id="loan-eligibility">Loading...</div>
-              </div>
-              <div class="financial-metric">
-                <div class="metric-label">Max Loan Amount</div>
-                <div class="metric-value" id="max-loan-amount">Loading...</div>
-              </div>
-              <div class="financial-metric">
-                <div class="metric-label">Interest Rate</div>
-                <div class="metric-value" id="interest-rate">Loading...</div>
-              </div>
-              <div class="financial-metric">
-                <div class="metric-label">Insurance Premium</div>
-                <div class="metric-value" id="insurance-premium">
-                  Loading...
-                </div>
-              </div>
-              <div class="financial-metric">
-                <div class="metric-label">Risk Level</div>
-                <div class="metric-value" id="risk-level">Loading...</div>
-              </div>
-            </div>
-            <div class="financial-history">
-              <h3>Financial History</h3>
-              <div id="financial-chart" class="financial-chart">
-                <!-- Financial chart will be loaded here -->
-              </div>
-            </div>
-            <div class="loan-history">
-              <h3>Loan History</h3>
-              <table class="loan-history-table">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>Purpose</th>
-                    <th>Status</th>
-                    <th>Repayment</th>
-                  </tr>
-                </thead>
-                <tbody id="loan-history-body">
-                  <!-- Loan history will be loaded here -->
-                  <tr>
-                    <td colspan="5" class="loading-cell">
-                      Loading loan history...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Soil Health Tab Content -->
-          <div id="soil-tab" class="tab-content">
-            <div class="soil-header">
-              <h3>Soil Health Metrics</h3>
-            </div>
-            <div class="soil-summary">
-              <div class="soil-gauge" id="soil-health-gauge">
-                <!-- Soil health gauge will be loaded here -->
-              </div>
-              <div class="soil-parameters">
-                <div class="soil-parameter">
-                  <div class="parameter-label">pH Level</div>
-                  <div class="parameter-value" id="ph-level">Loading...</div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="ph-fill"></div>
-                  </div>
-                </div>
-                <div class="soil-parameter">
-                  <div class="parameter-label">Nitrogen</div>
-                  <div class="parameter-value" id="nitrogen-level">
-                    Loading...
-                  </div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="nitrogen-fill"></div>
-                  </div>
-                </div>
-                <div class="soil-parameter">
-                  <div class="parameter-label">Phosphorus</div>
-                  <div class="parameter-value" id="phosphorus-level">
-                    Loading...
-                  </div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="phosphorus-fill"></div>
-                  </div>
-                </div>
-                <div class="soil-parameter">
-                  <div class="parameter-label">Potassium</div>
-                  <div class="parameter-value" id="potassium-level">
-                    Loading...
-                  </div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="potassium-fill"></div>
-                  </div>
-                </div>
-                <div class="soil-parameter">
-                  <div class="parameter-label">Organic Matter</div>
-                  <div class="parameter-value" id="organic-matter">
-                    Loading...
-                  </div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="organic-matter-fill"></div>
-                  </div>
-                </div>
-                <div class="soil-parameter">
-                  <div class="parameter-label">CEC</div>
-                  <div class="parameter-value" id="cec-level">Loading...</div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="cec-fill"></div>
-                  </div>
-                </div>
-                <div class="soil-parameter">
-                  <div class="parameter-label">Moisture</div>
-                  <div class="parameter-value" id="moisture-level">
-                    Loading...
-                  </div>
-                  <div class="parameter-bar">
-                    <div class="parameter-fill" id="moisture-fill"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="soil-history">
-              <h3>Soil Health History</h3>
-              <div id="soil-history-chart" class="soil-history-chart">
-                <!-- Soil history chart will be loaded here -->
-              </div>
-            </div>
-            <div class="soil-recommendations">
-              <h3>Recommendations</h3>
-              <div
-                id="soil-recommendations-list"
-                class="soil-recommendations-list"
-              >
-                <!-- Recommendations will be loaded here -->
-                <div class="loading-recommendations">
-                  Loading recommendations...
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Documents Tab Content -->
-          <div id="documents-tab" class="tab-content">
-            <div class="documents-header">
-              <h3>Documents</h3>
-              <button id="upload-document-btn" class="btn btn-primary">
-                <i class="fas fa-upload"></i> Upload Document
-              </button>
-            </div>
-            <div class="documents-list" id="documents-list">
-              <!-- Documents will be loaded here -->
-              <div class="loading-documents">Loading documents...</div>
-            </div>
-          </div>
-
-          <!-- Communication Tab Content -->
-          <div id="communication-tab" class="tab-content">
-            <div class="communication-header">
-              <h3>Communication History</h3>
-              <div class="communication-actions">
-                <button class="btn btn-primary" id="send-sms-btn">
-                  <i class="fas fa-sms"></i> Send SMS
-                </button>
-                <button class="btn btn-secondary" id="send-email-btn">
-                  <i class="fas fa-envelope"></i> Send Email
-                </button>
-                <button class="btn btn-secondary" id="schedule-visit-btn">
-                  <i class="fas fa-calendar-plus"></i> Schedule Visit
-                </button>
-              </div>
-            </div>
-            <div class="communication-history" id="communication-history">
-              <!-- Communication history will be loaded here -->
-              <div class="loading-communication">
-                Loading communication history...
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <div class="modal-actions">
-            <button class="btn btn-primary" id="edit-farmer-btn">
-              <i class="fas fa-edit"></i> Edit Farmer
-            </button>
-            <button class="btn btn-secondary" id="process-loan-modal-btn">
-              <i class="fas fa-money-bill-wave"></i> Process Loan
-            </button>
-            <button class="btn btn-secondary" id="soil-analysis-modal-btn">
-              <i class="fas fa-seedling"></i> Soil Analysis
-            </button>
-            <button class="btn btn-danger" id="delete-farmer-btn">
-              <i class="fas fa-trash"></i> Delete
-            </button>
+        <!-- Map View -->
+        <div class="farmers-map-view hidden" id="farmers-map-view">
+          <div class="empty-state">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>Map View</h3>
+            <p>Interactive map visualization coming soon</p>
           </div>
         </div>
       </div>
@@ -833,161 +2358,361 @@
       </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
-    <div id="delete-confirmation-modal" class="modal">
-      <div class="modal-content small-modal">
-        <div class="modal-header">
-          <h2>Confirm Deletion</h2>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <p>
-            Are you sure you want to delete this farmer? This action cannot be
-            undone.
-          </p>
-          <div class="farmer-delete-info">
-            <div>
-              <strong>Name:</strong> <span id="delete-farmer-name"></span>
-            </div>
-            <div><strong>ID:</strong> <span id="delete-farmer-id"></span></div>
-            <div>
-              <strong>Location:</strong>
-              <span id="delete-farmer-location"></span>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="cancel-delete-btn">
-            Cancel
-          </button>
-          <button class="btn btn-danger" id="confirm-delete-btn">
-            Delete Farmer
-          </button>
-        </div>
-      </div>
-    </div>
+    <!-- JavaScript -->
+    <script>
+      // Dashboard Configuration and State Management
+      const FarmersConfig = {
+        refreshInterval: 30000,
+        animationDelay: 100,
+        currentView: 'list'
+      };
 
-    <!-- Communication Modal -->
-    <div id="communication-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 id="communication-modal-title">Send Message</h2>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <form id="communication-form">
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="comm-recipient">Recipient</label>
-                <input type="text" id="comm-recipient" readonly />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="comm-subject">Subject</label>
-                <input type="text" id="comm-subject" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="comm-message">Message</label>
-                <textarea id="comm-message" rows="6" required></textarea>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="comm-template">Use Template</label>
-                <select id="comm-template">
-                  <option value="">Select Template</option>
-                  <option value="soil_test_reminder">Soil Test Reminder</option>
-                  <option value="loan_approval">Loan Approval</option>
-                  <option value="payment_reminder">Payment Reminder</option>
-                  <option value="training_invitation">
-                    Training Invitation
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="comm-schedule">Schedule</label>
-                <input type="datetime-local" id="comm-schedule" />
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="cancel-comm-btn">Cancel</button>
-          <button class="btn btn-primary" id="send-comm-btn">
-            Send Message
-          </button>
-        </div>
-      </div>
-    </div>
+      let farmersState = {
+        currentPage: 1,
+        pageSize: 10,
+        totalItems: 156,
+        searchTerm: '',
+        filters: {
+          region: '',
+          crop: '',
+          risk: ''
+        },
+        sortBy: '',
+        sortOrder: 'asc'
+      };
 
-    <!-- Upload Document Modal -->
-    <div id="upload-document-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2>Upload Document</h2>
-          <span class="close-modal">&times;</span>
-        </div>
-        <div class="modal-body">
-          <form id="upload-document-form">
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="document-title">Document Title *</label>
-                <input type="text" id="document-title" required />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="document-type">Document Type *</label>
-                <select id="document-type" required>
-                  <option value="">Select Document Type</option>
-                  <option value="id">ID Document</option>
-                  <option value="loan">Loan Agreement</option>
-                  <option value="soil_test">Soil Test Report</option>
-                  <option value="farm_certificate">Farm Certificate</option>
-                  <option value="insurance">Insurance Policy</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="document-date">Document Date</label>
-                <input type="date" id="document-date" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="document-file">Document File *</label>
-                <input type="file" id="document-file" required />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group full-width">
-                <label for="document-notes">Notes</label>
-                <textarea id="document-notes" rows="3"></textarea>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" id="cancel-upload-btn">
-            Cancel
-          </button>
-          <button class="btn btn-primary" id="save-document-btn">
-            Upload Document
-          </button>
-        </div>
-      </div>
-    </div>
+      // Initialize Application
+      document.addEventListener('DOMContentLoaded', function() {
+        initializeFarmersPage();
+        setupEventListeners();
+        setupSidebar();
+        loadFarmersData();
+        initializeAnimations();
+      });
 
-    <!-- Loading overlay -->
-    <div id="loading-overlay" class="loading-overlay hidden">
-      <div class="spinner"></div>
-      <p>Processing request...</p>
-    </div>
+      function initializeFarmersPage() {
+        console.log('🌱 Talazo AgriFinance - Farmers Management Initialized');
+      }
 
-    <!-- JavaScript files -->
-    <script src="{{ url_for('static', filename='js/farmers.js') }}"></script>
-  </body>
-</html>
+      function setupEventListeners() {
+        // Sidebar toggle
+        document.getElementById('sidebar-toggle').addEventListener('click', toggleSidebar);
+        document.getElementById('mobile-menu-toggle').addEventListener('click', toggleMobileSidebar);
+        document.getElementById('sidebar-overlay').addEventListener('click', closeMobileSidebar);
+
+        // Navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+          link.addEventListener('click', function(e) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+              item.classList.remove('active');
+            });
+            this.closest('.nav-item').classList.add('active');
+            if (window.innerWidth <= 768) {
+              closeMobileSidebar();
+            }
+          });
+        });
+
+        // Search and filters
+        document.getElementById('farmer-search').addEventListener('input', handleSearch);
+        document.getElementById('region-filter').addEventListener('change', handleFilter);
+        document.getElementById('crop-filter').addEventListener('change', handleFilter);
+        document.getElementById('risk-filter').addEventListener('change', handleFilter);
+
+        // View toggles
+        document.querySelectorAll('.view-toggle').forEach(button => {
+          button.addEventListener('click', function() {
+            switchView(this.dataset.view);
+          });
+        });
+
+        // Add farmer button
+        document.getElementById('add-farmer-btn').addEventListener('click', openAddFarmerModal);
+
+        // Modal close buttons
+        document.querySelectorAll('.close-modal').forEach(button => {
+          button.addEventListener('click', closeModals);
+        });
+
+        // Form submissions
+        document.getElementById('farmer-form').addEventListener('submit', handleFarmerFormSubmit);
+        document.getElementById('cancel-farmer-form').addEventListener('click', closeModals);
+
+        // Action buttons
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('.action-btn.view')) {
+            viewFarmerDetails(e.target);
+          } else if (e.target.closest('.action-btn.edit')) {
+            editFarmer(e.target);
+          } else if (e.target.closest('.action-btn.delete')) {
+            deleteFarmer(e.target);
+          }
+        });
+
+        // Pagination
+        document.getElementById('prev-page').addEventListener('click', () => changePage(-1));
+        document.getElementById('next-page').addEventListener('click', () => changePage(1));
+        document.getElementById('page-size').addEventListener('change', changePageSize);
+
+        // Refresh button
+        document.getElementById('refresh-data').addEventListener('click', refreshData);
+
+        // Window resize
+        window.addEventListener('resize', handleResize);
+      }
+
+      function setupSidebar() {
+        // Restore sidebar state
+        const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+        if (isCollapsed) {
+          document.getElementById('sidebar').classList.add('collapsed');
+          document.body.classList.add('sidebar-collapsed');
+        }
+        handleResize();
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const body = document.body;
+        
+        sidebar.classList.toggle('collapsed');
+        body.classList.toggle('sidebar-collapsed');
+        
+        localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        
+        sidebar.classList.toggle('mobile-open');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = sidebar.classList.contains('mobile-open') ? 'hidden' : '';
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      function handleResize() {
+        const sidebar = document.getElementById('sidebar');
+        const body = document.body;
+        
+        if (window.innerWidth <= 768) {
+          body.classList.add('mobile');
+          closeMobileSidebar();
+        } else {
+          body.classList.remove('mobile');
+          sidebar.classList.remove('mobile-open');
+          document.getElementById('sidebar-overlay').classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      }
+
+      function switchView(view) {
+        FarmersConfig.currentView = view;
+        
+        // Update toggle buttons
+        document.querySelectorAll('.view-toggle').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        document.querySelector(`[data-view="${view}"]`).classList.add('active');
+        
+        // Show/hide views
+        document.getElementById('farmers-list-view').classList.toggle('hidden', view !== 'list');
+        document.getElementById('farmers-grid-view').classList.toggle('hidden', view !== 'grid');
+        document.getElementById('farmers-map-view').classList.toggle('hidden', view !== 'map');
+        
+        showToast(`Switched to ${view} view`, 'info');
+      }
+
+      function handleSearch(e) {
+        farmersState.searchTerm = e.target.value;
+        farmersState.currentPage = 1;
+        loadFarmersData();
+      }
+
+      function handleFilter(e) {
+        const filterType = e.target.id.replace('-filter', '');
+        farmersState.filters[filterType] = e.target.value;
+        farmersState.currentPage = 1;
+        loadFarmersData();
+      }
+
+      function loadFarmersData() {
+        showLoadingOverlay();
+        
+        // Simulate API call
+        setTimeout(() => {
+          updateFarmersTable();
+          updatePagination();
+          hideLoadingOverlay();
+        }, 800);
+      }
+
+      function updateFarmersTable() {
+        // This would normally fetch data from API
+        // For now, we'll keep the sample data
+        console.log('Updating farmers table with current filters and search');
+      }
+
+      function updatePagination() {
+        const totalPages = Math.ceil(farmersState.totalItems / farmersState.pageSize);
+        document.getElementById('page-indicator').textContent = `Page ${farmersState.currentPage} of ${totalPages}`;
+        
+        document.getElementById('prev-page').disabled = farmersState.currentPage === 1;
+        document.getElementById('next-page').disabled = farmersState.currentPage === totalPages;
+      }
+
+      function changePage(direction) {
+        const totalPages = Math.ceil(farmersState.totalItems / farmersState.pageSize);
+        const newPage = farmersState.currentPage + direction;
+        
+        if (newPage >= 1 && newPage <= totalPages) {
+          farmersState.currentPage = newPage;
+          loadFarmersData();
+        }
+      }
+
+      function changePageSize(e) {
+        farmersState.pageSize = parseInt(e.target.value);
+        farmersState.currentPage = 1;
+        loadFarmersData();
+      }
+
+      function openAddFarmerModal() {
+        document.getElementById('add-edit-modal-title').textContent = 'Add New Farmer';
+        document.getElementById('farmer-form-id').value = '';
+        document.getElementById('farmer-form').reset();
+        document.getElementById('add-edit-farmer-modal').classList.add('active');
+      }
+
+      function editFarmer(button) {
+        const row = button.closest('tr');
+        const farmerId = row.querySelector('.farmer-id').textContent;
+        
+        document.getElementById('add-edit-modal-title').textContent = 'Edit Farmer';
+        document.getElementById('farmer-form-id').value = farmerId;
+        
+        // Pre-populate form with farmer data
+        // This would normally fetch from API
+        
+        document.getElementById('add-edit-farmer-modal').classList.add('active');
+        showToast(`Editing farmer ${farmerId}`, 'info');
+      }
+
+      function viewFarmerDetails(button) {
+        const row = button.closest('tr') || button.closest('.farmer-card');
+        const farmerId = row.querySelector('.farmer-id').textContent;
+        
+        showToast(`Viewing details for farmer ${farmerId}`, 'info');
+        // This would open a detailed view modal
+      }
+
+      function deleteFarmer(button) {
+        const row = button.closest('tr') || button.closest('.farmer-card');
+        const farmerId = row.querySelector('.farmer-id').textContent;
+        
+        if (confirm(`Are you sure you want to delete farmer ${farmerId}?`)) {
+          showLoadingOverlay();
+          
+          setTimeout(() => {
+            row.remove();
+            hideLoadingOverlay();
+            showToast(`Farmer ${farmerId} deleted successfully`, 'success');
+          }, 1000);
+        }
+      }
+
+      function handleFarmerFormSubmit(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        const farmerId = document.getElementById('farmer-form-id').value;
+        const isEdit = !!farmerId;
+        
+        showLoadingOverlay();
+        
+        setTimeout(() => {
+          hideLoadingOverlay();
+          closeModals();
+          
+          if (isEdit) {
+            showToast('Farmer updated successfully!', 'success');
+          } else {
+            showToast('Farmer added successfully!', 'success');
+          }
+          
+          loadFarmersData();
+        }, 1500);
+      }
+
+      function closeModals() {
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.classList.remove('active');
+        });
+      }
+
+      function refreshData() {
+        showToast('Refreshing farmers data...', 'info');
+        loadFarmersData();
+      }
+
+      function initializeAnimations() {
+        const cards = document.querySelectorAll('.slide-in-up, .fade-in');
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease-out';
+            
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 50);
+          }, index * FarmersConfig.animationDelay);
+        });
+      }
+
+      function showLoadingOverlay() {
+        document.getElementById('loading-overlay').classList.remove('hidden');
+      }
+
+      function hideLoadingOverlay() {
+        document.getElementById('loading-overlay').classList.add('hidden');
+      }
+
+      function showToast(message, type = 'info') {
+        const toastConfig = {
+          text: message,
+          duration: 3000,
+          gravity: 'top',
+          position: 'right',
+          stopOnFocus: true,
+          style: {
+            background: type === 'success' ? '#4caf50' : 
+                       type === 'error' ? '#f44336' : 
+                       type === 'warning' ? '#ff9800' : '#2196f3',
+            borderRadius: '8px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: '500'
+          }
+        };
+
+        if (typeof Toastify !== 'undefined') {
+          Toastify(toastConfig).showToast();
+        } else {
+          console.log(`Toast: ${message} (${type})`);
+        }
+      }
+
+      // Error handling
+      window.addEventListener('error', function(e) {
+        console.error('Farmers Page Error:', e.error);
+        showToast('An error occurred. Please refresh the page.', 'error');
+      });
