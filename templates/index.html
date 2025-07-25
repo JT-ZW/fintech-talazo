@@ -3,20 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Talazo AgriFinance - Empowering Zimbabwean Farmers</title>
+    <title>Talazo AgriFinance - Where Soil Tells Financial Stories</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
 
     <style>
-      /* Talazo AgriFinance - Enhanced Styling */
+      /* Talazo AgriFinance - Bespoke Creative Experience */
 
-      /* Reset and Base Styles */
       * {
         margin: 0;
         padding: 0;
@@ -24,278 +23,339 @@
       }
 
       :root {
-        /* Color Palette - Agricultural & Professional */
-        --primary-color: #2d7d32; /* Forest Green */
-        --primary-light: #4caf50; /* Light Green */
-        --primary-dark: #1b5e20; /* Dark Green */
-        --secondary-color: #ff8f00; /* Amber */
-        --secondary-light: #ffb74d; /* Light Amber */
-        --accent-color: #795548; /* Brown */
-        --accent-light: #a1887f; /* Light Brown */
+        --earth-brown: #3e2723;
+        --soil-dark: #1a0e0a;
+        --fertile-green: #2d5016;
+        --growth-emerald: #4caf50;
+        --harvest-gold: #f57c00;
+        --dawn-amber: #ffab00;
+        --clay-red: #bf360c;
+        --limestone-white: #fafafa;
+        --humus-black: #0d0d0d;
+        --nitrogen-blue: #1976d2;
+        --phosphorus-purple: #7b1fa2;
 
-        /* Neutral Colors */
-        --white: #ffffff;
-        --off-white: #fafafa;
-        --light-gray: #f5f5f5;
-        --gray: #9e9e9e;
-        --dark-gray: #424242;
-        --charcoal: #212121;
-
-        /* Semantic Colors */
-        --success: #4caf50;
-        --warning: #ff9800;
-        --error: #f44336;
-        --info: #2196f3;
-
-        /* Typography */
         --font-primary: "Inter", sans-serif;
         --font-display: "Playfair Display", serif;
+        --font-mono: "JetBrains Mono", monospace;
 
-        /* Spacing */
-        --spacing-xs: 0.5rem;
-        --spacing-sm: 1rem;
-        --spacing-md: 1.5rem;
-        --spacing-lg: 2rem;
-        --spacing-xl: 3rem;
-        --spacing-xxl: 4rem;
-
-        /* Border Radius */
-        --radius-sm: 4px;
-        --radius-md: 8px;
-        --radius-lg: 12px;
-        --radius-xl: 20px;
-
-        /* Shadows */
-        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-        --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
-        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
-        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
-
-        /* Transitions */
-        --transition-fast: 0.2s ease;
-        --transition-normal: 0.3s ease;
-        --transition-slow: 0.5s ease;
+        --shadow-earth: 0 20px 60px rgba(62, 39, 35, 0.3);
+        --glow-fertile: 0 0 40px rgba(76, 175, 80, 0.4);
+        --transition-organic: cubic-bezier(0.23, 1, 0.32, 1);
       }
 
-      /* Base Typography */
+      /* Custom Cursor with Soil Particle */
+      .cursor {
+        width: 8px;
+        height: 8px;
+        background: var(--growth-emerald);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: all 0.1s ease;
+      }
+
+      .cursor-follower {
+        width: 32px;
+        height: 32px;
+        border: 2px solid var(--harvest-gold);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transition: all 0.3s var(--transition-organic);
+        opacity: 0.6;
+      }
+
       body {
         font-family: var(--font-primary);
-        line-height: 1.6;
-        color: var(--charcoal);
-        background-color: var(--white);
+        background: var(--soil-dark);
+        color: var(--limestone-white);
         overflow-x: hidden;
+        cursor: none;
       }
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: var(--font-display);
-        font-weight: 600;
-        line-height: 1.2;
-        margin-bottom: var(--spacing-sm);
+      /* Animated Background Particles */
+      .soil-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
       }
 
-      h1 {
-        font-size: 3.5rem;
-      }
-      h2 {
-        font-size: 2.75rem;
-      }
-      h3 {
-        font-size: 2rem;
-      }
-      h4 {
-        font-size: 1.5rem;
-      }
-      h5 {
-        font-size: 1.25rem;
-      }
-      h6 {
-        font-size: 1rem;
+      .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: var(--growth-emerald);
+        border-radius: 50%;
+        opacity: 0.6;
+        animation: float-particle 8s infinite ease-in-out;
       }
 
-      p {
-        margin-bottom: var(--spacing-sm);
-        color: var(--dark-gray);
+      @keyframes float-particle {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+          opacity: 1;
+        }
       }
 
-      /* Layout */
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 var(--spacing-md);
-      }
-
-      /* Navigation Header */
+      /* Navigation */
       .navbar {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        background: rgba(13, 13, 13, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(76, 175, 80, 0.2);
         z-index: 1000;
-        transition: var(--transition-normal);
+        transition: all 0.5s var(--transition-organic);
       }
 
       .nav-content {
+        max-width: 1400px;
+        margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: var(--spacing-sm) 0;
+        padding: 1.5rem 2rem;
       }
 
-      .logo {
+      .logo-container {
         display: flex;
         align-items: center;
-        gap: var(--spacing-sm);
+        gap: 1rem;
         text-decoration: none;
       }
 
-      .logo-icon {
-        width: 50px;
-        height: 50px;
+      .logo-symbol {
+        width: 60px;
+        height: 60px;
+        position: relative;
         background: linear-gradient(
           135deg,
-          var(--primary-color),
-          var(--primary-light)
+          var(--fertile-green),
+          var(--growth-emerald)
         );
-        border-radius: var(--radius-lg);
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--white);
-        font-size: 1.5rem;
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--glow-fertile);
+        transition: all 0.5s var(--transition-organic);
       }
 
-      .logo-text {
+      .logo-symbol:hover {
+        transform: rotate(5deg) scale(1.05);
+        box-shadow: 0 0 60px rgba(76, 175, 80, 0.6);
+      }
+
+      .logo-symbol::before {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: var(--harvest-gold);
+        border-radius: 50%;
+        top: 12px;
+        left: 12px;
+        animation: pulse-seed 3s infinite;
+      }
+
+      .logo-symbol::after {
+        content: "🌱";
+        font-size: 1.5rem;
+        position: relative;
+        z-index: 2;
+      }
+
+      @keyframes pulse-seed {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+      }
+
+      .brand-identity {
         display: flex;
         flex-direction: column;
       }
 
       .brand-name {
         font-family: var(--font-display);
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: 700;
-        color: var(--primary-color);
+        background: linear-gradient(
+          135deg,
+          var(--growth-emerald),
+          var(--dawn-amber)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         line-height: 1;
+        letter-spacing: -1px;
       }
 
-      .brand-subtitle {
-        font-size: 0.875rem;
-        color: var(--gray);
-        font-weight: 500;
+      .brand-tagline {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--harvest-gold);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin-top: 2px;
       }
 
-      .nav-menu ul {
+      .nav-actions {
         display: flex;
-        list-style: none;
-        gap: var(--spacing-lg);
-        margin: 0;
+        align-items: center;
+        gap: 2rem;
       }
 
-      .nav-link {
-        color: var(--dark-gray);
-        text-decoration: none;
+      .launch-status {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.1),
+          rgba(245, 124, 0, 0.1)
+        );
+        border: 1px solid var(--growth-emerald);
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
         font-weight: 500;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--radius-md);
-        transition: var(--transition-fast);
-        position: relative;
+        color: var(--growth-emerald);
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
 
-      .nav-link:hover,
-      .nav-link.active {
-        color: var(--primary-color);
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--growth-emerald);
+        border-radius: 50%;
+        animation: breathe 2s infinite;
       }
 
-      .nav-link.active::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 20px;
-        height: 2px;
-        background: var(--primary-color);
-        border-radius: 1px;
+      @keyframes breathe {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.3);
+          opacity: 0.7;
+        }
       }
 
-      /* Buttons */
+      /* Premium Button Styles */
       .btn {
         display: inline-flex;
         align-items: center;
-        gap: var(--spacing-xs);
-        padding: var(--spacing-sm) var(--spacing-md);
-        border-radius: var(--radius-md);
-        text-decoration: none;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 16px;
+        font-family: var(--font-primary);
         font-weight: 600;
-        font-size: 0.875rem;
-        transition: var(--transition-fast);
-        border: 2px solid transparent;
+        font-size: 1rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         cursor: pointer;
-        text-align: center;
+        transition: all 0.5s var(--transition-organic);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.8s var(--transition-organic);
+      }
+
+      .btn:hover::before {
+        left: 100%;
       }
 
       .btn-primary {
         background: linear-gradient(
           135deg,
-          var(--primary-color),
-          var(--primary-light)
+          var(--fertile-green),
+          var(--growth-emerald)
         );
-        color: var(--white);
-        box-shadow: var(--shadow-sm);
+        color: var(--limestone-white);
+        box-shadow: var(--shadow-earth);
       }
 
       .btn-primary:hover {
         background: linear-gradient(
           135deg,
-          var(--primary-dark),
-          var(--primary-color)
+          var(--growth-emerald),
+          var(--dawn-amber)
         );
-        box-shadow: var(--shadow-md);
-        transform: translateY(-1px);
+        transform: translateY(-3px);
+        box-shadow: var(--glow-fertile);
       }
 
-      .btn-outline {
-        background: transparent;
-        color: var(--primary-color);
-        border-color: var(--primary-color);
+      .btn-exclusive {
+        background: linear-gradient(
+          135deg,
+          var(--soil-dark),
+          var(--earth-brown)
+        );
+        color: var(--harvest-gold);
+        border: 2px solid var(--harvest-gold);
       }
 
-      .btn-outline:hover {
-        background: var(--primary-color);
-        color: var(--white);
+      .btn-exclusive:hover {
+        background: linear-gradient(
+          135deg,
+          var(--harvest-gold),
+          var(--dawn-amber)
+        );
+        color: var(--soil-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 40px rgba(245, 124, 0, 0.4);
       }
 
-      .btn-outline-white {
-        background: transparent;
-        color: var(--white);
-        border-color: var(--white);
-      }
-
-      .btn-outline-white:hover {
-        background: var(--white);
-        color: var(--primary-color);
-      }
-
-      .btn-large {
-        padding: var(--spacing-md) var(--spacing-xl);
-        font-size: 1rem;
-      }
-
-      /* Hero Section */
+      /* Hero Section with Creative Layout */
       .hero {
-        position: relative;
         min-height: 100vh;
         display: flex;
         align-items: center;
-        padding-top: 100px;
+        padding-top: 120px;
+        position: relative;
         overflow: hidden;
       }
 
@@ -305,615 +365,154 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: linear-gradient(
-          135deg,
-          #f8fffe 0%,
-          #e8f5e8 50%,
-          #f0f8f0 100%
-        );
-        z-index: -2;
-      }
-
-      .hero-background::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: radial-gradient(
-            circle at 20% 80%,
-            rgba(45, 125, 50, 0.1) 0%,
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(76, 175, 80, 0.1) 0%,
             transparent 50%
           ),
           radial-gradient(
-            circle at 80% 20%,
-            rgba(76, 175, 80, 0.08) 0%,
+            circle at 80% 70%,
+            rgba(245, 124, 0, 0.08) 0%,
             transparent 50%
           ),
-          radial-gradient(
-            circle at 40% 40%,
-            rgba(255, 143, 0, 0.05) 0%,
-            transparent 50%
+          linear-gradient(
+            135deg,
+            var(--soil-dark) 0%,
+            var(--humus-black) 50%,
+            var(--earth-brown) 100%
           );
+        z-index: -1;
       }
 
-      .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
-        z-index: -1;
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        position: relative;
+        z-index: 10;
       }
 
       .hero-content {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing-xxl);
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 4rem;
         align-items: center;
       }
 
+      .hero-text {
+        position: relative;
+      }
+
+      .launch-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 1rem;
+        background: linear-gradient(
+          135deg,
+          rgba(245, 124, 0, 0.15),
+          rgba(76, 175, 80, 0.15)
+        );
+        border: 1px solid var(--harvest-gold);
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        margin-bottom: 2rem;
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--harvest-gold);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        animation: float-badge 4s ease-in-out infinite;
+      }
+
+      @keyframes float-badge {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
       .hero-title {
-        font-size: 3.5rem;
-        margin-bottom: var(--spacing-md);
-        color: var(--charcoal);
-        animation: fadeInUp 1s ease-out;
+        font-family: var(--font-display);
+        font-size: 4rem;
+        font-weight: 700;
+        line-height: 1.1;
+        margin-bottom: 2rem;
+        color: var(--limestone-white);
+      }
+
+      .title-line {
+        display: block;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: reveal-line 1s var(--transition-organic) forwards;
+      }
+
+      .title-line:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      .title-line:nth-child(2) {
+        animation-delay: 0.4s;
+      }
+      .title-line:nth-child(3) {
+        animation-delay: 0.6s;
+      }
+
+      @keyframes reveal-line {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .highlight {
         background: linear-gradient(
           135deg,
-          var(--primary-color),
-          var(--primary-light)
+          var(--growth-emerald),
+          var(--harvest-gold)
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        position: relative;
+      }
+
+      .highlight::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--growth-emerald),
+          var(--harvest-gold)
+        );
+        border-radius: 2px;
+        animation: expand-underline 1.5s var(--transition-organic) 1.2s forwards;
+      }
+
+      @keyframes expand-underline {
+        to {
+          width: 100%;
+        }
       }
 
       .hero-subtitle {
-        font-size: 1.25rem;
-        color: var(--dark-gray);
-        margin-bottom: var(--spacing-xl);
+        font-size: 1.375rem;
         line-height: 1.7;
-        animation: fadeInUp 1s ease-out 0.2s both;
-      }
-
-      .hero-stats {
-        display: flex;
-        gap: var(--spacing-xl);
-        margin-bottom: var(--spacing-xl);
-        animation: fadeInUp 1s ease-out 0.4s both;
-      }
-
-      .stat-item {
-        text-align: left;
-      }
-
-      .stat-number {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--primary-color);
-        display: block;
-        counter-reset: num var(--num);
-      }
-
-      .stat-number.animate::before {
-        content: counter(num);
-        animation: countUp 2s ease-out;
-      }
-
-      .stat-label {
-        font-size: 0.875rem;
-        color: var(--gray);
-        font-weight: 500;
-      }
-
-      .hero-actions {
-        display: flex;
-        gap: var(--spacing-md);
-        flex-wrap: wrap;
-        animation: fadeInUp 1s ease-out 0.6s both;
-      }
-
-      .hero-visual {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        animation: fadeInRight 1s ease-out 0.8s both;
-      }
-
-      .hero-card {
-        background: var(--white);
-        border-radius: var(--radius-xl);
-        padding: var(--spacing-xl);
-        box-shadow: var(--shadow-xl);
-        border: 1px solid rgba(45, 125, 50, 0.1);
-        max-width: 350px;
-        width: 100%;
-        transform: perspective(1000px) rotateY(-5deg);
-        transition: var(--transition-normal);
-      }
-
-      .hero-card:hover {
-        transform: perspective(1000px) rotateY(0deg) translateY(-10px);
-        box-shadow: var(--shadow-xl);
-      }
-
-      .card-header {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        margin-bottom: var(--spacing-lg);
-        color: var(--primary-color);
-        font-weight: 600;
-      }
-
-      .card-header i {
-        font-size: 1.5rem;
-      }
-
-      .metric {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: var(--spacing-md);
-      }
-
-      .metric-label {
-        color: var(--dark-gray);
-        font-weight: 500;
-      }
-
-      .metric-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-      }
-
-      .metric-value.good {
-        color: var(--success);
-      }
-
-      .metric-badge {
-        padding: var(--spacing-xs) var(--spacing-sm);
-        border-radius: var(--radius-md);
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-      }
-
-      .metric-badge.low {
-        background: rgba(76, 175, 80, 0.1);
-        color: var(--success);
-      }
-
-      .progress-bar {
-        width: 100%;
-        height: 8px;
-        background: var(--light-gray);
-        border-radius: var(--radius-sm);
-        overflow: hidden;
-      }
-
-      .progress-fill {
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          var(--primary-color),
-          var(--primary-light)
-        );
-        border-radius: var(--radius-sm);
-        transition: width var(--transition-slow);
-        width: 0;
-      }
-
-      .progress-fill.animate {
-        animation: progressFill 2s ease-out 1s forwards;
-      }
-
-      /* Features Section */
-      .features {
-        padding: var(--spacing-xxl) 0;
-        background: var(--white);
-      }
-
-      .section-header {
-        text-align: center;
-        margin-bottom: var(--spacing-xxl);
-      }
-
-      .section-header h2 {
-        color: var(--charcoal);
-        margin-bottom: var(--spacing-md);
-      }
-
-      .section-header p {
-        font-size: 1.125rem;
-        color: var(--dark-gray);
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .features-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: var(--spacing-xl);
-      }
-
-      .feature-card {
-        background: var(--white);
-        border: 1px solid rgba(45, 125, 50, 0.1);
-        border-radius: var(--radius-xl);
-        padding: var(--spacing-xl);
-        text-align: left;
-        transition: var(--transition-normal);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-lg);
-        border-color: var(--primary-light);
-      }
-
-      .feature-card.featured {
-        border-color: var(--secondary-color);
-        background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
-      }
-
-      .feature-ribbon {
-        position: absolute;
-        top: var(--spacing-md);
-        right: -var(--spacing-lg);
-        background: var(--secondary-color);
-        color: var(--white);
-        padding: var(--spacing-xs) var(--spacing-xl);
-        font-size: 0.75rem;
-        font-weight: 600;
-        transform: rotate(45deg);
-        text-transform: uppercase;
-      }
-
-      .feature-icon {
-        width: 80px;
-        height: 80px;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--primary-light)
-        );
-        border-radius: var(--radius-xl);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--white);
-        font-size: 2rem;
-        margin-bottom: var(--spacing-lg);
-        box-shadow: var(--shadow-md);
-        transition: var(--transition-normal);
-      }
-
-      .feature-card:hover .feature-icon {
-        transform: scale(1.1) rotate(5deg);
-      }
-
-      .feature-card h3 {
-        color: var(--charcoal);
-        margin-bottom: var(--spacing-md);
-      }
-
-      .feature-card p {
-        margin-bottom: var(--spacing-lg);
-      }
-
-      .feature-list {
-        list-style: none;
-      }
-
-      .feature-list li {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        margin-bottom: var(--spacing-sm);
-        color: var(--dark-gray);
+        color: rgba(250, 250, 250, 0.8);
+        margin-bottom: 3rem;
+        max-width: 90%;
         opacity: 0;
-        animation: fadeInLeft 0.5s ease-out forwards;
+        animation: fade-in-up 1s var(--transition-organic) 0.8s forwards;
       }
 
-      .feature-list li:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .feature-list li:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      .feature-list li:nth-child(3) {
-        animation-delay: 0.3s;
-      }
-
-      .feature-list i {
-        color: var(--success);
-        font-size: 0.875rem;
-      }
-
-      /* About Section */
-      .about {
-        padding: var(--spacing-xxl) 0;
-        background: var(--light-gray);
-      }
-
-      .about-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing-xxl);
-        align-items: center;
-      }
-
-      .about-description {
-        font-size: 1.125rem;
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .about-features {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-lg);
-      }
-
-      .about-feature {
-        display: flex;
-        align-items: flex-start;
-        gap: var(--spacing-md);
-        opacity: 0;
-        transform: translateX(-30px);
-        animation: slideInLeft 0.6s ease-out forwards;
-      }
-
-      .about-feature:nth-child(1) {
-        animation-delay: 0.2s;
-      }
-      .about-feature:nth-child(2) {
-        animation-delay: 0.4s;
-      }
-      .about-feature:nth-child(3) {
-        animation-delay: 0.6s;
-      }
-
-      .about-feature i {
-        font-size: 1.5rem;
-        color: var(--primary-color);
-        margin-top: var(--spacing-xs);
-        transition: var(--transition-normal);
-      }
-
-      .about-feature:hover i {
-        transform: scale(1.2);
-        color: var(--primary-light);
-      }
-
-      .about-feature h4 {
-        margin-bottom: var(--spacing-xs);
-        color: var(--charcoal);
-      }
-
-      .stats-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: var(--spacing-md);
-      }
-
-      .stat-card {
-        background: var(--white);
-        padding: var(--spacing-xl);
-        border-radius: var(--radius-xl);
-        text-align: center;
-        box-shadow: var(--shadow-md);
-        border: 1px solid rgba(45, 125, 50, 0.1);
-        transition: var(--transition-normal);
-        transform: translateY(20px);
-        opacity: 0;
-        animation: slideInUp 0.6s ease-out forwards;
-      }
-
-      .stat-card:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .stat-card:nth-child(2) {
-        animation-delay: 0.3s;
-      }
-      .stat-card:nth-child(3) {
-        animation-delay: 0.5s;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-lg);
-      }
-
-      .stat-card i {
-        font-size: 2rem;
-        color: var(--primary-color);
-        margin-bottom: var(--spacing-md);
-        transition: var(--transition-normal);
-      }
-
-      .stat-card:hover i {
-        transform: scale(1.1);
-        color: var(--primary-light);
-      }
-
-      .stat-card h3 {
-        font-size: 2rem;
-        color: var(--charcoal);
-        margin-bottom: var(--spacing-sm);
-      }
-
-      .stat-card p {
-        color: var(--gray);
-        font-weight: 500;
-        margin: 0;
-      }
-
-      /* CTA Section */
-      .cta {
-        padding: var(--spacing-xxl) 0;
-        background: linear-gradient(
-          135deg,
-          var(--primary-color),
-          var(--primary-light)
-        );
-        color: var(--white);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .cta::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="ctaPattern" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23ctaPattern)"/></svg>');
-      }
-
-      .cta-content {
-        position: relative;
-        z-index: 1;
-      }
-
-      .cta h2 {
-        color: var(--white);
-        margin-bottom: var(--spacing-md);
-      }
-
-      .cta p {
-        font-size: 1.125rem;
-        margin-bottom: var(--spacing-xl);
-        color: rgba(255, 255, 255, 0.9);
-      }
-
-      .cta-actions {
-        display: flex;
-        gap: var(--spacing-md);
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      /* Footer */
-      .footer {
-        background: var(--charcoal);
-        color: var(--white);
-        padding: var(--spacing-xxl) 0 var(--spacing-lg) 0;
-      }
-
-      .footer-content {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: var(--spacing-xl);
-        margin-bottom: var(--spacing-xl);
-      }
-
-      .footer-section h4 {
-        color: var(--white);
-        margin-bottom: var(--spacing-md);
-      }
-
-      .footer-section ul {
-        list-style: none;
-      }
-
-      .footer-section ul li {
-        margin-bottom: var(--spacing-sm);
-      }
-
-      .footer-section ul li a {
-        color: var(--gray);
-        text-decoration: none;
-        transition: var(--transition-fast);
-      }
-
-      .footer-section ul li a:hover {
-        color: var(--primary-light);
-      }
-
-      .footer-logo p {
-        color: var(--gray);
-        margin: var(--spacing-md) 0;
-      }
-
-      .social-links {
-        display: flex;
-        gap: var(--spacing-md);
-      }
-
-      .social-links a {
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: var(--radius-md);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--white);
-        transition: var(--transition-fast);
-      }
-
-      .social-links a:hover {
-        background: var(--primary-color);
-        transform: translateY(-2px);
-      }
-
-      .contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-sm);
-      }
-
-      .contact-info p {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        color: var(--gray);
-        margin: 0;
-      }
-
-      .contact-info i {
-        color: var(--primary-light);
-        width: 16px;
-      }
-
-      .footer-bottom {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: var(--spacing-lg);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: var(--spacing-md);
-      }
-
-      .footer-links {
-        display: flex;
-        gap: var(--spacing-lg);
-      }
-
-      .footer-links a {
-        color: var(--gray);
-        text-decoration: none;
-        font-size: 0.875rem;
-        transition: var(--transition-fast);
-      }
-
-      .footer-links a:hover {
-        color: var(--primary-light);
-      }
-
-      /* Animations */
-      @keyframes fadeInUp {
+      @keyframes fade-in-up {
         from {
           opacity: 0;
           transform: translateY(30px);
@@ -924,145 +523,1042 @@
         }
       }
 
-      @keyframes fadeInRight {
-        from {
-          opacity: 0;
-          transform: translateX(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes fadeInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes slideInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes progressFill {
-        from {
-          width: 0;
-        }
-        to {
-          width: 78.5%;
-        }
-      }
-
-      @keyframes countUp {
-        from {
-          transform: translateY(20px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-
-      /* Scroll Animations */
-      .scroll-reveal {
+      .innovation-features {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
         opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.6s ease-out;
+        animation: fade-in-up 1s var(--transition-organic) 1s forwards;
       }
 
-      .scroll-reveal.revealed {
-        opacity: 1;
-        transform: translateY(0);
+      .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.02);
+        border-left: 3px solid var(--growth-emerald);
+        border-radius: 0 12px 12px 0;
+        transition: all 0.5s var(--transition-organic);
+        transform: translateX(-20px);
+        animation: slide-in-right 0.8s var(--transition-organic) forwards;
+      }
+
+      .feature-item:nth-child(1) {
+        animation-delay: 1.2s;
+      }
+      .feature-item:nth-child(2) {
+        animation-delay: 1.4s;
+      }
+      .feature-item:nth-child(3) {
+        animation-delay: 1.6s;
+      }
+
+      @keyframes slide-in-right {
+        to {
+          transform: translateX(0);
+        }
+      }
+
+      .feature-item:hover {
+        background: rgba(76, 175, 80, 0.1);
+        transform: translateX(10px);
+        border-left-color: var(--harvest-gold);
+      }
+
+      .feature-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(
+          135deg,
+          var(--fertile-green),
+          var(--growth-emerald)
+        );
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--limestone-white);
+        font-size: 1.25rem;
+        flex-shrink: 0;
+        transition: all 0.5s var(--transition-organic);
+      }
+
+      .feature-item:hover .feature-icon {
+        transform: rotate(10deg) scale(1.1);
+        background: linear-gradient(
+          135deg,
+          var(--harvest-gold),
+          var(--dawn-amber)
+        );
+      }
+
+      .feature-text {
+        color: var(--limestone-white);
+        font-weight: 500;
+        line-height: 1.5;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        opacity: 0;
+        animation: fade-in-up 1s var(--transition-organic) 1.8s forwards;
+      }
+
+      /* Interactive Soil Visualization */
+      .hero-visual {
+        position: relative;
+        height: 600px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .soil-analysis-demo {
+        width: 100%;
+        max-width: 500px;
+        height: 500px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(250, 250, 250, 0.9)
+        );
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: var(--shadow-earth), 0 0 100px rgba(76, 175, 80, 0.2);
+        position: relative;
+        transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+        transition: all 0.8s var(--transition-organic);
+        animation: float-demo 6s ease-in-out infinite;
+      }
+
+      @keyframes float-demo {
+        0%,
+        100% {
+          transform: perspective(1000px) rotateY(-15deg) rotateX(5deg)
+            translateY(0px);
+        }
+        50% {
+          transform: perspective(1000px) rotateY(-15deg) rotateX(5deg)
+            translateY(-20px);
+        }
+      }
+
+      .soil-analysis-demo:hover {
+        transform: perspective(1000px) rotateY(0deg) rotateX(0deg)
+          translateY(-10px);
+        box-shadow: var(--shadow-earth), 0 0 120px rgba(76, 175, 80, 0.4);
+      }
+
+      .demo-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+        color: var(--fertile-green);
+      }
+
+      .demo-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .live-indicator {
+        background: linear-gradient(
+          135deg,
+          var(--growth-emerald),
+          var(--dawn-amber)
+        );
+        color: var(--limestone-white);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: pulse-indicator 2s infinite;
+      }
+
+      @keyframes pulse-indicator {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+
+      .soil-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .metric-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(76, 175, 80, 0.05);
+        border-radius: 12px;
+        border-left: 4px solid var(--growth-emerald);
+        transition: all 0.5s var(--transition-organic);
+      }
+
+      .metric-row:hover {
+        background: rgba(76, 175, 80, 0.1);
+        transform: translateX(5px);
+      }
+
+      .metric-label {
+        font-weight: 600;
+        color: var(--earth-brown);
+        font-size: 0.9rem;
+      }
+
+      .metric-value {
+        font-family: var(--font-mono);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--fertile-green);
+      }
+
+      .metric-status {
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .status-excellent {
+        background: rgba(76, 175, 80, 0.2);
+        color: var(--growth-emerald);
+      }
+
+      .status-good {
+        background: rgba(245, 124, 0, 0.2);
+        color: var(--harvest-gold);
+      }
+
+      .financial-score {
+        background: linear-gradient(
+          135deg,
+          var(--fertile-green),
+          var(--growth-emerald)
+        );
+        color: var(--limestone-white);
+        padding: 2rem;
+        border-radius: 16px;
+        text-align: center;
+        margin-top: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .financial-score::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        animation: shimmer 3s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      .score-label {
+        font-size: 0.875rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .score-value {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      /* Revolutionary Countdown */
+      .countdown-section {
+        padding: 6rem 0;
+        position: relative;
+        background: linear-gradient(
+          135deg,
+          var(--earth-brown),
+          var(--fertile-green)
+        );
+        overflow: hidden;
+      }
+
+      .countdown-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="soil" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="5" cy="15" r="1" fill="rgba(245,124,0,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23soil)"/></svg>');
+        animation: drift-pattern 30s linear infinite;
+      }
+
+      @keyframes drift-pattern {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(100px, 100px);
+        }
+      }
+
+      .countdown-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .countdown-title {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--limestone-white);
+        margin-bottom: 1rem;
+      }
+
+      .countdown-subtitle {
+        font-size: 1.25rem;
+        color: rgba(250, 250, 250, 0.8);
+        margin-bottom: 4rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .countdown-item {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 2rem 1rem;
+        text-align: center;
+        transition: all 0.5s var(--transition-organic);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .countdown-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--growth-emerald),
+          var(--harvest-gold)
+        );
+      }
+
+      .countdown-item:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .countdown-number {
+        font-family: var(--font-mono);
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: var(--limestone-white);
+        line-height: 1;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .countdown-label {
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: rgba(250, 250, 250, 0.7);
+        font-weight: 500;
+      }
+
+      /* Features with Creative Interactions */
+      .features-section {
+        padding: 8rem 0;
+        background: var(--soil-dark);
+        position: relative;
+      }
+
+      .section-intro {
+        text-align: center;
+        margin-bottom: 6rem;
+      }
+
+      .section-badge {
+        display: inline-block;
+        background: rgba(76, 175, 80, 0.1);
+        border: 1px solid var(--growth-emerald);
+        color: var(--growth-emerald);
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-family: var(--font-display);
+        font-size: 3.5rem;
+        color: var(--limestone-white);
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      .section-description {
+        font-size: 1.25rem;
+        color: rgba(250, 250, 250, 0.8);
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.7;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        gap: 3rem;
+      }
+
+      .feature-card {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid rgba(76, 175, 80, 0.2);
+        border-radius: 24px;
+        padding: 3rem;
+        position: relative;
+        transition: all 0.6s var(--transition-organic);
+        overflow: hidden;
+        backdrop-filter: blur(20px);
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--growth-emerald),
+          var(--harvest-gold),
+          var(--growth-emerald)
+        );
+        background-size: 200% 100%;
+        animation: gradient-flow 3s ease infinite;
+      }
+
+      @keyframes gradient-flow {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .feature-card:hover {
+        transform: translateY(-15px);
+        box-shadow: var(--shadow-earth), 0 0 80px rgba(76, 175, 80, 0.3);
+        border-color: var(--growth-emerald);
+      }
+
+      .feature-card.premium {
+        border-color: var(--harvest-gold);
+        background: linear-gradient(
+          135deg,
+          rgba(245, 124, 0, 0.08),
+          rgba(245, 124, 0, 0.03)
+        );
+      }
+
+      .feature-card.premium::before {
+        background: linear-gradient(
+          90deg,
+          var(--harvest-gold),
+          var(--dawn-amber),
+          var(--harvest-gold)
+        );
+        background-size: 200% 100%;
+      }
+
+      .feature-ribbon {
+        position: absolute;
+        top: 2rem;
+        right: -1rem;
+        background: var(--harvest-gold);
+        color: var(--soil-dark);
+        padding: 0.5rem 2rem;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 700;
+        transform: rotate(15deg);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-radius: 4px;
+        box-shadow: 0 4px 15px rgba(245, 124, 0, 0.4);
+      }
+
+      .feature-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .feature-icon-large {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(
+          135deg,
+          var(--fertile-green),
+          var(--growth-emerald)
+        );
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--limestone-white);
+        font-size: 2rem;
+        box-shadow: var(--glow-fertile);
+        transition: all 0.6s var(--transition-organic);
+        position: relative;
+      }
+
+      .feature-card.premium .feature-icon-large {
+        background: linear-gradient(
+          135deg,
+          var(--harvest-gold),
+          var(--dawn-amber)
+        );
+        color: var(--soil-dark);
+      }
+
+      .feature-card:hover .feature-icon-large {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 0 60px rgba(76, 175, 80, 0.6);
+      }
+
+      .feature-title {
+        font-family: var(--font-display);
+        font-size: 1.75rem;
+        color: var(--limestone-white);
+        margin-bottom: 1rem;
+        line-height: 1.3;
+      }
+
+      .feature-description {
+        color: rgba(250, 250, 250, 0.8);
+        font-size: 1.125rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+      }
+
+      .feature-benefits {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .benefit-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: rgba(250, 250, 250, 0.9);
+        font-weight: 500;
+        transition: all 0.3s var(--transition-organic);
+      }
+
+      .benefit-item:hover {
+        color: var(--limestone-white);
+        transform: translateX(10px);
+      }
+
+      .benefit-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--growth-emerald);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--limestone-white);
+        font-size: 0.75rem;
+        flex-shrink: 0;
+      }
+
+      /* Institutional Appeal Section */
+      .institutional-section {
+        padding: 8rem 0;
+        background: linear-gradient(
+          135deg,
+          var(--fertile-green),
+          var(--earth-brown)
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .institutional-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: center;
+      }
+
+      .institutional-text h2 {
+        font-family: var(--font-display);
+        font-size: 3rem;
+        color: var(--limestone-white);
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      .institutional-text p {
+        font-size: 1.25rem;
+        color: rgba(250, 250, 250, 0.9);
+        margin-bottom: 3rem;
+        line-height: 1.7;
+      }
+
+      .impact-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+
+      .metric-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.5s var(--transition-organic);
+      }
+
+      .metric-card:hover {
+        transform: translateY(-10px);
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .metric-icon {
+        font-size: 2.5rem;
+        color: var(--harvest-gold);
+        margin-bottom: 1rem;
+      }
+
+      .metric-number {
+        font-family: var(--font-mono);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--limestone-white);
+        margin-bottom: 0.5rem;
+        line-height: 1;
+      }
+
+      .metric-label {
+        font-size: 0.875rem;
+        color: rgba(250, 250, 250, 0.8);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* Early Access with Creative Form */
+      .early-access {
+        padding: 8rem 0;
+        background: var(--humus-black);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .early-access::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          transparent 25%,
+          rgba(76, 175, 80, 0.03) 25%,
+          rgba(76, 175, 80, 0.03) 50%,
+          transparent 50%,
+          transparent 75%,
+          rgba(245, 124, 0, 0.03) 75%
+        );
+        background-size: 60px 60px;
+        animation: slide-pattern 20s linear infinite;
+      }
+
+      @keyframes slide-pattern {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(60px, 60px);
+        }
+      }
+
+      .access-content {
+        text-align: center;
+        position: relative;
+        z-index: 2;
+      }
+
+      .access-title {
+        font-family: var(--font-display);
+        font-size: 3.5rem;
+        color: var(--limestone-white);
+        margin-bottom: 2rem;
+        line-height: 1.2;
+      }
+
+      .access-description {
+        font-size: 1.25rem;
+        color: rgba(250, 250, 250, 0.8);
+        max-width: 700px;
+        margin: 0 auto 4rem auto;
+        line-height: 1.7;
+      }
+
+      .access-form {
+        max-width: 600px;
+        margin: 0 auto 4rem auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 3rem;
+        transition: all 0.5s var(--transition-organic);
+      }
+
+      .access-form:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: var(--growth-emerald);
+        box-shadow: var(--glow-fertile);
+      }
+
+      .form-group {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .form-input {
+        flex: 1;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        color: var(--limestone-white);
+        font-size: 1.125rem;
+        font-family: var(--font-primary);
+        transition: all 0.3s var(--transition-organic);
+      }
+
+      .form-input::placeholder {
+        color: rgba(250, 250, 250, 0.5);
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--growth-emerald);
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0 0 30px rgba(76, 175, 80, 0.3);
+      }
+
+      .form-select {
+        flex: 0.8;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        color: var(--limestone-white);
+        font-size: 1.125rem;
+        font-family: var(--font-primary);
+        transition: all 0.3s var(--transition-organic);
+      }
+
+      .form-select:focus {
+        outline: none;
+        border-color: var(--growth-emerald);
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .form-submit {
+        width: 100%;
+        padding: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--growth-emerald),
+          var(--harvest-gold)
+        );
+        border: none;
+        border-radius: 16px;
+        color: var(--limestone-white);
+        font-size: 1.125rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.5s var(--transition-organic);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px rgba(76, 175, 80, 0.4);
+      }
+
+      .access-actions {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Footer with Enhanced Design */
+      .footer {
+        background: var(--soil-dark);
+        border-top: 1px solid rgba(76, 175, 80, 0.2);
+        padding: 6rem 0 2rem 0;
+        position: relative;
+      }
+
+      .footer-content {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+      }
+
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .footer-brand .logo-container {
+        margin-bottom: 2rem;
+      }
+
+      .footer-description {
+        color: rgba(250, 250, 250, 0.8);
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        font-size: 1.125rem;
+      }
+
+      .social-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .social-link {
+        width: 50px;
+        height: 50px;
+        background: rgba(76, 175, 80, 0.1);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--growth-emerald);
+        font-size: 1.25rem;
+        text-decoration: none;
+        transition: all 0.5s var(--transition-organic);
+      }
+
+      .social-link:hover {
+        background: var(--growth-emerald);
+        color: var(--limestone-white);
+        transform: translateY(-5px);
+        box-shadow: var(--glow-fertile);
+      }
+
+      .footer-section h4 {
+        color: var(--limestone-white);
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        font-weight: 600;
+      }
+
+      .footer-links {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .footer-links a {
+        color: rgba(250, 250, 250, 0.7);
+        text-decoration: none;
+        transition: all 0.3s var(--transition-organic);
+        font-weight: 500;
+      }
+
+      .footer-links a:hover {
+        color: var(--growth-emerald);
+        transform: translateX(5px);
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: rgba(250, 250, 250, 0.8);
+      }
+
+      .contact-icon {
+        width: 24px;
+        height: 24px;
+        color: var(--growth-emerald);
+        text-align: center;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: rgba(250, 250, 250, 0.6);
+      }
+
+      .footer-legal {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-legal a {
+        color: rgba(250, 250, 250, 0.6);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer-legal a:hover {
+        color: var(--growth-emerald);
       }
 
       /* Responsive Design */
-      @media (max-width: 768px) {
-        :root {
-          --spacing-xxl: 2rem;
-          --spacing-xl: 1.5rem;
-        }
-
-        h1 {
-          font-size: 2.5rem;
-        }
-        h2 {
-          font-size: 2rem;
-        }
-
-        .nav-content {
-          flex-direction: column;
-          gap: var(--spacing-md);
-        }
-
-        .nav-menu ul {
-          flex-direction: column;
-          text-align: center;
-          gap: var(--spacing-sm);
-        }
-
+      @media (max-width: 1200px) {
         .hero-content {
           grid-template-columns: 1fr;
+          gap: 3rem;
           text-align: center;
-          gap: var(--spacing-xl);
         }
 
-        .hero-stats {
-          justify-content: center;
-        }
-
-        .about-content {
+        .institutional-content {
           grid-template-columns: 1fr;
-          gap: var(--spacing-xl);
+          gap: 4rem;
         }
 
-        .footer-content {
-          grid-template-columns: 1fr;
-          text-align: center;
-          gap: var(--spacing-lg);
+        .impact-metrics {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
         }
 
-        .footer-bottom {
-          flex-direction: column;
-          text-align: center;
+        .section-title {
+          font-size: 2.5rem;
         }
 
         .features-grid {
           grid-template-columns: 1fr;
         }
 
-        .stats-container {
+        .countdown-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .impact-metrics {
           grid-template-columns: 1fr;
         }
-      }
 
-      @media (max-width: 480px) {
-        .container {
-          padding: 0 var(--spacing-sm);
+        .form-group {
+          flex-direction: column;
+        }
+
+        .footer-content {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+          text-align: center;
+        }
+
+        .footer-bottom {
+          flex-direction: column;
+          gap: 2rem;
+          text-align: center;
+        }
+
+        .access-actions {
+          flex-direction: column;
         }
 
         .hero-actions {
@@ -1070,373 +1566,766 @@
           align-items: center;
         }
 
-        .btn-large {
-          width: 100%;
-          justify-content: center;
+        .nav-actions {
+          gap: 1rem;
         }
 
-        .cta-actions {
-          flex-direction: column;
-          align-items: center;
+        .launch-status {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .countdown-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .countdown-number {
+          font-size: 2.5rem;
         }
       }
     </style>
   </head>
+
   <body>
-    <!-- Navigation Header -->
-    <header class="navbar">
+    <!-- Animated Soil Particles -->
+    <div class="soil-particles" id="soil-particles"></div>
+
+    <!-- Custom Cursors -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="nav-content">
+        <a href="/" class="logo-container">
+          <div class="logo-symbol"></div>
+          <div class="brand-identity">
+            <span class="brand-name">Talazo</span>
+            <span class="brand-tagline">Soil · Data · Trust</span>
+          </div>
+        </a>
+        <div class="nav-actions">
+          <div class="launch-status">
+            <div class="status-dot"></div>
+            <span>Launching Q2 2025</span>
+          </div>
+          <a href="/dashboard" class="btn btn-exclusive">
+            <i class="fas fa-microscope"></i>
+            Experience Beta
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-background"></div>
       <div class="container">
-        <div class="nav-content">
-          <div class="logo">
-            <div class="logo-icon">
+        <div class="hero-content">
+          <div class="hero-text">
+            <div class="launch-badge">
               <i class="fas fa-seedling"></i>
+              <span>Exclusive Banking Beta · Financial Institutions Only</span>
             </div>
-            <div class="logo-text">
-              <span class="brand-name">Talazo</span>
-              <span class="brand-subtitle">AgriFinance</span>
+            <h1 class="hero-title">
+              <span class="title-line">Where Zimbabwe's</span>
+              <span class="title-line"
+                ><span class="highlight">Soil Tells Stories</span></span
+              >
+              <span class="title-line">Banks Can Trust</span>
+            </h1>
+            <p class="hero-subtitle">
+              We decode the language of earth itself—turning soil chemistry into
+              financial certainty. No collateral needed when the ground beneath
+              tells us everything about creditworthiness.
+            </p>
+            <div class="innovation-features">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-atom"></i>
+                </div>
+                <div class="feature-text">
+                  Every grain of soil becomes a data point in our financial risk
+                  algorithm
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-shield-check"></i>
+                </div>
+                <div class="feature-text">
+                  Replace traditional collateral with the most honest asset—the
+                  earth itself
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i class="fas fa-chart-network"></i>
+                </div>
+                <div class="feature-text">
+                  Real-time creditworthiness that updates with every season,
+                  every rainfall
+                </div>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <a href="/dashboard" class="btn btn-primary">
+                <i class="fas fa-play-circle"></i>
+                See The Magic
+              </a>
+              <a href="#early-access" class="btn btn-exclusive">
+                <i class="fas fa-key"></i>
+                Request Beta Access
+              </a>
             </div>
           </div>
-          <nav class="nav-menu">
-            <ul>
-              <li><a href="#home" class="nav-link active">Home</a></li>
-              <li><a href="#features" class="nav-link">Features</a></li>
-              <li><a href="#about" class="nav-link">About</a></li>
-              <li><a href="#contact" class="nav-link">Contact</a></li>
+          <div class="hero-visual">
+            <div class="soil-analysis-demo">
+              <div class="demo-header">
+                <div class="demo-title">
+                  <i class="fas fa-microscope"></i>
+                  Live Soil Intelligence
+                </div>
+                <div class="live-indicator">Beta Preview</div>
+              </div>
+              <div class="soil-metrics">
+                <div class="metric-row">
+                  <span class="metric-label">pH Balance</span>
+                  <span class="metric-value">6.8</span>
+                  <span class="metric-status status-excellent">Optimal</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Nitrogen (N)</span>
+                  <span class="metric-value">45mg/kg</span>
+                  <span class="metric-status status-good">Strong</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Organic Matter</span>
+                  <span class="metric-value">3.2%</span>
+                  <span class="metric-status status-excellent">Rich</span>
+                </div>
+                <div class="metric-row">
+                  <span class="metric-label">Risk Profile</span>
+                  <span class="metric-value">0.12</span>
+                  <span class="metric-status status-excellent">Minimal</span>
+                </div>
+              </div>
+              <div class="financial-score">
+                <div class="score-label">Financial Trust Score</div>
+                <div class="score-value">78.5</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Revolutionary Countdown -->
+    <section class="countdown-section">
+      <div class="container">
+        <div class="countdown-content">
+          <h2 class="countdown-title">The Future Grows Closer</h2>
+          <p class="countdown-subtitle">
+            Join the agricultural finance revolution. Beta access opens for
+            select financial institutions in Q2 2025.
+          </p>
+          <div class="countdown-grid" id="countdown">
+            <div class="countdown-item">
+              <span class="countdown-number" id="months">03</span>
+              <span class="countdown-label">Months</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number" id="weeks">12</span>
+              <span class="countdown-label">Weeks</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number" id="days">85</span>
+              <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number" id="hours">18</span>
+              <span class="countdown-label">Hours</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Revolutionary Features -->
+    <section class="features-section">
+      <div class="container">
+        <div class="section-intro">
+          <div class="section-badge">Revolutionary Technology</div>
+          <h2 class="section-title">Beyond Traditional Risk Assessment</h2>
+          <p class="section-description">
+            We've cracked the code that banks have searched for centuries—how to
+            see financial risk in the very foundation of agriculture itself.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-header">
+              <div class="feature-icon-large">
+                <i class="fas fa-dna"></i>
+              </div>
+              <div>
+                <h3 class="feature-title">Molecular Financial Profiling</h3>
+              </div>
+            </div>
+            <p class="feature-description">
+              Our algorithms read soil like a financial statement—15+ chemical
+              markers become a farmer's credit biography, written in nitrogen
+              levels and pH balances.
+            </p>
+            <ul class="feature-benefits">
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Chemical composition → Credit composition</span>
+              </li>
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Predictive yield modeling from molecular data</span>
+              </li>
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Real-time risk updates with environmental changes</span>
+              </li>
             </ul>
-          </nav>
-          <div class="nav-actions">
+          </div>
+
+          <div class="feature-card premium">
+            <div class="feature-ribbon">Game Changer</div>
+            <div class="feature-header">
+              <div class="feature-icon-large">
+                <i class="fas fa-brain"></i>
+              </div>
+              <div>
+                <h3 class="feature-title">The Anti-Collateral Engine</h3>
+              </div>
+            </div>
+            <p class="feature-description">
+              Why ask for what farmers don't have? We've built the world's first
+              collateral-free agricultural finance system—where soil health
+              becomes the only guarantee you need.
+            </p>
+            <ul class="feature-benefits">
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Zero collateral, infinite possibilities</span>
+              </li>
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>95%+ accuracy in default prediction</span>
+              </li>
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Instant approval algorithms</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-header">
+              <div class="feature-icon-large">
+                <i class="fas fa-globe-africa"></i>
+              </div>
+              <div>
+                <h3 class="feature-title">Zimbabwe-Native Intelligence</h3>
+              </div>
+            </div>
+            <p class="feature-description">
+              Built from the red earth up—our AI speaks Zimbabwean soil
+              dialects, trained on local weather patterns, crop cycles, and the
+              unique financial rhythms of our agriculture.
+            </p>
+            <ul class="feature-benefits">
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Climate-aware risk modeling</span>
+              </li>
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Local crop variety optimization</span>
+              </li>
+              <li class="benefit-item">
+                <span class="benefit-icon"><i class="fas fa-check"></i></span>
+                <span>Seasonal financial rhythm recognition</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Institutional Appeal -->
+    <section class="institutional-section">
+      <div class="container">
+        <div class="institutional-content">
+          <div class="institutional-text">
+            <h2>The Missing Piece in Your Agricultural Portfolio</h2>
+            <p>
+              Every financial institution in Zimbabwe knows the agricultural
+              sector holds immense potential—but until now, lacked the tools to
+              unlock it safely. We've built the master key: soil-based risk
+              assessment that transforms uncertainty into opportunity.
+            </p>
+            <div class="hero-actions">
+              <a href="/dashboard" class="btn btn-primary">
+                <i class="fas fa-telescope"></i>
+                Explore Live Demo
+              </a>
+              <a
+                href="mailto:partnerships@talazo.co.zw"
+                class="btn btn-exclusive"
+              >
+                <i class="fas fa-handshake"></i>
+                Partner With Us
+              </a>
+            </div>
+          </div>
+          <div class="institutional-visual">
+            <div class="impact-metrics">
+              <div class="metric-card">
+                <div class="metric-icon"><i class="fas fa-university"></i></div>
+                <div class="metric-number">Banks</div>
+                <div class="metric-label">Traditional Lending</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon">
+                  <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div class="metric-number">MFIs</div>
+                <div class="metric-label">Microfinance</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="metric-number">Insurers</div>
+                <div class="metric-label">Risk Coverage</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-icon"><i class="fas fa-seedling"></i></div>
+                <div class="metric-number">AgTech</div>
+                <div class="metric-label">Specialized Finance</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Early Access -->
+    <section id="early-access" class="early-access">
+      <div class="container">
+        <div class="access-content">
+          <h2 class="access-title">Join the Soil Revolution</h2>
+          <p class="access-description">
+            Limited beta access for forward-thinking financial institutions. Be
+            among the first to wield the power of soil-based creditworthiness
+            assessment in Zimbabwe.
+          </p>
+          <form class="access-form" id="early-access-form">
+            <div class="form-group">
+              <input
+                type="email"
+                class="form-input"
+                placeholder="Institution Email Address"
+                required
+              />
+              <select class="form-select" required>
+                <option value="">Institution Type</option>
+                <option value="bank">Commercial Bank</option>
+                <option value="mfi">Microfinance Institution</option>
+                <option value="insurer">Insurance Company</option>
+                <option value="agtech">AgTech Lender</option>
+                <option value="other">Other Financial Institution</option>
+              </select>
+            </div>
+            <button type="submit" class="form-submit">
+              <i class="fas fa-rocket"></i>
+              Request Beta Access
+            </button>
+          </form>
+          <div class="access-actions">
             <a href="/dashboard" class="btn btn-primary">
-              <i class="fas fa-chart-line"></i>
-              Dashboard
+              <i class="fas fa-play-circle"></i>
+              Experience Live Demo
+            </a>
+            <a href="tel:+263786303048" class="btn btn-exclusive">
+              <i class="fas fa-phone"></i>
+              Schedule Consultation
             </a>
           </div>
         </div>
       </div>
-    </header>
-
-    <!-- Hero Section -->
-    <main>
-      <section id="home" class="hero">
-        <div class="hero-background">
-          <div class="hero-overlay"></div>
-        </div>
-        <div class="container">
-          <div class="hero-content">
-            <div class="hero-text">
-              <h1 class="hero-title">
-                <span class="highlight">AI-Driven</span> Financial Solutions
-                <br />for <span class="highlight">Zimbabwean Farmers</span>
-              </h1>
-              <p class="hero-subtitle">
-                Revolutionizing agricultural finance through innovative soil
-                health analysis, enabling smallholder farmers to access credit
-                and insurance without traditional collateral.
-              </p>
-              <div class="hero-stats">
-                <div class="stat-item">
-                  <div class="stat-number" data-target="1000">0+</div>
-                  <div class="stat-label">Farmers Served</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number" data-target="95">0%</div>
-                  <div class="stat-label">Accuracy Rate</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number" data-target="2">$0M+</div>
-                  <div class="stat-label">Loans Facilitated</div>
-                </div>
-              </div>
-              <div class="hero-actions">
-                <a href="/dashboard" class="btn btn-primary btn-large">
-                  <i class="fas fa-rocket"></i>
-                  Get Started
-                </a>
-                <a href="#features" class="btn btn-outline btn-large">
-                  <i class="fas fa-play-circle"></i>
-                  Learn More
-                </a>
-              </div>
-            </div>
-            <div class="hero-visual">
-              <div class="hero-card">
-                <div class="card-header">
-                  <i class="fas fa-leaf"></i>
-                  <span>Soil Health Analysis</span>
-                </div>
-                <div class="card-content">
-                  <div class="metric">
-                    <span class="metric-label">Financial Index</span>
-                    <span class="metric-value good">78.5</span>
-                  </div>
-                  <div class="metric">
-                    <span class="metric-label">Risk Level</span>
-                    <span class="metric-badge low">Low</span>
-                  </div>
-                  <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Features Section -->
-      <section id="features" class="features scroll-reveal">
-        <div class="container">
-          <div class="section-header">
-            <h2>Transforming Agricultural Finance</h2>
-            <p>
-              Our AI-powered platform provides comprehensive solutions for
-              farmers, lenders, and insurers
-            </p>
-          </div>
-          <div class="features-grid">
-            <div class="feature-card scroll-reveal">
-              <div class="feature-icon">
-                <i class="fas fa-microscope"></i>
-              </div>
-              <h3>Soil Health Analysis</h3>
-              <p>
-                Advanced AI algorithms analyze soil composition, pH levels, and
-                nutrient content to generate accurate financial risk
-                assessments.
-              </p>
-              <ul class="feature-list">
-                <li><i class="fas fa-check"></i> Real-time soil testing</li>
-                <li><i class="fas fa-check"></i> Nutrient analysis</li>
-                <li><i class="fas fa-check"></i> pH optimization</li>
-              </ul>
-            </div>
-            <div class="feature-card featured scroll-reveal">
-              <div class="feature-ribbon">Most Popular</div>
-              <div class="feature-icon">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <h3>Credit Scoring</h3>
-              <p>
-                Revolutionary credit assessment using agricultural data,
-                enabling farmers without traditional collateral to access
-                financial services.
-              </p>
-              <ul class="feature-list">
-                <li><i class="fas fa-check"></i> AI-driven scoring</li>
-                <li><i class="fas fa-check"></i> No collateral required</li>
-                <li><i class="fas fa-check"></i> Fair assessment</li>
-              </ul>
-            </div>
-            <div class="feature-card scroll-reveal">
-              <div class="feature-icon">
-                <i class="fas fa-shield-alt"></i>
-              </div>
-              <h3>Insurance Solutions</h3>
-              <p>
-                Data-driven insurance premiums based on actual farm conditions
-                and risk factors, making coverage more accessible and
-                affordable.
-              </p>
-              <ul class="feature-list">
-                <li><i class="fas fa-check"></i> Risk-based pricing</li>
-                <li><i class="fas fa-check"></i> Crop protection</li>
-                <li><i class="fas fa-check"></i> Weather coverage</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- About Section -->
-      <section id="about" class="about scroll-reveal">
-        <div class="container">
-          <div class="about-content">
-            <div class="about-text">
-              <h2>Empowering Zimbabwe's Agricultural Future</h2>
-              <p class="about-description">
-                Talazo AgriFinance bridges the gap between traditional banking
-                and modern farming, using cutting-edge technology to unlock
-                financial opportunities for Zimbabwean farmers.
-              </p>
-              <div class="about-features">
-                <div class="about-feature">
-                  <i class="fas fa-globe-africa"></i>
-                  <div>
-                    <h4>Local Impact</h4>
-                    <p>
-                      Supporting Zimbabwean farmers with culturally aware
-                      solutions
-                    </p>
-                  </div>
-                </div>
-                <div class="about-feature">
-                  <i class="fas fa-brain"></i>
-                  <div>
-                    <h4>AI Technology</h4>
-                    <p>
-                      Machine learning models trained on local agricultural data
-                    </p>
-                  </div>
-                </div>
-                <div class="about-feature">
-                  <i class="fas fa-handshake"></i>
-                  <div>
-                    <h4>Partnership</h4>
-                    <p>
-                      Connecting farmers, banks, and insurers in a unified
-                      ecosystem
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="about-visual">
-              <div class="stats-container">
-                <div class="stat-card">
-                  <i class="fas fa-users"></i>
-                  <h3 class="counter" data-target="1250">0</h3>
-                  <p>Active Farmers</p>
-                </div>
-                <div class="stat-card">
-                  <i class="fas fa-map-marker-alt"></i>
-                  <h3 class="counter" data-target="8">0</h3>
-                  <p>Provinces Covered</p>
-                </div>
-                <div class="stat-card">
-                  <i class="fas fa-dollar-sign"></i>
-                  <h3 class="counter" data-target="2.3">$0M</h3>
-                  <p>Total Financing</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA Section -->
-      <section class="cta scroll-reveal">
-        <div class="container">
-          <div class="cta-content">
-            <h2>Ready to Transform Your Farm's Financial Future?</h2>
-            <p>
-              Join thousands of Zimbabwean farmers who are already benefiting
-              from our AI-powered financial solutions.
-            </p>
-            <div class="cta-actions">
-              <a href="/dashboard" class="btn btn-primary btn-large">
-                <i class="fas fa-rocket"></i>
-                Start Your Assessment
-              </a>
-              <a href="#contact" class="btn btn-outline-white btn-large">
-                <i class="fas fa-phone"></i>
-                Contact Us
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+    </section>
 
     <!-- Footer -->
-    <footer id="contact" class="footer">
+    <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <div class="footer-section">
-            <div class="footer-logo">
-              <div class="logo">
-                <div class="logo-icon">
-                  <i class="fas fa-seedling"></i>
-                </div>
-                <div class="logo-text">
-                  <span class="brand-name">Talazo</span>
-                  <span class="brand-subtitle">AgriFinance</span>
-                </div>
+          <div class="footer-brand">
+            <a href="/" class="logo-container">
+              <div class="logo-symbol"></div>
+              <div class="brand-identity">
+                <span class="brand-name">Talazo</span>
+                <span class="brand-tagline">Soil · Data · Trust</span>
               </div>
-              <p>
-                Empowering Zimbabwean farmers through innovative AI-driven
-                financial solutions.
-              </p>
-              <div class="social-links">
-                <a href="#" aria-label="Twitter"
-                  ><i class="fab fa-twitter"></i
-                ></a>
-                <a href="#" aria-label="Facebook"
-                  ><i class="fab fa-facebook"></i
-                ></a>
-                <a href="#" aria-label="LinkedIn"
-                  ><i class="fab fa-linkedin"></i
-                ></a>
-                <a href="#" aria-label="Instagram"
-                  ><i class="fab fa-instagram"></i
-                ></a>
-              </div>
+            </a>
+            <p class="footer-description">
+              Revolutionizing agricultural finance through the ancient wisdom of
+              soil, decoded by modern AI for Zimbabwe's financial institutions.
+            </p>
+            <div class="social-links">
+              <a href="#" class="social-link" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="social-link" aria-label="LinkedIn">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="#" class="social-link" aria-label="Facebook">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a href="#" class="social-link" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
             </div>
           </div>
           <div class="footer-section">
             <h4>Platform</h4>
-            <ul>
-              <li><a href="/dashboard">Dashboard</a></li>
-              <li><a href="/api/farmers">Farmers</a></li>
-              <li><a href="/api/scoring">Credit Scoring</a></li>
-              <li><a href="/api/soil">Soil Analysis</a></li>
+            <ul class="footer-links">
+              <li><a href="/dashboard">Live Demo</a></li>
+              <li><a href="/dashboard">Soil Analysis</a></li>
+              <li><a href="/dashboard">Risk Assessment</a></li>
+              <li><a href="/dashboard">Financial Scoring</a></li>
             </ul>
           </div>
           <div class="footer-section">
-            <h4>Company</h4>
-            <ul>
-              <li><a href="#about">About Us</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Press</a></li>
-              <li><a href="#">Partners</a></li>
+            <h4>For Banks</h4>
+            <ul class="footer-links">
+              <li><a href="#early-access">Beta Access</a></li>
+              <li>
+                <a href="mailto:partnerships@talazo.co.zw">Partnerships</a>
+              </li>
+              <li><a href="#">API Integration</a></li>
+              <li><a href="#">Training Program</a></li>
             </ul>
           </div>
           <div class="footer-section">
-            <h4>Contact</h4>
+            <h4>Connect</h4>
             <div class="contact-info">
-              <p><i class="fas fa-map-marker-alt"></i> Harare, Zimbabwe</p>
-              <p><i class="fas fa-phone"></i> +263 4 123 4567</p>
-              <p><i class="fas fa-envelope"></i> info@talazo.co.zw</p>
+              <div class="contact-item">
+                <div class="contact-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <span>Africa University, Old Mutare</span>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                <span>+263 786 303 048</span>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <span>partnerships@talazo.co.zw</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2025 Talazo AgriFinance. All rights reserved.</p>
-          <div class="footer-links">
+          <p>
+            &copy; 2025 Talazo AgriFinance. Cultivating Trust. | Launching Q2
+            2025
+          </p>
+          <div class="footer-legal">
             <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">API Documentation</a>
+            <a href="#">Beta Terms</a>
+            <a href="#">Partnership Agreement</a>
           </div>
         </div>
       </div>
     </footer>
 
     <script>
-      // Enhanced JavaScript with Spectacular Animations and Interactions
+      // Enhanced Creative JavaScript
 
-      // Intersection Observer for scroll animations
+      // Custom cursor system
+      const cursor = document.querySelector(".cursor");
+      const cursorFollower = document.querySelector(".cursor-follower");
+
+      let mouseX = 0,
+        mouseY = 0;
+      let followerX = 0,
+        followerY = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+
+        cursor.style.left = mouseX + "px";
+        cursor.style.top = mouseY + "px";
+      });
+
+      // Smooth follower animation
+      function updateFollower() {
+        followerX += (mouseX - followerX) * 0.1;
+        followerY += (mouseY - followerY) * 0.1;
+
+        cursorFollower.style.left = followerX + "px";
+        cursorFollower.style.top = followerY + "px";
+
+        requestAnimationFrame(updateFollower);
+      }
+      updateFollower();
+
+      // Interactive cursor effects
+      document
+        .querySelectorAll(".btn, .feature-card, .metric-card")
+        .forEach((el) => {
+          el.addEventListener("mouseenter", () => {
+            cursor.style.transform = "scale(2)";
+            cursorFollower.style.transform = "scale(1.5)";
+          });
+
+          el.addEventListener("mouseleave", () => {
+            cursor.style.transform = "scale(1)";
+            cursorFollower.style.transform = "scale(1)";
+          });
+        });
+
+      // Animated soil particles
+      function createSoilParticles() {
+        const particlesContainer = document.getElementById("soil-particles");
+        const particleCount = 50;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.top = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 8 + "s";
+          particle.style.animationDuration = 8 + Math.random() * 4 + "s";
+
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Launch countdown with real target
+      function updateCountdown() {
+        const launchDate = new Date("2025-06-01T00:00:00");
+        const now = new Date();
+        const diff = launchDate - now;
+
+        if (diff > 0) {
+          const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+          const weeks = Math.floor(
+            (diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7)
+          );
+          const days = Math.floor(
+            (diff % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24)
+          );
+          const hours = Math.floor(
+            (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+
+          document.getElementById("months").textContent = months
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("weeks").textContent = weeks
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("days").textContent = days
+            .toString()
+            .padStart(2, "0");
+          document.getElementById("hours").textContent = hours
+            .toString()
+            .padStart(2, "0");
+        }
+      }
+
+      // Advanced form handling
+      document
+        .getElementById("early-access-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const email = this.querySelector('input[type="email"]').value;
+          const institutionType = this.querySelector("select").value;
+          const submitBtn = this.querySelector('button[type="submit"]');
+
+          if (!email || !institutionType) {
+            showNotification("Please fill in all fields", "error");
+            return;
+          }
+
+          // Enhanced submission flow
+          const originalHTML = submitBtn.innerHTML;
+          submitBtn.innerHTML =
+            '<i class="fas fa-atom fa-spin"></i> Processing...';
+          submitBtn.disabled = true;
+          submitBtn.style.background =
+            "linear-gradient(135deg, #1976d2, #42a5f5)";
+
+          setTimeout(() => {
+            submitBtn.innerHTML =
+              '<i class="fas fa-check-circle"></i> Access Requested!';
+            submitBtn.style.background =
+              "linear-gradient(135deg, #4caf50, #66bb6a)";
+
+            showNotification(
+              "Beta access request submitted successfully! We'll contact you within 48 hours.",
+              "success"
+            );
+
+            setTimeout(() => {
+              submitBtn.innerHTML = originalHTML;
+              submitBtn.disabled = false;
+              submitBtn.style.background = "";
+              this.reset();
+            }, 4000);
+          }, 2500);
+        });
+
+      // Custom notification system
+      function showNotification(message, type = "info") {
+        const notification = document.createElement("div");
+        notification.style.cssText = `
+          position: fixed;
+          top: 2rem;
+          right: 2rem;
+          background: ${
+            type === "success"
+              ? "linear-gradient(135deg, #4caf50, #66bb6a)"
+              : type === "error"
+              ? "linear-gradient(135deg, #f44336, #ef5350)"
+              : "linear-gradient(135deg, #2196f3, #42a5f5)"
+          };
+          color: white;
+          padding: 1.5rem 2rem;
+          border-radius: 16px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+          z-index: 10000;
+          font-weight: 600;
+          max-width: 400px;
+          transform: translateX(100%);
+          transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+        `;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        setTimeout(() => (notification.style.transform = "translateX(0)"), 100);
+        setTimeout(() => {
+          notification.style.transform = "translateX(100%)";
+          setTimeout(() => notification.remove(), 500);
+        }, 5000);
+      }
+
+      // Enhanced scroll effects
+      let lastScrollY = window.scrollY;
+      const navbar = document.querySelector(".navbar");
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          const currentScrollY = window.scrollY;
+
+          // Dynamic navbar
+          if (currentScrollY > 100) {
+            navbar.style.background = "rgba(13, 13, 13, 0.98)";
+            navbar.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.3)";
+          } else {
+            navbar.style.background = "rgba(13, 13, 13, 0.95)";
+            navbar.style.boxShadow = "none";
+          }
+
+          // Hide/show navbar
+          if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            navbar.style.transform = "translateY(-100%)";
+          } else {
+            navbar.style.transform = "translateY(0)";
+          }
+
+          lastScrollY = currentScrollY;
+
+          // Parallax effects
+          const heroBackground = document.querySelector(".hero-background");
+          if (heroBackground) {
+            const scrolled = window.pageYOffset;
+            heroBackground.style.transform = `translateY(${scrolled * 0.3}px)`;
+          }
+        },
+        { passive: true }
+      );
+
+      // Advanced intersection observer
       const observerOptions = {
         threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
+        rootMargin: "0px 0px -100px 0px",
       };
 
-      const observer = new IntersectionObserver((entries) => {
+      const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
 
-            // Trigger counters when about section is visible
-            if (entry.target.id === "about") {
-              animateCounters();
+            // Special animations for different elements
+            if (entry.target.classList.contains("feature-card")) {
+              entry.target.style.animationDelay = "0s";
+              entry.target.style.animation =
+                "slideInUp 0.8s cubic-bezier(0.23, 1, 0.320, 1) forwards";
             }
           }
         });
       }, observerOptions);
 
-      // Observe all scroll-reveal elements
-      document.querySelectorAll(".scroll-reveal").forEach((el) => {
-        observer.observe(el);
+      // Enhanced feature card interactions
+      document.querySelectorAll(".feature-card").forEach((card, index) => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(50px)";
+        revealObserver.observe(card);
+
+        card.addEventListener("mouseenter", () => {
+          const icon = card.querySelector(".feature-icon-large");
+          const benefits = card.querySelectorAll(".benefit-item");
+
+          if (icon) {
+            icon.style.transform = "scale(1.15) rotate(10deg)";
+          }
+
+          benefits.forEach((benefit, i) => {
+            setTimeout(() => {
+              benefit.style.transform = "translateX(15px)";
+              benefit.style.color = "#fafafa";
+            }, i * 100);
+          });
+        });
+
+        card.addEventListener("mouseleave", () => {
+          const icon = card.querySelector(".feature-icon-large");
+          const benefits = card.querySelectorAll(".benefit-item");
+
+          if (icon) {
+            icon.style.transform = "scale(1) rotate(0deg)";
+          }
+
+          benefits.forEach((benefit) => {
+            benefit.style.transform = "translateX(0)";
+            benefit.style.color = "";
+          });
+        });
       });
 
-      // Smooth scrolling for navigation links
+      // Smooth scrolling for anchors
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
@@ -1450,385 +2339,29 @@
         });
       });
 
-      // Active navigation highlighting with smooth transitions
-      let lastActiveNav = null;
-      window.addEventListener("scroll", () => {
-        const sections = document.querySelectorAll("section[id]");
-        const navLinks = document.querySelectorAll(".nav-link");
-
-        let current = "";
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.clientHeight;
-          if (scrollY >= sectionTop - 200) {
-            current = section.getAttribute("id");
-          }
-        });
-
-        // Only update if different from last active
-        if (current !== lastActiveNav) {
-          navLinks.forEach((link) => {
-            link.classList.remove("active");
-            if (link.getAttribute("href") === `#${current}`) {
-              link.classList.add("active");
-            }
-          });
-          lastActiveNav = current;
-        }
-
-        // Navbar background opacity on scroll
-        const navbar = document.querySelector(".navbar");
-        if (window.scrollY > 50) {
-          navbar.style.background = "rgba(255, 255, 255, 0.98)";
-          navbar.style.boxShadow = "0 2px 20px rgba(0, 0, 0, 0.1)";
-        } else {
-          navbar.style.background = "rgba(255, 255, 255, 0.95)";
-          navbar.style.boxShadow = "none";
-        }
-      });
-
-      // Counter animation function
-      function animateCounters() {
-        const counters = document.querySelectorAll(
-          ".counter, .stat-number[data-target]"
-        );
-
-        counters.forEach((counter) => {
-          const target = parseInt(counter.getAttribute("data-target"));
-          const increment = target / 100;
-          let current = 0;
-
-          const updateCounter = () => {
-            if (current < target) {
-              current += increment;
-              if (counter.classList.contains("counter")) {
-                if (target === 2.3) {
-                  counter.textContent = `$${current.toFixed(1)}M`;
-                } else {
-                  counter.textContent = Math.ceil(current);
-                }
-              } else {
-                // For hero stats
-                if (target === 2) {
-                  counter.textContent = `$${Math.ceil(current)}M+`;
-                } else if (target === 95) {
-                  counter.textContent = `${Math.ceil(current)}%`;
-                } else {
-                  counter.textContent = `${Math.ceil(current)}+`;
-                }
-              }
-              requestAnimationFrame(updateCounter);
-            } else {
-              if (counter.classList.contains("counter")) {
-                if (target === 2.3) {
-                  counter.textContent = `$${target}M`;
-                } else {
-                  counter.textContent = target;
-                }
-              } else {
-                if (target === 2) {
-                  counter.textContent = `$${target}M+`;
-                } else if (target === 95) {
-                  counter.textContent = `${target}%`;
-                } else {
-                  counter.textContent = `${target}+`;
-                }
-              }
-            }
-          };
-
-          updateCounter();
-        });
-      }
-
-      // Progress bar animation
-      function animateProgressBar() {
-        const progressFill = document.getElementById("progress-fill");
-        if (progressFill) {
-          setTimeout(() => {
-            progressFill.style.width = "78.5%";
-          }, 1000);
-        }
-      }
-
-      // Hero card 3D tilt effect
-      function initCardTilt() {
-        const card = document.querySelector(".hero-card");
-        if (!card) return;
-
-        card.addEventListener("mousemove", (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-
-          const rotateX = (y - centerY) / 10;
-          const rotateY = (centerX - x) / 10;
-
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
-        });
-
-        card.addEventListener("mouseleave", () => {
-          card.style.transform = "perspective(1000px) rotateY(-5deg)";
-        });
-      }
-
-      // Parallax effect for hero background
-      function initParallax() {
-        window.addEventListener("scroll", () => {
-          const scrolled = window.pageYOffset;
-          const heroBackground = document.querySelector(".hero-background");
-          if (heroBackground) {
-            heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
-          }
-        });
-      }
-
-      // Feature cards hover effects
-      function initFeatureCards() {
-        const featureCards = document.querySelectorAll(".feature-card");
-
-        featureCards.forEach((card) => {
-          card.addEventListener("mouseenter", () => {
-            // Add subtle bounce to icon
-            const icon = card.querySelector(".feature-icon");
-            if (icon) {
-              icon.style.transform = "scale(1.1) rotate(5deg)";
-            }
-
-            // Animate list items
-            const listItems = card.querySelectorAll(".feature-list li");
-            listItems.forEach((item, index) => {
-              setTimeout(() => {
-                item.style.transform = "translateX(10px)";
-              }, index * 100);
-            });
-          });
-
-          card.addEventListener("mouseleave", () => {
-            const icon = card.querySelector(".feature-icon");
-            if (icon) {
-              icon.style.transform = "scale(1) rotate(0deg)";
-            }
-
-            const listItems = card.querySelectorAll(".feature-list li");
-            listItems.forEach((item) => {
-              item.style.transform = "translateX(0)";
-            });
-          });
-        });
-      }
-
-      // Floating animation for hero elements
-      function initFloatingAnimation() {
-        const floatingElements = document.querySelectorAll(
-          ".hero-card, .feature-icon"
-        );
-
-        floatingElements.forEach((element, index) => {
-          element.style.animation = `float 3s ease-in-out infinite ${
-            index * 0.5
-          }s`;
-        });
-      }
-
-      // Add CSS for floating animation
-      const floatingCSS = `
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-10px) rotate(2deg); }
-        }
-      `;
-
-      const style = document.createElement("style");
-      style.textContent = floatingCSS;
-      document.head.appendChild(style);
-
-      // Typewriter effect for hero title (optional enhancement)
-      function initTypewriter() {
-        const title = document.querySelector(".hero-title");
-        if (!title) return;
-
-        const text = title.innerHTML;
-        title.innerHTML = "";
-        title.style.borderRight = "2px solid #2d7d32";
-
-        let i = 0;
-        const typeWriter = () => {
-          if (i < text.length) {
-            title.innerHTML = text.slice(0, i + 1);
-            i++;
-            setTimeout(typeWriter, 50);
-          } else {
-            title.style.borderRight = "none";
-          }
-        };
-
-        // Start typewriter after page load
-        setTimeout(typeWriter, 500);
-      }
-
-      // Initialize all animations and interactions
+      // Initialize everything
       document.addEventListener("DOMContentLoaded", () => {
-        // Start progress bar animation
-        animateProgressBar();
+        createSoilParticles();
+        updateCountdown();
+        setInterval(updateCountdown, 3600000); // Update every hour
 
-        // Initialize card tilt effect
-        initCardTilt();
-
-        // Initialize parallax
-        initParallax();
-
-        // Initialize feature cards
-        initFeatureCards();
-
-        // Initialize floating animation
-        initFloatingAnimation();
-
-        // Start hero stats counter immediately
-        setTimeout(() => {
-          const heroStats = document.querySelectorAll(
-            ".stat-number[data-target]"
-          );
-          if (heroStats.length > 0) {
-            animateCounters();
-          }
-        }, 1500);
-
-        // Add loading animation
+        // Staggered loading animation
         document.body.style.opacity = "0";
-        document.body.style.transition = "opacity 0.5s ease-in-out";
-
         setTimeout(() => {
+          document.body.style.transition = "opacity 1s ease-out";
           document.body.style.opacity = "1";
         }, 100);
       });
 
-      // Performance optimization: Throttle scroll events
-      let ticking = false;
-      function requestTick() {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            ticking = false;
-          });
-          ticking = true;
-        }
-      }
-
-      // Add smooth reveal animation to elements as they come into view
-      const revealElements = () => {
-        const elements = document.querySelectorAll(
-          ".scroll-reveal:not(.revealed)"
-        );
-        elements.forEach((element) => {
-          const elementTop = element.getBoundingClientRect().top;
-          const elementVisible = 150;
-
-          if (elementTop < window.innerHeight - elementVisible) {
-            element.classList.add("revealed");
-          }
-        });
-      };
-
-      // Optimized scroll listener
-      window.addEventListener(
-        "scroll",
-        () => {
-          requestTick();
-          revealElements();
-        },
-        { passive: true }
-      );
-
-      // Add click ripple effect to buttons
-      function addRippleEffect() {
-        const buttons = document.querySelectorAll(".btn");
-
-        buttons.forEach((button) => {
-          button.addEventListener("click", function (e) {
-            const ripple = document.createElement("span");
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-
-            ripple.style.width = ripple.style.height = size + "px";
-            ripple.style.left = x + "px";
-            ripple.style.top = y + "px";
-            ripple.classList.add("ripple");
-
-            this.appendChild(ripple);
-
-            setTimeout(() => {
-              ripple.remove();
-            }, 600);
-          });
+      // Performance optimization
+      const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      if (mediaQuery.matches) {
+        document.querySelectorAll("*").forEach((el) => {
+          el.style.animationDuration = "0.01ms !important";
+          el.style.animationIterationCount = "1 !important";
+          el.style.transitionDuration = "0.01ms !important";
         });
       }
-
-      // Add ripple CSS
-      const rippleCSS = `
-        .btn {
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .ripple {
-          position: absolute;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.4);
-          transform: scale(0);
-          animation: rippleEffect 0.6s linear;
-          pointer-events: none;
-        }
-        
-        @keyframes rippleEffect {
-          to {
-            transform: scale(2);
-            opacity: 0;
-          }
-        }
-      `;
-
-      const rippleStyle = document.createElement("style");
-      rippleStyle.textContent = rippleCSS;
-      document.head.appendChild(rippleStyle);
-
-      // Initialize ripple effect
-      addRippleEffect();
-
-      // Add Easter egg: Konami code for special animation
-      let konamiCode = [];
-      const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
-
-      document.addEventListener("keydown", (e) => {
-        konamiCode.push(e.keyCode);
-        if (konamiCode.length > konamiSequence.length) {
-          konamiCode.shift();
-        }
-
-        if (konamiCode.join(",") === konamiSequence.join(",")) {
-          // Trigger special animation
-          document.body.style.animation = "rainbow 2s infinite";
-          setTimeout(() => {
-            document.body.style.animation = "";
-          }, 10000);
-        }
-      });
-
-      // Rainbow animation CSS for Easter egg
-      const rainbowCSS = `
-        @keyframes rainbow {
-          0% { filter: hue-rotate(0deg); }
-          100% { filter: hue-rotate(360deg); }
-        }
-      `;
-
-      const rainbowStyle = document.createElement("style");
-      rainbowStyle.textContent = rainbowCSS;
-      document.head.appendChild(rainbowStyle);
     </script>
   </body>
 </html>

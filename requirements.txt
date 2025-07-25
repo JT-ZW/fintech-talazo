@@ -33,13 +33,13 @@ python-dotenv==1.0.0
 # HTTP and Requests
 requests==2.31.0
 
-# Development and Testing
+# Production Server
+gunicorn==21.2.0
+
+# Development and Testing (Optional)
 pytest==7.4.2
 pytest-flask==1.2.0
 pytest-cov==4.1.0
-
-# Production Server
-gunicorn==21.2.0
 
 # Optional: API Documentation
 flask-swagger-ui==4.11.1
@@ -47,8 +47,8 @@ flask-swagger-ui==4.11.1
 # Optional: JWT Authentication (for future use)
 PyJWT==2.8.0
 
-# Optional: Redis for caching and rate limiting
-redis==4.6.0
+# Optional: Redis for caching and rate limiting (commented out until needed)
+# redis==4.6.0
 
-# Optional: Celery for background tasks
-celery==5.3.1
+# Optional: Celery for background tasks (commented out until needed)
+# celery==5.3.1

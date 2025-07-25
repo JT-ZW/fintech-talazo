@@ -1,152 +1,2460 @@
-{% extends "base.html" %} {% block title %}Add New Farmer{% endblock %} {% block
-content %}
-<div class="add-farmer-container">
-  <header class="page-header">
-    <h1><i class="fas fa-user-plus"></i> Add New Farmer</h1>
-  </header>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add New Farmer - Talazo AgriFinance</title>
 
-  <form id="add-farmer-form" class="farmer-form">
-    <div class="form-section personal-info">
-      <h2>Personal Information</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="full_name">Full Name</label>
-          <input type="text" id="full_name" name="full_name" required />
-        </div>
-        <div class="form-group">
-          <label for="national_id">National ID</label>
-          <input type="text" id="national_id" name="national_id" required />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="phone_number">Phone Number</label>
-          <input type="tel" id="phone_number" name="phone_number" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group full-width">
-          <label for="address">Full Address</label>
-          <textarea id="address" name="address" required></textarea>
-        </div>
+    <!-- External Libraries -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+      /* Talazo AgriFinance - Add Farmer Page Styling */
+
+      :root {
+        /* Color Palette - Professional Financial Institution */
+        --primary-color: #2d7d32; /* Forest Green */
+        --primary-light: #4caf50; /* Light Green */
+        --primary-dark: #1b5e20; /* Dark Green */
+        --secondary-color: #ff8f00; /* Amber */
+        --secondary-light: #ffb74d; /* Light Amber */
+        --accent-color: #795548; /* Brown */
+        --accent-light: #a1887f; /* Light Brown */
+
+        /* Neutral Colors */
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --gray: #9e9e9e;
+        --dark-gray: #424242;
+        --charcoal: #212121;
+
+        /* Financial Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --error: #f44336;
+        --info: #2196f3;
+        --excellent: #0d7377;
+        --good: #14a085;
+        --fair: #f39c12;
+        --poor: #e74c3c;
+
+        /* Typography */
+        --font-primary: "Inter", sans-serif;
+        --font-display: "Playfair Display", serif;
+
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        /* Border Radius */
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
+      }
+
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(
+          135deg,
+          #f8fffe 0%,
+          #e8f5e8 50%,
+          #f0f8f0 100%
+        );
+        color: var(--charcoal);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-left: 280px; /* Account for sidebar */
+        transition: padding-left var(--transition-normal);
+        overflow-x: hidden;
+      }
+
+      body.sidebar-collapsed {
+        padding-left: 80px;
+      }
+
+      body.mobile {
+        padding-left: 0;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--charcoal) 0%, #1a1a1a 100%);
+        color: var(--white);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        transition: var(--transition-normal);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .sidebar.collapsed {
+        width: 80px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-logo .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .logo-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .sidebar-toggle {
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        opacity: 1;
+      }
+
+      .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar.collapsed .sidebar-toggle {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .user-profile {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .profile-avatar {
+        font-size: 2.5rem;
+        color: var(--primary-light);
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .profile-info {
+        opacity: 0;
+        width: 0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .profile-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: var(--spacing-lg) 0;
+        margin: 0;
+        flex: 1;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+      }
+
+      .nav-item.active .nav-link {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-item.active .nav-indicator {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-radius: 0 25px 25px 0;
+        margin-right: var(--spacing-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-badge {
+        background: var(--primary-color);
+        color: var(--white);
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-badge {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-notification {
+        width: 8px;
+        height: 8px;
+        background: var(--error);
+        border-radius: 50%;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-notification {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-indicator {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scaleY(0);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-light);
+        border-radius: 0 2px 2px 0;
+        transition: var(--transition-fast);
+        opacity: 0;
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: var(--spacing-md) var(--spacing-lg);
+      }
+
+      .nav-section {
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-section-title {
+        opacity: 0;
+      }
+
+      .sidebar-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        justify-content: space-between;
+      }
+
+      .quick-action {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quick-action:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        justify-content: center;
+      }
+
+      .logout-btn:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: var(--error);
+        color: var(--white);
+      }
+
+      .sidebar.collapsed .logout-btn .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      /* Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition-normal);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-xl);
+        gap: var(--spacing-lg);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--charcoal);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .mobile-menu-toggle:hover {
+        background: var(--light-gray);
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .breadcrumb i {
+        color: var(--primary-color);
+      }
+
+      .breadcrumb .fas.fa-chevron-right {
+        font-size: 0.75rem;
+        color: var(--gray);
+      }
+
+      .back-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .back-link:hover {
+        background: rgba(45, 125, 50, 0.1);
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+      }
+
+      .page-title i {
+        color: var(--primary-color);
+      }
+
+      .page-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        margin: var(--spacing-sm) 0 0 0;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+      }
+
+      /* Page Header */
+      .page-header {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      /* Form Container */
+      .add-farmer-container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      /* Form Styles */
+      .farmer-form {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-xl);
+      }
+
+      /* Form Sections */
+      .form-section {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .form-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .form-section:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .form-section h2 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 var(--spacing-lg) 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
+      .form-section h2::before {
+        content: "";
+        width: 4px;
+        height: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: 2px;
+      }
+
+      /* Form Rows and Groups */
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .form-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+
+      .form-group label {
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: var(--spacing-sm);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+      }
+
+      .form-group label .required {
+        color: var(--error);
+        font-size: 1rem;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-family: var(--font-primary);
+        transition: var(--transition-fast);
+        background: var(--white);
+        color: var(--charcoal);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      .form-group input:invalid,
+      .form-group select:invalid,
+      .form-group textarea:invalid {
+        border-color: var(--error);
+      }
+
+      .form-group input:valid,
+      .form-group select:valid,
+      .form-group textarea:valid {
+        border-color: var(--success);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      /* Form Validation */
+      .form-group .error-message {
+        color: var(--error);
+        font-size: 0.875rem;
+        margin-top: var(--spacing-xs);
+        display: none;
+      }
+
+      .form-group.error .error-message {
+        display: block;
+      }
+
+      .form-group.error input,
+      .form-group.error select,
+      .form-group.error textarea {
+        border-color: var(--error);
+        background: rgba(244, 67, 54, 0.05);
+      }
+
+      .form-group.success input,
+      .form-group.success select,
+      .form-group.success textarea {
+        border-color: var(--success);
+        background: rgba(76, 175, 80, 0.05);
+      }
+
+      /* Map Preview */
+      .map-preview {
+        height: 300px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        margin-top: var(--spacing-md);
+        position: relative;
+      }
+
+      .map-placeholder {
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color: var(--gray);
+        text-align: center;
+      }
+
+      .map-placeholder i {
+        font-size: 3rem;
+        margin-bottom: var(--spacing-md);
+        color: var(--primary-color);
+      }
+
+      .location-info {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-md);
+        border: 1px solid rgba(45, 125, 50, 0.2);
+        display: none;
+      }
+
+      .location-info.show {
+        display: block;
+      }
+
+      .location-info h4 {
+        margin: 0 0 var(--spacing-sm) 0;
+        color: var(--charcoal);
+      }
+
+      .location-info p {
+        margin: 0;
+        color: var(--gray);
+        font-size: 0.875rem;
+      }
+
+      /* Progress Indicator */
+      .progress-indicator {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+      }
+
+      .progress-steps {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+
+      .progress-steps::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--light-gray);
+        z-index: 1;
+      }
+
+      .progress-line {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        transition: width var(--transition-normal);
+        z-index: 2;
+      }
+
+      .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: var(--white);
+        z-index: 3;
+        position: relative;
+      }
+
+      .step-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--light-gray);
+        border: 2px solid var(--gray);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        transition: var(--transition-fast);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .step-circle.active {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        color: var(--white);
+      }
+
+      .step-circle.completed {
+        background: var(--success);
+        border-color: var(--success);
+        color: var(--white);
+      }
+
+      .step-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray);
+        text-align: center;
+      }
+
+      .step-label.active {
+        color: var(--primary-color);
+      }
+
+      .step-label.completed {
+        color: var(--success);
+      }
+
+      /* Form Actions */
+      .form-actions {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: var(--spacing-lg);
+        position: sticky;
+        bottom: var(--spacing-lg);
+        z-index: 100;
+      }
+
+      .form-actions::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .form-progress {
+        flex: 1;
+      }
+
+      .form-progress-label {
+        font-size: 0.875rem;
+        color: var(--gray);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .form-progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--light-gray);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .form-progress-fill {
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: 4px;
+        transition: width var(--transition-normal);
+        width: 0%;
+      }
+
+      .form-actions-buttons {
+        display: flex;
+        gap: var(--spacing-md);
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-md) var(--spacing-xl);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        font-family: var(--font-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-width: 150px;
+        justify-content: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--gray);
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-secondary:hover {
+        background: var(--dark-gray);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
+      }
+
+      .btn-outline:hover {
+        background: var(--primary-color);
+        color: var(--white);
+        border-color: var(--primary-color);
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Auto-complete Suggestions */
+      .autocomplete-container {
+        position: relative;
+      }
+
+      .autocomplete-suggestions {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-top: none;
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+        box-shadow: var(--shadow-md);
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+      }
+
+      .autocomplete-suggestions.show {
+        display: block;
+      }
+
+      .suggestion-item {
+        padding: var(--spacing-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        border-bottom: 1px solid var(--light-gray);
+      }
+
+      .suggestion-item:last-child {
+        border-bottom: none;
+      }
+
+      .suggestion-item:hover {
+        background: rgba(45, 125, 50, 0.1);
+      }
+
+      .suggestion-item.active {
+        background: var(--primary-color);
+        color: var(--white);
+      }
+
+      /* Loading States */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+        transition: var(--transition-normal);
+      }
+
+      .loading-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 4px solid var(--light-gray);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        margin-top: var(--spacing-md);
+        color: var(--charcoal);
+        font-weight: 500;
+        text-align: center;
+      }
+
+      /* Success Message */
+      .success-message {
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.1) 0%,
+          rgba(76, 175, 80, 0.05) 100%
+        );
+        border: 1px solid rgba(76, 175, 80, 0.2);
+        color: var(--success);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: var(--transition-normal);
+      }
+
+      .success-message.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .success-message i {
+        font-size: 1.5rem;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .add-farmer-container {
+          max-width: 800px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+
+        body.mobile {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .breadcrumb {
+          display: none;
+        }
+
+        .container {
+          padding: var(--spacing-md);
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+          gap: var(--spacing-md);
+        }
+
+        .header-content {
+          padding: var(--spacing-md);
+        }
+
+        .form-actions {
+          flex-direction: column;
+          align-items: stretch;
+          gap: var(--spacing-md);
+        }
+
+        .form-actions-buttons {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .btn {
+          justify-content: center;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+        }
+
+        .progress-steps {
+          flex-direction: column;
+          gap: var(--spacing-md);
+        }
+
+        .progress-steps::before {
+          display: none;
+        }
+
+        .map-preview {
+          height: 250px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .quick-actions {
+          flex-direction: column;
+          gap: var(--spacing-xs);
+        }
+
+        .quick-action {
+          width: 100%;
+        }
+
+        .form-section {
+          padding: var(--spacing-lg);
+        }
+
+        .form-actions {
+          padding: var(--spacing-lg);
+        }
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in-up {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* Stagger animations for form sections */
+      .form-section:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .form-section:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .form-section:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .form-section:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+      <div class="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text">Creating farmer profile...</div>
       </div>
     </div>
 
-    <div class="form-section farming-details">
-      <h2>Farming Details</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="primary_crop">Primary Crop</label>
-          <select id="primary_crop" name="primary_crop" required>
-            <option value="">Select Primary Crop</option>
-            <option value="Maize">Maize</option>
-            <option value="Tobacco">Tobacco</option>
-            <option value="Cotton">Cotton</option>
-            <option value="Soybean">Soybean</option>
-            <option value="Groundnuts">Groundnuts</option>
-            <option value="Wheat">Wheat</option>
-            <option value="Sorghum">Sorghum</option>
-          </select>
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <span class="logo-text">Talazo AgriFinance</span>
         </div>
-        <div class="form-group">
-          <label for="total_land_area">Total Land Area (Ha)</label>
-          <input
-            type="number"
-            id="total_land_area"
-            name="total_land_area"
-            step="0.1"
-            required
-          />
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="user-profile">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Financial Officer</div>
+            <div class="profile-role">AgriFinance Division</div>
+          </div>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/farmers" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Farmers</span>
+              <div class="nav-badge">156</div>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/loans" class="nav-link">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="nav-text">Loans</span>
+              <div class="nav-badge">23</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/insurance" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span class="nav-text">Insurance</span>
+              <div class="nav-badge">89</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/soil_analysis" class="nav-link">
+              <i class="fas fa-vial"></i>
+              <span class="nav-text">Soil Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/ai_recommendations" class="nav-link">
+              <i class="fas fa-brain"></i>
+              <span class="nav-text">AI Recommendations</span>
+              <div class="nav-notification"></div>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">Analytics</span>
+          </li>
+          <li class="nav-item">
+            <a href="/reports" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/trends" class="nav-link">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-text">Market Trends</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">System</span>
+          </li>
+          <li class="nav-item">
+            <a href="/settings" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/help" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help & Support</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div class="quick-actions">
+            <button class="quick-action" title="Add New Farmer">
+              <i class="fas fa-user-plus"></i>
+            </button>
+            <button class="quick-action" title="Quick Loan Assessment">
+              <i class="fas fa-calculator"></i>
+            </button>
+            <button class="quick-action" title="Emergency Alert">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </button>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="farming_experience">Farming Experience (Years)</label>
-          <input
-            type="number"
-            id="farming_experience"
-            name="farming_experience"
-            required
-          />
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="breadcrumb">
+            <i class="fas fa-users"></i>
+            <span>Farmers</span>
+            <i class="fas fa-chevron-right"></i>
+            <span>Add New Farmer</span>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="location_region">Region</label>
-          <select id="location_region" name="location_region" required>
-            <option value="">Select Region</option>
-            <option value="Harare">Harare</option>
-            <option value="Bulawayo">Bulawayo</option>
-            <option value="Mashonaland Central">Mashonaland Central</option>
-            <option value="Mashonaland East">Mashonaland East</option>
-            <option value="Mashonaland West">Mashonaland West</option>
-            <option value="Manicaland">Manicaland</option>
-            <option value="Matabeleland North">Matabeleland North</option>
-            <option value="Matabeleland South">Matabeleland South</option>
-            <option value="Midlands">Midlands</option>
-          </select>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="add-farmer-container">
+        <!-- Page Header -->
+        <div class="page-header fade-in">
+          <a href="/farmers" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Farmers
+          </a>
+          <h1 class="page-title">
+            <i class="fas fa-user-plus"></i>
+            Add New Farmer
+          </h1>
+          <p class="page-subtitle">
+            Register a new farmer in the Talazo AgriFinance system
+          </p>
         </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-indicator fade-in">
+          <div class="progress-steps">
+            <div class="progress-line" id="progress-line"></div>
+            <div class="progress-step">
+              <div class="step-circle active" id="step-1">1</div>
+              <div class="step-label active">Personal Info</div>
+            </div>
+            <div class="progress-step">
+              <div class="step-circle" id="step-2">2</div>
+              <div class="step-label">Farming Details</div>
+            </div>
+            <div class="progress-step">
+              <div class="step-circle" id="step-3">3</div>
+              <div class="step-label">Location</div>
+            </div>
+            <div class="progress-step">
+              <div class="step-circle" id="step-4">4</div>
+              <div class="step-label">Account</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <form id="add-farmer-form" class="farmer-form">
+          <!-- Personal Information -->
+          <div class="form-section personal-info slide-in-up">
+            <h2>Personal Information</h2>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="full_name">
+                  Full Name <span class="required">*</span>
+                </label>
+                <input type="text" id="full_name" name="full_name" required />
+                <div class="error-message">Please enter a valid full name</div>
+              </div>
+              <div class="form-group">
+                <label for="national_id">
+                  National ID <span class="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="national_id"
+                  name="national_id"
+                  required
+                />
+                <div class="error-message">
+                  Please enter a valid national ID
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone_number">
+                  Phone Number <span class="required">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phone_number"
+                  name="phone_number"
+                  required
+                />
+                <div class="error-message">
+                  Please enter a valid phone number
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" />
+                <div class="error-message">
+                  Please enter a valid email address
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="address">
+                  Full Address <span class="required">*</span>
+                </label>
+                <textarea
+                  id="address"
+                  name="address"
+                  required
+                  placeholder="Enter complete physical address including district and province"
+                ></textarea>
+                <div class="error-message">Please enter a complete address</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Farming Details -->
+          <div class="form-section farming-details slide-in-up">
+            <h2>Farming Details</h2>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="primary_crop">
+                  Primary Crop <span class="required">*</span>
+                </label>
+                <select id="primary_crop" name="primary_crop" required>
+                  <option value="">Select Primary Crop</option>
+                  <option value="Maize">Maize</option>
+                  <option value="Tobacco">Tobacco</option>
+                  <option value="Cotton">Cotton</option>
+                  <option value="Soybean">Soybean</option>
+                  <option value="Groundnuts">Groundnuts</option>
+                  <option value="Wheat">Wheat</option>
+                  <option value="Sorghum">Sorghum</option>
+                  <option value="Sunflower">Sunflower</option>
+                  <option value="Beans">Beans</option>
+                  <option value="Sugar Cane">Sugar Cane</option>
+                </select>
+                <div class="error-message">Please select a primary crop</div>
+              </div>
+              <div class="form-group">
+                <label for="total_land_area">
+                  Total Land Area (Hectares) <span class="required">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="total_land_area"
+                  name="total_land_area"
+                  step="0.1"
+                  min="0.1"
+                  required
+                />
+                <div class="error-message">Please enter a valid land area</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="farming_experience">
+                  Farming Experience (Years) <span class="required">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="farming_experience"
+                  name="farming_experience"
+                  min="0"
+                  max="70"
+                  required
+                />
+                <div class="error-message">
+                  Please enter years of farming experience
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="location_region">
+                  Region <span class="required">*</span>
+                </label>
+                <select id="location_region" name="location_region" required>
+                  <option value="">Select Region</option>
+                  <option value="Harare">Harare</option>
+                  <option value="Bulawayo">Bulawayo</option>
+                  <option value="Mashonaland Central">
+                    Mashonaland Central
+                  </option>
+                  <option value="Mashonaland East">Mashonaland East</option>
+                  <option value="Mashonaland West">Mashonaland West</option>
+                  <option value="Manicaland">Manicaland</option>
+                  <option value="Matabeleland North">Matabeleland North</option>
+                  <option value="Matabeleland South">Matabeleland South</option>
+                  <option value="Midlands">Midlands</option>
+                  <option value="Masvingo">Masvingo</option>
+                </select>
+                <div class="error-message">Please select a region</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="secondary_crops">Secondary Crops (Optional)</label>
+                <input
+                  type="text"
+                  id="secondary_crops"
+                  name="secondary_crops"
+                  placeholder="e.g., Beans, Groundnuts"
+                />
+              </div>
+              <div class="form-group">
+                <label for="irrigation_system">Irrigation System</label>
+                <select id="irrigation_system" name="irrigation_system">
+                  <option value="">Select Irrigation Type</option>
+                  <option value="Rain-fed">Rain-fed</option>
+                  <option value="Drip Irrigation">Drip Irrigation</option>
+                  <option value="Sprinkler">Sprinkler</option>
+                  <option value="Flood Irrigation">Flood Irrigation</option>
+                  <option value="Manual Watering">Manual Watering</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Geographic Information -->
+          <div class="form-section geographic-info slide-in-up">
+            <h2>Geographic Location</h2>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="location_lat">Latitude</label>
+                <input
+                  type="number"
+                  id="location_lat"
+                  name="location_lat"
+                  step="0.0001"
+                  min="-90"
+                  max="90"
+                  placeholder="e.g., -17.8292"
+                />
+                <div class="error-message">Please enter a valid latitude</div>
+              </div>
+              <div class="form-group">
+                <label for="location_lng">Longitude</label>
+                <input
+                  type="number"
+                  id="location_lng"
+                  name="location_lng"
+                  step="0.0001"
+                  min="-180"
+                  max="180"
+                  placeholder="e.g., 31.0522"
+                />
+                <div class="error-message">Please enter a valid longitude</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group full-width">
+                <button
+                  type="button"
+                  id="get-location-btn"
+                  class="btn btn-outline"
+                >
+                  <i class="fas fa-map-marker-alt"></i>
+                  Get Current Location
+                </button>
+              </div>
+            </div>
+            <div class="map-preview" id="location-map">
+              <div class="map-placeholder">
+                <i class="fas fa-map-marked-alt"></i>
+                <h4>Interactive Map Preview</h4>
+                <p>
+                  Enter coordinates or get current location to see farm location
+                  on map
+                </p>
+              </div>
+            </div>
+            <div class="location-info" id="location-info">
+              <h4>Location Details</h4>
+              <p id="location-details">No location selected</p>
+            </div>
+          </div>
+
+          <!-- Account Credentials -->
+          <div class="form-section login-credentials slide-in-up">
+            <h2>Account Credentials</h2>
+            <div class="form-row">
+              <div class="form-group autocomplete-container">
+                <label for="username">
+                  Username <span class="required">*</span>
+                </label>
+                <input type="text" id="username" name="username" required />
+                <div
+                  class="autocomplete-suggestions"
+                  id="username-suggestions"
+                ></div>
+                <div class="error-message">
+                  Please enter a valid username (minimum 4 characters)
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password">
+                  Password <span class="required">*</span>
+                </label>
+                <input type="password" id="password" name="password" required />
+                <div class="error-message">
+                  Password must be at least 8 characters with numbers and
+                  letters
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="confirm_password">
+                  Confirm Password <span class="required">*</span>
+                </label>
+                <input
+                  type="password"
+                  id="confirm_password"
+                  name="confirm_password"
+                  required
+                />
+                <div class="error-message">Passwords do not match</div>
+              </div>
+              <div class="form-group">
+                <label for="role">Account Role</label>
+                <select id="role" name="role">
+                  <option value="farmer">Farmer</option>
+                  <option value="farm_manager">Farm Manager</option>
+                  <option value="cooperative_member">Cooperative Member</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <div class="form-progress">
+              <div class="form-progress-label">Form Completion</div>
+              <div class="form-progress-bar">
+                <div class="form-progress-fill" id="form-progress-fill"></div>
+              </div>
+            </div>
+            <div class="form-actions-buttons">
+              <button type="button" id="cancel-btn" class="btn btn-secondary">
+                <i class="fas fa-times"></i>
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-user-plus"></i>
+                Create Farmer Profile
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 
-    <div class="form-section geographic-info">
-      <h2>Geographic Location</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="location_lat">Latitude</label>
-          <input
-            type="number"
-            id="location_lat"
-            name="location_lat"
-            step="0.0001"
-          />
-        </div>
-        <div class="form-group">
-          <label for="location_lng">Longitude</label>
-          <input
-            type="number"
-            id="location_lng"
-            name="location_lng"
-            step="0.0001"
-          />
-        </div>
-      </div>
-      <div class="map-preview" id="location-map">
-        <!-- Placeholder for map preview -->
-      </div>
-    </div>
+    <script>
+      // Add Farmer Page JavaScript
+      let map = null;
+      let marker = null;
+      const formData = {};
 
-    <div class="form-section login-credentials">
-      <h2>Account Credentials</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" required />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" required />
-        </div>
-      </div>
-    </div>
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeAddFarmer();
+        setupEventListeners();
+        initializeAnimations();
+        setupFormValidation();
+        initializeMap();
+      });
 
-    <div class="form-actions">
-      <button type="button" id="cancel-btn" class="btn btn-secondary">
-        Cancel
-      </button>
-      <button type="submit" class="btn btn-primary">
-        Create Farmer Profile
-      </button>
-    </div>
-  </form>
-</div>
-{% endblock %} {% block scripts %}
-<script src="{{ url_for('static', filename='js/add_farmer.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"
-/>
-{% endblock %}
+      function initializeAddFarmer() {
+        console.log("🌱 Talazo AgriFinance Add Farmer Page Initialized");
+        updateActiveNavigation();
+        updateFormProgress();
+      }
+
+      function setupEventListeners() {
+        // Sidebar toggles
+        document
+          .getElementById("sidebar-toggle")
+          .addEventListener("click", function () {
+            toggleSidebar();
+          });
+
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", function () {
+            toggleMobileSidebar();
+          });
+
+        document
+          .getElementById("sidebar-overlay")
+          .addEventListener("click", function () {
+            closeMobileSidebar();
+          });
+
+        // Navigation links
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            // Don't prevent default for farmers page
+            if (this.getAttribute("href") === "/farmers") {
+              e.preventDefault();
+            }
+
+            // Update active state
+            document.querySelectorAll(".nav-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+            this.closest(".nav-item").classList.add("active");
+
+            // Close mobile sidebar if open
+            if (window.innerWidth <= 768) {
+              closeMobileSidebar();
+            }
+          });
+        });
+
+        // Quick actions
+        document.querySelectorAll(".quick-action").forEach((button) => {
+          button.addEventListener("click", function () {
+            const title = this.getAttribute("title");
+            showToast(`${title} feature coming soon!`, "info");
+          });
+        });
+
+        // Logout button
+        document
+          .querySelector(".logout-btn")
+          .addEventListener("click", function () {
+            if (confirm("Are you sure you want to logout?")) {
+              showToast("Logging out...", "info");
+              setTimeout(() => {
+                window.location.href = "/";
+              }, 1500);
+            }
+          });
+
+        // Form submission
+        document
+          .getElementById("add-farmer-form")
+          .addEventListener("submit", handleFormSubmission);
+
+        // Cancel button
+        document
+          .getElementById("cancel-btn")
+          .addEventListener("click", function () {
+            if (
+              confirm(
+                "Are you sure you want to cancel? All entered data will be lost."
+              )
+            ) {
+              window.location.href = "/farmers";
+            }
+          });
+
+        // Get location button
+        document
+          .getElementById("get-location-btn")
+          .addEventListener("click", getCurrentLocation);
+
+        // Form input listeners for progress and validation
+        document
+          .querySelectorAll("input, select, textarea")
+          .forEach((input) => {
+            input.addEventListener("input", function () {
+              validateField(this);
+              updateFormProgress();
+              updateProgressSteps();
+            });
+
+            input.addEventListener("blur", function () {
+              validateField(this);
+            });
+          });
+
+        // Username autocomplete
+        document
+          .getElementById("username")
+          .addEventListener("input", handleUsernameAutocomplete);
+
+        // Coordinate inputs
+        document
+          .getElementById("location_lat")
+          .addEventListener("input", updateMapLocation);
+        document
+          .getElementById("location_lng")
+          .addEventListener("input", updateMapLocation);
+
+        // Handle window resize
+        window.addEventListener("resize", handleResize);
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        sidebar.classList.toggle("collapsed");
+        body.classList.toggle("sidebar-collapsed");
+
+        // Store preference
+        localStorage.setItem(
+          "sidebarCollapsed",
+          sidebar.classList.contains("collapsed")
+        );
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.toggle("mobile-open");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = sidebar.classList.contains("mobile-open")
+          ? "hidden"
+          : "";
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.remove("mobile-open");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function handleResize() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        if (window.innerWidth <= 768) {
+          body.classList.add("mobile");
+          closeMobileSidebar();
+        } else {
+          body.classList.remove("mobile");
+          sidebar.classList.remove("mobile-open");
+          document.getElementById("sidebar-overlay").classList.remove("active");
+          document.body.style.overflow = "";
+        }
+
+        // Resize map if it exists
+        if (map) {
+          setTimeout(() => {
+            map.invalidateSize();
+          }, 100);
+        }
+      }
+
+      function initializeAnimations() {
+        // Restore sidebar state
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+        if (isCollapsed) {
+          document.getElementById("sidebar").classList.add("collapsed");
+          document.body.classList.add("sidebar-collapsed");
+        }
+
+        // Handle initial mobile state
+        handleResize();
+
+        // Add staggered animations to form sections
+        const sections = document.querySelectorAll(".form-section");
+        sections.forEach((section, index) => {
+          setTimeout(() => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(20px)";
+            section.style.transition = "all 0.6s ease-out";
+
+            setTimeout(() => {
+              section.style.opacity = "1";
+              section.style.transform = "translateY(0)";
+            }, 50);
+          }, index * 100);
+        });
+      }
+
+      function updateActiveNavigation() {
+        // Set farmers as active
+        document.querySelectorAll(".nav-item").forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        const farmersNav = document
+          .querySelector('a[href="/farmers"]')
+          .closest(".nav-item");
+        if (farmersNav) {
+          farmersNav.classList.add("active");
+        }
+      }
+
+      function setupFormValidation() {
+        const validators = {
+          full_name: (value) =>
+            value.length >= 2 && /^[a-zA-Z\s]+$/.test(value),
+          national_id: (value) =>
+            value.length >= 8 && /^[a-zA-Z0-9]+$/.test(value),
+          phone_number: (value) => /^(\+263|0)[0-9]{9}$/.test(value),
+          email: (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+          address: (value) => value.length >= 10,
+          primary_crop: (value) => value !== "",
+          total_land_area: (value) => parseFloat(value) > 0,
+          farming_experience: (value) => parseInt(value) >= 0,
+          location_region: (value) => value !== "",
+          username: (value) =>
+            value.length >= 4 && /^[a-zA-Z0-9_]+$/.test(value),
+          password: (value) =>
+            value.length >= 8 && /^(?=.*[A-Za-z])(?=.*\d)/.test(value),
+          confirm_password: (value) =>
+            value === document.getElementById("password").value,
+          location_lat: (value) =>
+            !value || (parseFloat(value) >= -90 && parseFloat(value) <= 90),
+          location_lng: (value) =>
+            !value || (parseFloat(value) >= -180 && parseFloat(value) <= 180),
+        };
+
+        // Store validators globally
+        window.formValidators = validators;
+      }
+
+      function validateField(field) {
+        const fieldName = field.name;
+        const value = field.value.trim();
+        const formGroup = field.closest(".form-group");
+        const validator = window.formValidators[fieldName];
+
+        if (!validator) return true;
+
+        const isValid = validator(value);
+
+        formGroup.classList.remove("error", "success");
+
+        if (field.hasAttribute("required") && !value) {
+          if (field === document.activeElement) return; // Don't show error while typing
+          formGroup.classList.add("error");
+          return false;
+        }
+
+        if (value && !isValid) {
+          formGroup.classList.add("error");
+          return false;
+        }
+
+        if (value && isValid) {
+          formGroup.classList.add("success");
+          return true;
+        }
+
+        return true;
+      }
+
+      function updateFormProgress() {
+        const requiredFields = document.querySelectorAll(
+          "input[required], select[required], textarea[required]"
+        );
+        const filledFields = Array.from(requiredFields).filter(
+          (field) => field.value.trim() !== ""
+        );
+        const progressPercentage =
+          (filledFields.length / requiredFields.length) * 100;
+
+        document.getElementById(
+          "form-progress-fill"
+        ).style.width = `${progressPercentage}%`;
+      }
+
+      function updateProgressSteps() {
+        const sections = {
+          1: ["full_name", "national_id", "phone_number", "address"],
+          2: [
+            "primary_crop",
+            "total_land_area",
+            "farming_experience",
+            "location_region",
+          ],
+          3: [], // Location is optional
+          4: ["username", "password", "confirm_password"],
+        };
+
+        Object.keys(sections).forEach((stepNum) => {
+          const stepCircle = document.getElementById(`step-${stepNum}`);
+          const stepLabel = stepCircle.nextElementSibling;
+          const fields = sections[stepNum];
+
+          if (fields.length === 0) {
+            // Optional section
+            stepCircle.classList.add("completed");
+            stepLabel.classList.add("completed");
+            return;
+          }
+
+          const completedFields = fields.filter((fieldName) => {
+            const field = document.getElementById(fieldName);
+            return field && field.value.trim() !== "";
+          });
+
+          if (completedFields.length === fields.length) {
+            stepCircle.classList.remove("active");
+            stepCircle.classList.add("completed");
+            stepCircle.innerHTML = '<i class="fas fa-check"></i>';
+            stepLabel.classList.remove("active");
+            stepLabel.classList.add("completed");
+          } else if (completedFields.length > 0) {
+            stepCircle.classList.add("active");
+            stepCircle.classList.remove("completed");
+            stepCircle.innerHTML = stepNum;
+            stepLabel.classList.add("active");
+            stepLabel.classList.remove("completed");
+          } else {
+            stepCircle.classList.remove("active", "completed");
+            stepCircle.innerHTML = stepNum;
+            stepLabel.classList.remove("active", "completed");
+          }
+        });
+
+        // Update progress line
+        const completedSteps = document.querySelectorAll(
+          ".step-circle.completed"
+        ).length;
+        const progressLine = document.getElementById("progress-line");
+        const progressWidth = (completedSteps / 4) * 100;
+        progressLine.style.width = `${progressWidth}%`;
+      }
+
+      function initializeMap() {
+        const mapContainer = document.getElementById("location-map");
+
+        try {
+          // Initialize Leaflet map centered on Zimbabwe
+          map = L.map(mapContainer).setView([-19.0154, 29.1549], 6);
+
+          L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: "© OpenStreetMap contributors",
+          }).addTo(map);
+
+          // Add click listener to map
+          map.on("click", function (e) {
+            updateMapMarker(e.latlng.lat, e.latlng.lng);
+            document.getElementById("location_lat").value =
+              e.latlng.lat.toFixed(6);
+            document.getElementById("location_lng").value =
+              e.latlng.lng.toFixed(6);
+            updateLocationInfo(e.latlng.lat, e.latlng.lng);
+          });
+        } catch (error) {
+          console.error("Error initializing map:", error);
+          mapContainer.innerHTML = `
+            <div class="map-placeholder">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h4>Map Unavailable</h4>
+              <p>Please enter coordinates manually</p>
+            </div>
+          `;
+        }
+      }
+
+      function updateMapLocation() {
+        const lat = parseFloat(document.getElementById("location_lat").value);
+        const lng = parseFloat(document.getElementById("location_lng").value);
+
+        if (!isNaN(lat) && !isNaN(lng) && map) {
+          updateMapMarker(lat, lng);
+          map.setView([lat, lng], 13);
+          updateLocationInfo(lat, lng);
+        }
+      }
+
+      function updateMapMarker(lat, lng) {
+        if (!map) return;
+
+        if (marker) {
+          map.removeLayer(marker);
+        }
+
+        marker = L.marker([lat, lng]).addTo(map);
+        marker
+          .bindPopup(
+            `Farm Location<br>Lat: ${lat.toFixed(6)}<br>Lng: ${lng.toFixed(6)}`
+          )
+          .openPopup();
+      }
+
+      function updateLocationInfo(lat, lng) {
+        const locationInfo = document.getElementById("location-info");
+        const locationDetails = document.getElementById("location-details");
+
+        locationDetails.textContent = `Coordinates: ${lat.toFixed(
+          6
+        )}, ${lng.toFixed(6)}`;
+        locationInfo.classList.add("show");
+      }
+
+      function getCurrentLocation() {
+        if (!navigator.geolocation) {
+          showToast("Geolocation is not supported by this browser", "error");
+          return;
+        }
+
+        const button = document.getElementById("get-location-btn");
+        button.disabled = true;
+        button.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+
+            document.getElementById("location_lat").value = lat.toFixed(6);
+            document.getElementById("location_lng").value = lng.toFixed(6);
+
+            if (map) {
+              updateMapMarker(lat, lng);
+              map.setView([lat, lng], 13);
+            }
+
+            updateLocationInfo(lat, lng);
+            showToast("Location obtained successfully!", "success");
+
+            button.disabled = false;
+            button.innerHTML =
+              '<i class="fas fa-map-marker-alt"></i> Get Current Location';
+          },
+          function (error) {
+            let message = "Unable to get location";
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                message = "Location access denied by user";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                message = "Location information unavailable";
+                break;
+              case error.TIMEOUT:
+                message = "Location request timed out";
+                break;
+            }
+
+            showToast(message, "error");
+            button.disabled = false;
+            button.innerHTML =
+              '<i class="fas fa-map-marker-alt"></i> Get Current Location';
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 60000,
+          }
+        );
+      }
+
+      function handleUsernameAutocomplete(event) {
+        const input = event.target;
+        const value = input.value.trim();
+        const suggestions = document.getElementById("username-suggestions");
+
+        if (value.length < 2) {
+          suggestions.classList.remove("show");
+          return;
+        }
+
+        // Generate username suggestions based on full name
+        const fullName = document.getElementById("full_name").value.trim();
+        const usernameSuggestions = generateUsernameSuggestions(
+          fullName,
+          value
+        );
+
+        if (usernameSuggestions.length > 0) {
+          suggestions.innerHTML = usernameSuggestions
+            .map(
+              (suggestion) => `<div class="suggestion-item">${suggestion}</div>`
+            )
+            .join("");
+
+          suggestions.classList.add("show");
+
+          // Add click listeners to suggestions
+          suggestions.querySelectorAll(".suggestion-item").forEach((item) => {
+            item.addEventListener("click", function () {
+              input.value = this.textContent;
+              suggestions.classList.remove("show");
+              validateField(input);
+            });
+          });
+        } else {
+          suggestions.classList.remove("show");
+        }
+      }
+
+      function generateUsernameSuggestions(fullName, input) {
+        if (!fullName) return [];
+
+        const nameParts = fullName
+          .toLowerCase()
+          .split(" ")
+          .filter((part) => part.length > 0);
+        const suggestions = [];
+
+        if (nameParts.length >= 2) {
+          const firstName = nameParts[0];
+          const lastName = nameParts[nameParts.length - 1];
+
+          suggestions.push(
+            `${firstName}.${lastName}`,
+            `${firstName}_${lastName}`,
+            `${firstName}${lastName}`,
+            `${firstName}${lastName}123`,
+            `${lastName}.${firstName}`,
+            `${firstName.charAt(0)}${lastName}`
+          );
+        }
+
+        return suggestions
+          .filter(
+            (suggestion) =>
+              suggestion.toLowerCase().includes(input.toLowerCase()) &&
+              suggestion !== input
+          )
+          .slice(0, 5);
+      }
+
+      function handleFormSubmission(event) {
+        event.preventDefault();
+
+        // Validate all fields
+        let isValid = true;
+        const requiredFields = document.querySelectorAll(
+          "input[required], select[required], textarea[required]"
+        );
+
+        requiredFields.forEach((field) => {
+          if (!validateField(field)) {
+            isValid = false;
+          }
+        });
+
+        if (!isValid) {
+          showToast("Please correct the errors in the form", "error");
+          return;
+        }
+
+        // Show loading
+        showLoadingOverlay();
+
+        // Collect form data
+        const formData = new FormData(event.target);
+        const farmerData = Object.fromEntries(formData.entries());
+
+        // Simulate API call
+        setTimeout(() => {
+          hideLoadingOverlay();
+
+          // Show success message
+          showToast("Farmer profile created successfully!", "success");
+
+          // Redirect after delay
+          setTimeout(() => {
+            window.location.href = "/farmers";
+          }, 2000);
+        }, 3000);
+      }
+
+      function showLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.remove("hidden");
+      }
+
+      function hideLoadingOverlay() {
+        document.getElementById("loading-overlay").classList.add("hidden");
+      }
+
+      function showToast(message, type = "info") {
+        const toastConfig = {
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background:
+              type === "success"
+                ? "#4caf50"
+                : type === "error"
+                ? "#f44336"
+                : type === "warning"
+                ? "#ff9800"
+                : "#2196f3",
+            borderRadius: "8px",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "500",
+          },
+        };
+
+        if (typeof Toastify !== "undefined") {
+          Toastify(toastConfig).showToast();
+        } else {
+          console.log(`Toast: ${message} (${type})`);
+        }
+      }
+
+      // Enhanced error handling
+      window.addEventListener("error", function (e) {
+        console.error("Add Farmer Error:", e.error);
+        showToast("An error occurred. Please try again.", "error");
+      });
+    </script>
+  </body>
+</html>

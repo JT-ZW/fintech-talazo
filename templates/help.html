@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Help & Support - Talazo AgriFinance</title>
+
+    <!-- External Libraries -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -12,495 +14,2240 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/styles.css') }}"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
     />
-  </head>
-  <body>
-    <div class="container">
-      <header class="page-header">
-        <div class="header-content">
-          <div class="header-left">
-            <a href="/dashboard" class="back-link">
-              <i class="fas fa-arrow-left"></i>
-              Back to Dashboard
-            </a>
-            <h1><i class="fas fa-question-circle"></i> Help & Support</h1>
-            <p>
-              Get assistance and learn how to use Talazo AgriFinance platform
-            </p>
-          </div>
-          <div class="header-actions">
-            <button class="btn btn-primary">
-              <i class="fas fa-headset"></i> Contact Support
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main class="main-content">
-        <div class="help-grid">
-          <div class="quick-help">
-            <h2><i class="fas fa-bolt"></i> Quick Help</h2>
-            <div class="help-cards">
-              <div class="help-card">
-                <i class="fas fa-user-plus"></i>
-                <h4>Add New Farmer</h4>
-                <p>Learn how to register a new farmer in the system</p>
-                <a href="#" class="help-link">View Guide</a>
-              </div>
-              <div class="help-card">
-                <i class="fas fa-vial"></i>
-                <h4>Soil Analysis</h4>
-                <p>Understand soil test results and recommendations</p>
-                <a href="#" class="help-link">View Guide</a>
-              </div>
-              <div class="help-card">
-                <i class="fas fa-calculator"></i>
-                <h4>Loan Assessment</h4>
-                <p>Process loan applications and credit scoring</p>
-                <a href="#" class="help-link">View Guide</a>
-              </div>
-              <div class="help-card">
-                <i class="fas fa-chart-bar"></i>
-                <h4>Generate Reports</h4>
-                <p>Create and export financial and agricultural reports</p>
-                <a href="#" class="help-link">View Guide</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-section">
-            <h2><i class="fas fa-question"></i> Frequently Asked Questions</h2>
-            <div class="faq-list">
-              <div class="faq-item">
-                <div class="faq-question">
-                  <h4>How is the financial health score calculated?</h4>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                  <p>
-                    The financial health score is calculated using a combination
-                    of soil quality metrics, farming experience, land area, crop
-                    selection, and historical performance data. The algorithm
-                    weighs these factors to provide a score between 0-100.
-                  </p>
-                </div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">
-                  <h4>
-                    What soil parameters are most important for loan approval?
-                  </h4>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                  <p>
-                    Key soil parameters include pH level (6.0-7.5 optimal),
-                    nitrogen content, phosphorus and potassium levels, organic
-                    matter percentage, and moisture content. These directly
-                    impact crop yield potential and loan risk assessment.
-                  </p>
-                </div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">
-                  <h4>How often should soil tests be conducted?</h4>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                  <p>
-                    We recommend soil testing every 6 months or at least once
-                    per growing season. More frequent testing (monthly) may be
-                    beneficial for precision agriculture and optimal loan terms.
-                  </p>
-                </div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">
-                  <h4>What happens if a farmer defaults on a loan?</h4>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                  <p>
-                    Our system includes early warning indicators and support
-                    mechanisms. We work with farmers to restructure payments,
-                    provide additional training, or adjust farming strategies
-                    before considering default procedures.
-                  </p>
-                </div>
-              </div>
-              <div class="faq-item">
-                <div class="faq-question">
-                  <h4>How do I export data and reports?</h4>
-                  <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                  <p>
-                    Use the export buttons in the Reports section or individual
-                    farmer profiles. Data can be exported in CSV, PDF, or Excel
-                    formats. Ensure you have appropriate permissions for data
-                    access.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="contact-section">
-            <h2><i class="fas fa-envelope"></i> Contact Information</h2>
-            <div class="contact-grid">
-              <div class="contact-card">
-                <i class="fas fa-phone"></i>
-                <h4>Phone Support</h4>
-                <p>+263 4 123 4567</p>
-                <span>Mon-Fri, 8AM-6PM</span>
-              </div>
-              <div class="contact-card">
-                <i class="fas fa-envelope"></i>
-                <h4>Email Support</h4>
-                <p>support@talazo.com</p>
-                <span>24/7 Response</span>
-              </div>
-              <div class="contact-card">
-                <i class="fas fa-map-marker-alt"></i>
-                <h4>Office Location</h4>
-                <p>123 AgriFinance Ave<br />Harare, Zimbabwe</p>
-              </div>
-              <div class="contact-card">
-                <i class="fas fa-comments"></i>
-                <h4>Live Chat</h4>
-                <p>Available in app</p>
-                <button class="btn btn-sm btn-primary">Start Chat</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="resources-section">
-            <h2><i class="fas fa-book"></i> Resources & Documentation</h2>
-            <div class="resources-list">
-              <div class="resource-item">
-                <i class="fas fa-file-pdf"></i>
-                <div>
-                  <h4>User Manual</h4>
-                  <p>Complete guide to using the Talazo platform</p>
-                </div>
-                <a href="#" class="btn btn-outline btn-sm">Download</a>
-              </div>
-              <div class="resource-item">
-                <i class="fas fa-video"></i>
-                <div>
-                  <h4>Video Tutorials</h4>
-                  <p>Step-by-step video guides for common tasks</p>
-                </div>
-                <a href="#" class="btn btn-outline btn-sm">Watch</a>
-              </div>
-              <div class="resource-item">
-                <i class="fas fa-code"></i>
-                <div>
-                  <h4>API Documentation</h4>
-                  <p>Technical documentation for developers</p>
-                </div>
-                <a href="#" class="btn btn-outline btn-sm">View</a>
-              </div>
-              <div class="resource-item">
-                <i class="fas fa-graduation-cap"></i>
-                <div>
-                  <h4>Training Materials</h4>
-                  <p>Educational content for agricultural finance</p>
-                </div>
-                <a href="#" class="btn btn-outline btn-sm">Access</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="feedback-section">
-            <h2><i class="fas fa-comment-alt"></i> Send Feedback</h2>
-            <div class="feedback-form">
-              <div class="form-group">
-                <label for="feedback-type">Feedback Type</label>
-                <select id="feedback-type">
-                  <option value="bug">Bug Report</option>
-                  <option value="feature">Feature Request</option>
-                  <option value="improvement">Improvement Suggestion</option>
-                  <option value="general">General Feedback</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="feedback-subject">Subject</label>
-                <input
-                  type="text"
-                  id="feedback-subject"
-                  placeholder="Brief description of your feedback"
-                />
-              </div>
-              <div class="form-group">
-                <label for="feedback-message">Message</label>
-                <textarea
-                  id="feedback-message"
-                  rows="4"
-                  placeholder="Please provide detailed feedback..."
-                ></textarea>
-              </div>
-              <button class="btn btn-primary">Submit Feedback</button>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
 
     <style>
-      .help-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        margin-top: 2rem;
+      /* Talazo AgriFinance - Help & Support Page Styling */
+
+      :root {
+        /* Color Palette - Professional Financial Institution */
+        --primary-color: #2d7d32; /* Forest Green */
+        --primary-light: #4caf50; /* Light Green */
+        --primary-dark: #1b5e20; /* Dark Green */
+        --secondary-color: #ff8f00; /* Amber */
+        --secondary-light: #ffb74d; /* Light Amber */
+        --accent-color: #795548; /* Brown */
+        --accent-light: #a1887f; /* Light Brown */
+
+        /* Neutral Colors */
+        --white: #ffffff;
+        --off-white: #fafafa;
+        --light-gray: #f5f5f5;
+        --gray: #9e9e9e;
+        --dark-gray: #424242;
+        --charcoal: #212121;
+
+        /* Financial Status Colors */
+        --success: #4caf50;
+        --warning: #ff9800;
+        --error: #f44336;
+        --info: #2196f3;
+        --excellent: #0d7377;
+        --good: #14a085;
+        --fair: #f39c12;
+        --poor: #e74c3c;
+
+        /* Typography */
+        --font-primary: "Inter", sans-serif;
+        --font-display: "Playfair Display", serif;
+
+        /* Spacing */
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+        --spacing-xxl: 4rem;
+
+        /* Border Radius */
+        --radius-sm: 6px;
+        --radius-md: 10px;
+        --radius-lg: 16px;
+        --radius-xl: 24px;
+
+        /* Shadows */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.2);
+
+        /* Transitions */
+        --transition-fast: 0.2s ease;
+        --transition-normal: 0.3s ease;
+        --transition-slow: 0.5s ease;
       }
 
-      .quick-help,
-      .faq-section,
-      .contact-section,
-      .resources-section,
-      .feedback-section {
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
 
-      .quick-help h2,
-      .faq-section h2,
-      .contact-section h2,
-      .resources-section h2,
-      .feedback-section h2 {
-        margin: 0 0 1.5rem 0;
-        color: #2d7d32;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+      body {
+        font-family: var(--font-primary);
+        background: linear-gradient(
+          135deg,
+          #f8fffe 0%,
+          #e8f5e8 50%,
+          #f0f8f0 100%
+        );
+        color: var(--charcoal);
+        line-height: 1.6;
+        min-height: 100vh;
+        padding-left: 280px; /* Account for sidebar */
+        transition: padding-left var(--transition-normal);
+        overflow-x: hidden;
       }
 
-      .help-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1rem;
+      body.sidebar-collapsed {
+        padding-left: 80px;
       }
 
-      .help-card {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 1.5rem;
-        text-align: center;
-        transition: transform 0.3s;
+      body.mobile {
+        padding-left: 0;
       }
 
-      .help-card:hover {
-        transform: translateY(-2px);
-      }
-
-      .help-card i {
-        font-size: 2rem;
-        color: #2d7d32;
-        margin-bottom: 1rem;
-      }
-
-      .help-card h4 {
-        margin: 0 0 0.5rem 0;
-        color: #333;
-      }
-
-      .help-card p {
-        color: #666;
-        margin: 0 0 1rem 0;
-      }
-
-      .help-link {
-        color: #2d7d32;
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .faq-list {
+      /* Sidebar Styles */
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        height: 100vh;
+        background: linear-gradient(180deg, var(--charcoal) 0%, #1a1a1a 100%);
+        color: var(--white);
+        z-index: 1000;
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-      }
-
-      .faq-item {
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
+        transition: var(--transition-normal);
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
         overflow: hidden;
       }
 
+      .sidebar.collapsed {
+        width: 80px;
+      }
+
+      .sidebar-header {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 70px;
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-logo .logo-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        border-radius: var(--radius-lg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.25rem;
+        box-shadow: var(--shadow-md);
+        flex-shrink: 0;
+      }
+
+      .logo-text {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 600;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .logo-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .sidebar-toggle {
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        opacity: 1;
+      }
+
+      .sidebar-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .sidebar.collapsed .sidebar-toggle {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .sidebar-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .user-profile {
+        padding: var(--spacing-lg);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        transition: var(--transition-normal);
+      }
+
+      .profile-avatar {
+        font-size: 2.5rem;
+        color: var(--primary-light);
+        flex-shrink: 0;
+      }
+
+      .profile-info {
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .profile-info {
+        opacity: 0;
+        width: 0;
+      }
+
+      .profile-name {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--white);
+        margin-bottom: var(--spacing-xs);
+      }
+
+      .profile-role {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-menu {
+        list-style: none;
+        padding: var(--spacing-lg) 0;
+        margin: 0;
+        flex: 1;
+      }
+
+      .nav-item {
+        margin-bottom: var(--spacing-xs);
+        position: relative;
+      }
+
+      .nav-item.active .nav-link {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-md);
+      }
+
+      .nav-item.active .nav-indicator {
+        opacity: 1;
+        transform: scaleY(1);
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        padding: var(--spacing-md) var(--spacing-lg);
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: var(--transition-fast);
+        border-radius: 0 25px 25px 0;
+        margin-right: var(--spacing-md);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--white);
+        transform: translateX(5px);
+      }
+
+      .nav-link i {
+        font-size: 1.25rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        font-weight: 500;
+        white-space: nowrap;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-badge {
+        background: var(--primary-color);
+        color: var(--white);
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        border-radius: var(--radius-sm);
+        min-width: 20px;
+        text-align: center;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-badge {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-notification {
+        width: 8px;
+        height: 8px;
+        background: var(--error);
+        border-radius: 50%;
+        margin-left: auto;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-notification {
+        opacity: 0;
+        width: 0;
+      }
+
+      .nav-indicator {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%) scaleY(0);
+        width: 4px;
+        height: 100%;
+        background: var(--primary-light);
+        border-radius: 0 2px 2px 0;
+        transition: var(--transition-fast);
+        opacity: 0;
+      }
+
+      .nav-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin: var(--spacing-md) var(--spacing-lg);
+      }
+
+      .nav-section {
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-sm);
+      }
+
+      .nav-section-title {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        opacity: 1;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar.collapsed .nav-section-title {
+        opacity: 0;
+      }
+
+      .sidebar-footer {
+        padding: var(--spacing-lg);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .quick-actions {
+        display: flex;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
+        justify-content: space-between;
+      }
+
+      .quick-action {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .quick-action:hover {
+        background: var(--primary-color);
+        transform: translateY(-2px);
+      }
+
+      .logout-btn {
+        width: 100%;
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: rgba(255, 255, 255, 0.8);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+        justify-content: center;
+      }
+
+      .logout-btn:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: var(--error);
+        color: var(--white);
+      }
+
+      .sidebar.collapsed .logout-btn .nav-text {
+        opacity: 0;
+        width: 0;
+      }
+
+      /* Mobile Overlay */
+      .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-normal);
+      }
+
+      .sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        box-shadow: var(--shadow-sm);
+        border-bottom: 1px solid rgba(45, 125, 50, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 900;
+        transition: var(--transition-normal);
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--spacing-md) var(--spacing-xl);
+        gap: var(--spacing-lg);
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-lg);
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.25rem;
+        color: var(--charcoal);
+        cursor: pointer;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .mobile-menu-toggle:hover {
+        background: var(--light-gray);
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .breadcrumb i {
+        color: var(--primary-color);
+      }
+
+      .breadcrumb .fas.fa-chevron-right {
+        font-size: 0.75rem;
+        color: var(--gray);
+      }
+
+      .back-link {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+      }
+
+      .back-link:hover {
+        background: rgba(45, 125, 50, 0.1);
+      }
+
+      .page-title {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-md);
+      }
+
+      .page-title i {
+        color: var(--primary-color);
+      }
+
+      .page-subtitle {
+        color: var(--gray);
+        font-size: 1rem;
+        margin: var(--spacing-sm) 0 0 0;
+      }
+
+      .header-actions {
+        display: flex;
+        gap: var(--spacing-md);
+        align-items: center;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: var(--spacing-lg);
+      }
+
+      /* Page Header */
+      .page-header {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--spacing-lg);
+      }
+
+      .page-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .header-info {
+        flex: 1;
+      }
+
+      /* Help Grid */
+      .help-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      /* Section Styles */
+      .help-section {
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        padding: var(--spacing-xl);
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .help-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .help-section:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .section-title {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 var(--spacing-lg) 0;
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
+      .section-title i {
+        color: var(--primary-color);
+      }
+
+      /* Quick Help Cards */
+      .help-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: var(--spacing-lg);
+      }
+
+      .help-card {
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-xl);
+        text-align: center;
+        transition: var(--transition-normal);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .help-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .help-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        background: linear-gradient(
+          135deg,
+          rgba(45, 125, 50, 0.05) 0%,
+          var(--white) 100%
+        );
+      }
+
+      .help-card i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: var(--spacing-lg);
+        display: block;
+      }
+
+      .help-card h4 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 var(--spacing-sm) 0;
+      }
+
+      .help-card p {
+        color: var(--gray);
+        margin: 0 0 var(--spacing-lg) 0;
+        line-height: 1.6;
+      }
+
+      .help-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 600;
+        padding: var(--spacing-sm) var(--spacing-lg);
+        border: 2px solid var(--primary-color);
+        border-radius: var(--radius-md);
+        transition: var(--transition-fast);
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.875rem;
+      }
+
+      .help-link:hover {
+        background: var(--primary-color);
+        color: var(--white);
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* FAQ Styles */
+      .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+      }
+
+      .faq-item {
+        border: 1px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        transition: var(--transition-normal);
+        background: var(--white);
+      }
+
+      .faq-item:hover {
+        box-shadow: var(--shadow-sm);
+      }
+
       .faq-question {
-        padding: 1rem;
-        background: #f8f9fa;
+        padding: var(--spacing-lg);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
         cursor: pointer;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: background 0.3s;
+        transition: var(--transition-fast);
+        border: none;
+        width: 100%;
+        text-align: left;
       }
 
       .faq-question:hover {
-        background: #e9ecef;
+        background: linear-gradient(
+          135deg,
+          rgba(45, 125, 50, 0.1) 0%,
+          var(--white) 100%
+        );
       }
 
       .faq-question h4 {
         margin: 0;
-        color: #333;
+        color: var(--charcoal);
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .faq-question i {
+        color: var(--primary-color);
+        transition: var(--transition-fast);
+        font-size: 1.25rem;
       }
 
       .faq-answer {
-        padding: 1rem;
-        display: none;
+        padding: 0 var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+        color: var(--gray);
+        line-height: 1.7;
+        background: var(--white);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height var(--transition-normal);
       }
 
       .faq-item.active .faq-answer {
-        display: block;
+        max-height: 200px;
+        padding: var(--spacing-lg);
       }
 
       .faq-item.active .faq-question i {
         transform: rotate(180deg);
       }
 
+      /* Contact Grid */
       .contact-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
       }
 
       .contact-card {
-        background: #f8f9fa;
-        border-radius: 8px;
-        padding: 1.5rem;
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        padding: var(--spacing-xl);
         text-align: center;
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .contact-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+      }
+
+      .contact-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-md);
+        background: linear-gradient(
+          135deg,
+          rgba(45, 125, 50, 0.05) 0%,
+          var(--white) 100%
+        );
       }
 
       .contact-card i {
-        font-size: 2rem;
-        color: #2d7d32;
-        margin-bottom: 1rem;
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: var(--spacing-lg);
+        display: block;
       }
 
       .contact-card h4 {
-        margin: 0 0 0.5rem 0;
-        color: #333;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin: 0 0 var(--spacing-sm) 0;
       }
 
       .contact-card p {
-        margin: 0 0 0.5rem 0;
-        color: #333;
+        margin: 0 0 var(--spacing-sm) 0;
+        color: var(--charcoal);
+        font-weight: 500;
+        line-height: 1.6;
       }
 
       .contact-card span {
-        color: #666;
-        font-size: 0.9rem;
+        color: var(--gray);
+        font-size: 0.875rem;
+        font-style: italic;
       }
 
+      /* Resources List */
       .resources-list {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--spacing-md);
       }
 
       .resource-item {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        padding: 1rem;
-        background: #f8f9fa;
-        border-radius: 8px;
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg);
+        background: linear-gradient(
+          135deg,
+          var(--light-gray) 0%,
+          var(--white) 100%
+        );
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(45, 125, 50, 0.1);
+        transition: var(--transition-normal);
+      }
+
+      .resource-item:hover {
+        transform: translateX(5px);
+        box-shadow: var(--shadow-sm);
+        background: linear-gradient(
+          135deg,
+          rgba(45, 125, 50, 0.05) 0%,
+          var(--white) 100%
+        );
       }
 
       .resource-item i {
-        font-size: 1.5rem;
-        color: #2d7d32;
-        width: 40px;
+        font-size: 2rem;
+        color: var(--primary-color);
+        width: 60px;
         text-align: center;
+        flex-shrink: 0;
       }
 
-      .resource-item div {
+      .resource-content {
         flex: 1;
       }
 
       .resource-item h4 {
-        margin: 0 0 0.25rem 0;
-        color: #333;
+        margin: 0 0 var(--spacing-xs) 0;
+        color: var(--charcoal);
+        font-weight: 600;
+        font-size: 1.1rem;
       }
 
       .resource-item p {
         margin: 0;
-        color: #666;
+        color: var(--gray);
         font-size: 0.9rem;
+        line-height: 1.5;
       }
 
+      /* Feedback Form */
       .feedback-form {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--spacing-lg);
+      }
+
+      .form-group {
+        margin-bottom: 0;
       }
 
       .form-group label {
         display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: #333;
+        margin-bottom: var(--spacing-sm);
+        font-weight: 600;
+        color: var(--charcoal);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
       .form-group input,
       .form-group select,
       .form-group textarea {
         width: 100%;
-        padding: 0.75rem;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
+        padding: var(--spacing-md);
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-md);
         font-size: 1rem;
-        transition: border-color 0.3s;
+        font-family: var(--font-primary);
+        transition: var(--transition-fast);
+        background: var(--white);
+        color: var(--charcoal);
       }
 
       .form-group input:focus,
       .form-group select:focus,
       .form-group textarea:focus {
         outline: none;
-        border-color: #2d7d32;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
       }
 
-      .btn-sm {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: var(--spacing-md) var(--spacing-lg);
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-decoration: none;
+        font-family: var(--font-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(
+          135deg,
+          var(--primary-dark),
+          var(--primary-color)
+        );
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        background: var(--gray);
+        color: var(--white);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .btn-secondary:hover {
+        background: var(--dark-gray);
+        box-shadow: var(--shadow-md);
+        transform: translateY(-1px);
       }
 
       .btn-outline {
         background: transparent;
-        color: #2d7d32;
-        border: 2px solid #2d7d32;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+        box-shadow: none;
       }
 
       .btn-outline:hover {
-        background: #2d7d32;
-        color: white;
+        background: var(--primary-color);
+        color: var(--white);
+        border-color: var(--primary-color);
+      }
+
+      .btn-sm {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* Search Bar */
+      .search-container {
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .search-bar {
+        position: relative;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: var(--spacing-md) var(--spacing-lg) var(--spacing-md) 3.5rem;
+        border: 2px solid rgba(45, 125, 50, 0.2);
+        border-radius: var(--radius-xl);
+        font-size: 1.1rem;
+        background: var(--white);
+        transition: var(--transition-fast);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(45, 125, 50, 0.1);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: var(--spacing-md);
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray);
+        font-size: 1.25rem;
+      }
+
+      /* Success Message */
+      .success-message {
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.1) 0%,
+          rgba(76, 175, 80, 0.05) 100%
+        );
+        border: 1px solid rgba(76, 175, 80, 0.2);
+        color: var(--success);
+        padding: var(--spacing-md);
+        border-radius: var(--radius-lg);
+        margin-bottom: var(--spacing-md);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: var(--transition-normal);
+      }
+
+      .success-message.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Live Chat Widget */
+      .chat-widget {
+        position: fixed;
+        bottom: var(--spacing-lg);
+        right: var(--spacing-lg);
+        z-index: 1000;
+      }
+
+      .chat-toggle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--primary-light)
+        );
+        color: var(--white);
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition-fast);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .chat-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-xl);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .help-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-grid {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding-left: 0;
+        }
+
+        body.mobile {
+          padding-left: 0;
+        }
+
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.mobile-open {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .breadcrumb {
+          display: none;
+        }
+
+        .container {
+          padding: var(--spacing-md);
+        }
+
+        .help-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .header-content {
+          padding: var(--spacing-md);
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .page-title {
+          font-size: 1.5rem;
+        }
+
+        .resource-item {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .resource-item i {
+          margin-bottom: var(--spacing-md);
+        }
+
+        .chat-widget {
+          bottom: var(--spacing-md);
+          right: var(--spacing-md);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .sidebar {
+          width: 100%;
+        }
+
+        .quick-actions {
+          flex-direction: column;
+          gap: var(--spacing-xs);
+        }
+
+        .quick-action {
+          width: 100%;
+        }
+
+        .help-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .search-input {
+          font-size: 1rem;
+        }
+      }
+
+      /* Animations */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in-up {
+        animation: slideInUp 0.6s ease-out forwards;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      /* Stagger animations for help sections */
+      .help-section:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .help-section:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .help-section:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .help-section:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .help-section:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      .help-section:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+
+      .help-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .help-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .help-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .help-card:nth-child(4) {
+        animation-delay: 0.4s;
       }
     </style>
+  </head>
+
+  <body>
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">
+            <i class="fas fa-seedling"></i>
+          </div>
+          <span class="logo-text">Talazo AgriFinance</span>
+        </div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="user-profile">
+          <div class="profile-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="profile-info">
+            <div class="profile-name">Financial Officer</div>
+            <div class="profile-role">AgriFinance Division</div>
+          </div>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+              <i class="fas fa-tachometer-alt"></i>
+              <span class="nav-text">Dashboard</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/farmers" class="nav-link">
+              <i class="fas fa-users"></i>
+              <span class="nav-text">Farmers</span>
+              <div class="nav-badge">156</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/loans" class="nav-link">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="nav-text">Loans</span>
+              <div class="nav-badge">23</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/insurance" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span class="nav-text">Insurance</span>
+              <div class="nav-badge">89</div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/soil_analysis" class="nav-link">
+              <i class="fas fa-vial"></i>
+              <span class="nav-text">Soil Analysis</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/ai_recommendations" class="nav-link">
+              <i class="fas fa-brain"></i>
+              <span class="nav-text">AI Recommendations</span>
+              <div class="nav-notification"></div>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">Analytics</span>
+          </li>
+          <li class="nav-item">
+            <a href="/reports" class="nav-link">
+              <i class="fas fa-chart-bar"></i>
+              <span class="nav-text">Reports</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/trends" class="nav-link">
+              <i class="fas fa-chart-line"></i>
+              <span class="nav-text">Market Trends</span>
+            </a>
+          </li>
+
+          <li class="nav-divider"></li>
+
+          <li class="nav-section">
+            <span class="nav-section-title">System</span>
+          </li>
+          <li class="nav-item">
+            <a href="/settings" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span class="nav-text">Settings</span>
+            </a>
+          </li>
+          <li class="nav-item active">
+            <a href="/help" class="nav-link">
+              <i class="fas fa-question-circle"></i>
+              <span class="nav-text">Help & Support</span>
+              <div class="nav-indicator"></div>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div class="quick-actions">
+            <button class="quick-action" title="Add New Farmer">
+              <i class="fas fa-user-plus"></i>
+            </button>
+            <button class="quick-action" title="Quick Loan Assessment">
+              <i class="fas fa-calculator"></i>
+            </button>
+            <button class="quick-action" title="Emergency Alert">
+              <i class="fas fa-bell"></i>
+            </button>
+          </div>
+          <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="nav-text">Logout</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="header-left">
+          <button id="mobile-menu-toggle" class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="breadcrumb">
+            <i class="fas fa-question-circle"></i>
+            <span>Help & Support</span>
+            <i class="fas fa-chevron-right"></i>
+            <span>Documentation</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <!-- Page Header -->
+      <div class="page-header fade-in">
+        <div class="header-info">
+          <a href="/dashboard" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Dashboard
+          </a>
+          <h1 class="page-title">
+            <i class="fas fa-question-circle"></i>
+            Help & Support
+          </h1>
+          <p class="page-subtitle">
+            Get assistance and learn how to use the Talazo AgriFinance platform
+            effectively
+          </p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="contactSupport()">
+            <i class="fas fa-headset"></i>
+            Contact Support
+          </button>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-container fade-in">
+        <div class="search-bar">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search help articles, guides, and FAQs..."
+            id="help-search"
+          />
+        </div>
+      </div>
+
+      <!-- Help Grid -->
+      <div class="help-grid">
+        <!-- Quick Help -->
+        <div class="help-section slide-in-up">
+          <h2 class="section-title">
+            <i class="fas fa-bolt"></i>
+            Quick Help
+          </h2>
+          <div class="help-cards">
+            <div class="help-card slide-in-up">
+              <i class="fas fa-user-plus"></i>
+              <h4>Add New Farmer</h4>
+              <p>
+                Learn how to register a new farmer in the system and set up
+                their profile
+              </p>
+              <a
+                href="#"
+                class="help-link"
+                onclick="openGuide('farmer-registration')"
+                >View Guide</a
+              >
+            </div>
+            <div class="help-card slide-in-up">
+              <i class="fas fa-vial"></i>
+              <h4>Soil Analysis</h4>
+              <p>
+                Understand soil test results and how to interpret
+                recommendations
+              </p>
+              <a href="#" class="help-link" onclick="openGuide('soil-analysis')"
+                >View Guide</a
+              >
+            </div>
+            <div class="help-card slide-in-up">
+              <i class="fas fa-calculator"></i>
+              <h4>Loan Assessment</h4>
+              <p>
+                Process loan applications and understand credit scoring
+                algorithms
+              </p>
+              <a
+                href="#"
+                class="help-link"
+                onclick="openGuide('loan-assessment')"
+                >View Guide</a
+              >
+            </div>
+            <div class="help-card slide-in-up">
+              <i class="fas fa-chart-bar"></i>
+              <h4>Generate Reports</h4>
+              <p>
+                Create and export financial and agricultural reports for
+                analysis
+              </p>
+              <a href="#" class="help-link" onclick="openGuide('reports')"
+                >View Guide</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="help-section slide-in-up">
+          <h2 class="section-title">
+            <i class="fas fa-question"></i>
+            Frequently Asked Questions
+          </h2>
+          <div class="faq-list">
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <h4>How is the financial health score calculated?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  The financial health score is calculated using a sophisticated
+                  algorithm that combines multiple factors including soil
+                  quality metrics (pH level, nitrogen, phosphorus, potassium
+                  content), farming experience, land area size, crop selection
+                  diversity, historical performance data, and market conditions.
+                  Each factor is weighted based on its impact on agricultural
+                  success and financial stability. The algorithm provides a
+                  score between 0-100, where scores above 75 indicate excellent
+                  financial health and loan eligibility.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <h4>
+                  What soil parameters are most important for loan approval?
+                </h4>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  The most critical soil parameters for loan approval include:
+                  pH level (optimal range 6.0-7.5), nitrogen content (minimum
+                  35mg/kg), phosphorus levels (minimum 15mg/kg), potassium
+                  content (minimum 120mg/kg), organic matter percentage (minimum
+                  2.5%), and soil moisture content (20-30% range). These
+                  parameters directly correlate with crop yield potential and
+                  therefore impact loan risk assessment. Higher values in these
+                  parameters result in better loan terms and higher approval
+                  amounts.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <h4>How often should soil tests be conducted?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  We recommend comprehensive soil testing every 6 months or at
+                  minimum once per growing season to maintain accurate financial
+                  assessments. For precision agriculture and optimal loan terms,
+                  monthly testing may be beneficial, especially during critical
+                  growing periods. Emergency testing should be conducted after
+                  severe weather events, pest outbreaks, or significant changes
+                  in farming practices. Regular testing ensures real-time risk
+                  assessment and can help improve loan terms through
+                  demonstrated soil health improvement.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <h4>What happens if a farmer defaults on a loan?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Our system includes comprehensive early warning indicators and
+                  farmer support mechanisms designed to prevent defaults. When
+                  risk indicators suggest potential payment difficulties, we
+                  immediately engage with farmers to provide assistance
+                  including: loan restructuring options, extended payment terms,
+                  additional agricultural training, farming strategy
+                  optimization, and connection to agricultural extension
+                  services. We work collaboratively to find sustainable
+                  solutions before considering any default procedures, as farmer
+                  success is our primary objective.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <h4>How do I export data and reports?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Data and reports can be exported using the export buttons
+                  located in the Reports section of the dashboard or within
+                  individual farmer profiles. Available formats include CSV (for
+                  spreadsheet analysis), PDF (for presentations and official
+                  documents), and Excel (for advanced data manipulation). Ensure
+                  you have appropriate user permissions for data access.
+                  Exported reports include soil analysis data, financial
+                  assessments, loan histories, and performance metrics. Bulk
+                  exports for multiple farmers can be requested through the
+                  system administrator.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <h4>How do I interpret AI crop recommendations?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  AI crop recommendations are generated using machine learning
+                  algorithms that analyze soil conditions, climate data, market
+                  prices, and historical performance. Each recommendation
+                  includes a suitability percentage, expected yield estimates,
+                  optimal planting periods, and required soil amendments.
+                  Recommendations are ranked by profitability potential and risk
+                  factors. Higher percentage matches indicate better alignment
+                  with current soil and environmental conditions, leading to
+                  higher success probability and better loan terms.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="help-section slide-in-up">
+          <h2 class="section-title">
+            <i class="fas fa-envelope"></i>
+            Contact Information
+          </h2>
+          <div class="contact-grid">
+            <div class="contact-card">
+              <i class="fas fa-phone"></i>
+              <h4>Phone Support</h4>
+              <p>+263 4 123 4567</p>
+              <span>Monday-Friday, 8AM-6PM</span>
+            </div>
+            <div class="contact-card">
+              <i class="fas fa-envelope"></i>
+              <h4>Email Support</h4>
+              <p>support@talazo.com</p>
+              <span>24/7 Response within 4 hours</span>
+            </div>
+            <div class="contact-card">
+              <i class="fas fa-map-marker-alt"></i>
+              <h4>Office Location</h4>
+              <p>123 AgriFinance Avenue<br />Harare, Zimbabwe</p>
+              <span>Visit us for in-person support</span>
+            </div>
+            <div class="contact-card">
+              <i class="fas fa-comments"></i>
+              <h4>Live Chat</h4>
+              <p>Available in application</p>
+              <button class="btn btn-sm btn-primary" onclick="startLiveChat()">
+                <i class="fas fa-comment"></i>
+                Start Chat
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources Section -->
+        <div class="help-section slide-in-up">
+          <h2 class="section-title">
+            <i class="fas fa-book"></i>
+            Resources & Documentation
+          </h2>
+          <div class="resources-list">
+            <div class="resource-item">
+              <i class="fas fa-file-pdf"></i>
+              <div class="resource-content">
+                <h4>User Manual</h4>
+                <p>
+                  Complete guide to using the Talazo AgriFinance platform (150
+                  pages)
+                </p>
+              </div>
+              <a
+                href="#"
+                class="btn btn-outline btn-sm"
+                onclick="downloadResource('manual')"
+              >
+                <i class="fas fa-download"></i>
+                Download
+              </a>
+            </div>
+            <div class="resource-item">
+              <i class="fas fa-video"></i>
+              <div class="resource-content">
+                <h4>Video Tutorials</h4>
+                <p>
+                  Step-by-step video guides for common tasks and advanced
+                  features
+                </p>
+              </div>
+              <a href="#" class="btn btn-outline btn-sm" onclick="openVideos()">
+                <i class="fas fa-play"></i>
+                Watch
+              </a>
+            </div>
+            <div class="resource-item">
+              <i class="fas fa-code"></i>
+              <div class="resource-content">
+                <h4>API Documentation</h4>
+                <p>
+                  Technical documentation for developers and system integrations
+                </p>
+              </div>
+              <a href="#" class="btn btn-outline btn-sm" onclick="openAPIDoc()">
+                <i class="fas fa-external-link-alt"></i>
+                View
+              </a>
+            </div>
+            <div class="resource-item">
+              <i class="fas fa-graduation-cap"></i>
+              <div class="resource-content">
+                <h4>Training Materials</h4>
+                <p>
+                  Educational content for agricultural finance and best
+                  practices
+                </p>
+              </div>
+              <a
+                href="#"
+                class="btn btn-outline btn-sm"
+                onclick="accessTraining()"
+              >
+                <i class="fas fa-book-open"></i>
+                Access
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="help-section slide-in-up">
+          <h2 class="section-title">
+            <i class="fas fa-comment-alt"></i>
+            Send Feedback
+          </h2>
+          <form class="feedback-form" onsubmit="submitFeedback(event)">
+            <div class="form-group">
+              <label for="feedback-type">Feedback Type</label>
+              <select id="feedback-type" required>
+                <option value="">Select feedback type</option>
+                <option value="bug">Bug Report</option>
+                <option value="feature">Feature Request</option>
+                <option value="improvement">Improvement Suggestion</option>
+                <option value="general">General Feedback</option>
+                <option value="documentation">Documentation Feedback</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="feedback-subject">Subject</label>
+              <input
+                type="text"
+                id="feedback-subject"
+                placeholder="Brief description of your feedback"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="feedback-priority">Priority Level</label>
+              <select id="feedback-priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="feedback-message">Message</label>
+              <textarea
+                id="feedback-message"
+                rows="4"
+                placeholder="Please provide detailed feedback including steps to reproduce issues, expected behavior, and any additional context..."
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i>
+              Submit Feedback
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="chat-widget">
+      <button class="chat-toggle" onclick="toggleLiveChat()">
+        <i class="fas fa-comments"></i>
+      </button>
+    </div>
 
     <script>
-      // FAQ Toggle functionality
-      document.querySelectorAll(".faq-question").forEach((question) => {
-        question.addEventListener("click", () => {
-          const faqItem = question.parentElement;
-          const isActive = faqItem.classList.contains("active");
+      // Help Page JavaScript
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeHelp();
+        setupEventListeners();
+        initializeAnimations();
+      });
 
-          // Close all FAQ items
-          document.querySelectorAll(".faq-item").forEach((item) => {
-            item.classList.remove("active");
+      function initializeHelp() {
+        console.log("🌱 Talazo AgriFinance Help Page Initialized");
+        updateActiveNavigation();
+        setupSearchFunctionality();
+      }
+
+      function setupEventListeners() {
+        // Sidebar toggles
+        document
+          .getElementById("sidebar-toggle")
+          .addEventListener("click", function () {
+            toggleSidebar();
           });
 
-          // Open clicked item if it wasn't already active
-          if (!isActive) {
-            faqItem.classList.add("active");
-          }
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", function () {
+            toggleMobileSidebar();
+          });
+
+        document
+          .getElementById("sidebar-overlay")
+          .addEventListener("click", function () {
+            closeMobileSidebar();
+          });
+
+        // Navigation links
+        document.querySelectorAll(".nav-link").forEach((link) => {
+          link.addEventListener("click", function (e) {
+            // Don't prevent default for help page
+            if (this.getAttribute("href") === "/help") {
+              e.preventDefault();
+            }
+
+            // Update active state
+            document.querySelectorAll(".nav-item").forEach((item) => {
+              item.classList.remove("active");
+            });
+            this.closest(".nav-item").classList.add("active");
+
+            // Close mobile sidebar if open
+            if (window.innerWidth <= 768) {
+              closeMobileSidebar();
+            }
+          });
         });
+
+        // Quick actions
+        document.querySelectorAll(".quick-action").forEach((button) => {
+          button.addEventListener("click", function () {
+            const title = this.getAttribute("title");
+            showToast(`${title} feature coming soon!`, "info");
+          });
+        });
+
+        // Logout button
+        document
+          .querySelector(".logout-btn")
+          .addEventListener("click", function () {
+            if (confirm("Are you sure you want to logout?")) {
+              showToast("Logging out...", "info");
+              setTimeout(() => {
+                window.location.href = "/";
+              }, 1500);
+            }
+          });
+
+        // Handle window resize
+        window.addEventListener("resize", handleResize);
+      }
+
+      function toggleSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        sidebar.classList.toggle("collapsed");
+        body.classList.toggle("sidebar-collapsed");
+
+        // Store preference
+        localStorage.setItem(
+          "sidebarCollapsed",
+          sidebar.classList.contains("collapsed")
+        );
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.toggle("mobile-open");
+        overlay.classList.toggle("active");
+        document.body.style.overflow = sidebar.classList.contains("mobile-open")
+          ? "hidden"
+          : "";
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebar-overlay");
+
+        sidebar.classList.remove("mobile-open");
+        overlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function handleResize() {
+        const sidebar = document.getElementById("sidebar");
+        const body = document.body;
+
+        if (window.innerWidth <= 768) {
+          body.classList.add("mobile");
+          closeMobileSidebar();
+        } else {
+          body.classList.remove("mobile");
+          sidebar.classList.remove("mobile-open");
+          document.getElementById("sidebar-overlay").classList.remove("active");
+          document.body.style.overflow = "";
+        }
+      }
+
+      function initializeAnimations() {
+        // Restore sidebar state
+        const isCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+        if (isCollapsed) {
+          document.getElementById("sidebar").classList.add("collapsed");
+          document.body.classList.add("sidebar-collapsed");
+        }
+
+        // Handle initial mobile state
+        handleResize();
+
+        // Add staggered animations to help sections
+        const sections = document.querySelectorAll(".help-section");
+        sections.forEach((section, index) => {
+          setTimeout(() => {
+            section.style.opacity = "0";
+            section.style.transform = "translateY(20px)";
+            section.style.transition = "all 0.6s ease-out";
+
+            setTimeout(() => {
+              section.style.opacity = "1";
+              section.style.transform = "translateY(0)";
+            }, 50);
+          }, index * 100);
+        });
+      }
+
+      function updateActiveNavigation() {
+        // Set help as active
+        document.querySelectorAll(".nav-item").forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        const helpNav = document
+          .querySelector('a[href="/help"]')
+          .closest(".nav-item");
+        if (helpNav) {
+          helpNav.classList.add("active");
+        }
+      }
+
+      function setupSearchFunctionality() {
+        const searchInput = document.getElementById("help-search");
+        const faqItems = document.querySelectorAll(".faq-item");
+        const helpCards = document.querySelectorAll(".help-card");
+        const resourceItems = document.querySelectorAll(".resource-item");
+
+        searchInput.addEventListener("input", function (e) {
+          const query = e.target.value.toLowerCase();
+
+          // Search FAQ items
+          faqItems.forEach((item) => {
+            const question = item.querySelector("h4").textContent.toLowerCase();
+            const answer = item.querySelector("p").textContent.toLowerCase();
+
+            if (question.includes(query) || answer.includes(query)) {
+              item.style.display = "block";
+            } else {
+              item.style.display = query === "" ? "block" : "none";
+            }
+          });
+
+          // Search help cards
+          helpCards.forEach((card) => {
+            const title = card.querySelector("h4").textContent.toLowerCase();
+            const description = card
+              .querySelector("p")
+              .textContent.toLowerCase();
+
+            if (title.includes(query) || description.includes(query)) {
+              card.style.display = "block";
+            } else {
+              card.style.display = query === "" ? "block" : "none";
+            }
+          });
+
+          // Search resource items
+          resourceItems.forEach((item) => {
+            const title = item.querySelector("h4").textContent.toLowerCase();
+            const description = item
+              .querySelector("p")
+              .textContent.toLowerCase();
+
+            if (title.includes(query) || description.includes(query)) {
+              item.style.display = "flex";
+            } else {
+              item.style.display = query === "" ? "flex" : "none";
+            }
+          });
+        });
+      }
+
+      // FAQ Functions
+      function toggleFAQ(element) {
+        const faqItem = element.closest(".faq-item");
+        const isActive = faqItem.classList.contains("active");
+
+        // Close all FAQ items
+        document.querySelectorAll(".faq-item").forEach((item) => {
+          item.classList.remove("active");
+        });
+
+        // Open clicked item if it wasn't already active
+        if (!isActive) {
+          faqItem.classList.add("active");
+        }
+      }
+
+      // Contact Functions
+      function contactSupport() {
+        showToast("Connecting to support team...", "info");
+
+        setTimeout(() => {
+          showToast(
+            "Support ticket created. You will receive a response within 4 hours.",
+            "success"
+          );
+        }, 1500);
+      }
+
+      function startLiveChat() {
+        showToast("Starting live chat session...", "info");
+
+        setTimeout(() => {
+          showToast("Live chat feature will be available soon!", "info");
+        }, 1000);
+      }
+
+      function toggleLiveChat() {
+        startLiveChat();
+      }
+
+      // Guide Functions
+      function openGuide(guideType) {
+        showToast(`Opening ${guideType} guide...`, "info");
+
+        setTimeout(() => {
+          showToast(`${guideType} guide opened in new window`, "success");
+        }, 1000);
+      }
+
+      // Resource Functions
+      function downloadResource(resourceType) {
+        showToast("Preparing download...", "info");
+
+        setTimeout(() => {
+          showToast("Resource downloaded successfully!", "success");
+        }, 1500);
+      }
+
+      function openVideos() {
+        showToast("Loading video tutorials...", "info");
+
+        setTimeout(() => {
+          showToast("Video tutorials opened in new window", "success");
+        }, 1000);
+      }
+
+      function openAPIDoc() {
+        showToast("Opening API documentation...", "info");
+
+        setTimeout(() => {
+          showToast("API documentation opened in new window", "success");
+        }, 1000);
+      }
+
+      function accessTraining() {
+        showToast("Loading training materials...", "info");
+
+        setTimeout(() => {
+          showToast("Training materials accessed successfully", "success");
+        }, 1000);
+      }
+
+      // Feedback Functions
+      function submitFeedback(event) {
+        event.preventDefault();
+
+        const feedbackType = document.getElementById("feedback-type").value;
+        const subject = document.getElementById("feedback-subject").value;
+        const priority = document.getElementById("feedback-priority").value;
+        const message = document.getElementById("feedback-message").value;
+
+        if (!feedbackType || !subject || !message) {
+          showToast("Please fill in all required fields", "error");
+          return;
+        }
+
+        showToast("Submitting feedback...", "info");
+
+        setTimeout(() => {
+          // Clear form
+          document.getElementById("feedback-type").value = "";
+          document.getElementById("feedback-subject").value = "";
+          document.getElementById("feedback-priority").value = "medium";
+          document.getElementById("feedback-message").value = "";
+
+          showToast(
+            "Feedback submitted successfully! Thank you for your input.",
+            "success"
+          );
+        }, 1500);
+      }
+
+      function showToast(message, type = "info") {
+        const toastConfig = {
+          text: message,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: true,
+          style: {
+            background:
+              type === "success"
+                ? "#4caf50"
+                : type === "error"
+                ? "#f44336"
+                : type === "warning"
+                ? "#ff9800"
+                : "#2196f3",
+            borderRadius: "8px",
+            fontFamily: "Inter, sans-serif",
+            fontWeight: "500",
+          },
+        };
+
+        if (typeof Toastify !== "undefined") {
+          Toastify(toastConfig).showToast();
+        } else {
+          console.log(`Toast: ${message} (${type})`);
+        }
+      }
+
+      // Enhanced error handling
+      window.addEventListener("error", function (e) {
+        console.error("Help Page Error:", e.error);
+        showToast("An error occurred. Please refresh the page.", "error");
       });
     </script>
   </body>
