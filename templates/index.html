@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Talazo AgriFinance - Where Soil Tells Financial Stories</title>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -42,6 +42,30 @@
         --shadow-earth: 0 20px 60px rgba(62, 39, 35, 0.3);
         --glow-fertile: 0 0 40px rgba(76, 175, 80, 0.4);
         --transition-organic: cubic-bezier(0.23, 1, 0.32, 1);
+      }
+
+      /* Mobile-first base styles */
+      html {
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-primary);
+        line-height: 1.6;
+        color: var(--limestone-white);
+        background: var(--humus-black);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Enhanced container for mobile */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
       }
 
       /* Custom Cursor with Soil Particle */
@@ -1502,12 +1526,21 @@
         color: var(--growth-emerald);
       }
 
-      /* Responsive Design */
+      /* Enhanced Mobile Responsive Design */
       @media (max-width: 1200px) {
         .hero-content {
           grid-template-columns: 1fr;
           gap: 3rem;
           text-align: center;
+        }
+
+        .hero-visual {
+          height: 500px;
+        }
+
+        .soil-analysis-demo {
+          max-width: 400px;
+          height: 400px;
         }
 
         .institutional-content {
@@ -1516,80 +1549,366 @@
         }
 
         .impact-metrics {
-          grid-template-columns: repeat(4, 1fr);
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+
+        .features-grid {
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
         }
       }
 
       @media (max-width: 768px) {
+        /* Navigation improvements */
+        .navbar {
+          padding: 1rem 0;
+        }
+
+        .nav-content {
+          padding: 0 1rem;
+        }
+
+        .brand-name {
+          font-size: 1.5rem;
+        }
+
+        .brand-tagline {
+          font-size: 0.75rem;
+        }
+
+        /* Hero section mobile optimizations */
+        .hero {
+          padding: 8rem 0 4rem 0;
+        }
+
         .hero-title {
+          font-size: 2.2rem;
+          line-height: 1.2;
+        }
+
+        .hero-subtitle {
+          font-size: 1.1rem;
+          max-width: 100%;
+          margin-bottom: 2rem;
+        }
+
+        .launch-badge {
+          padding: 0.75rem 1.5rem;
+          font-size: 0.75rem;
+        }
+
+        .launch-badge span {
+          display: block;
+          margin-top: 0.25rem;
+        }
+
+        /* Visual demo mobile optimization */
+        .hero-visual {
+          height: 450px;
+          margin-top: 2rem;
+        }
+
+        .soil-analysis-demo {
+          max-width: 350px;
+          height: 380px;
+          padding: 1.5rem;
+          transform: none;
+        }
+
+        .demo-title {
+          font-size: 1.2rem;
+        }
+
+        .score-value {
           font-size: 2.5rem;
         }
 
+        /* Feature items mobile optimization */
+        .innovation-features {
+          gap: 1rem;
+          margin-bottom: 2rem;
+        }
+
+        .feature-item {
+          padding: 0.75rem;
+          gap: 1rem;
+        }
+
+        .feature-icon {
+          width: 40px;
+          height: 40px;
+          font-size: 1rem;
+        }
+
+        .feature-text {
+          font-size: 0.9rem;
+        }
+
+        /* Sections mobile spacing */
+        .countdown-section,
+        .features-section,
+        .institutional-section,
+        .early-access {
+          padding: 4rem 0;
+        }
+
+        .container {
+          padding: 0 1rem;
+        }
+
+        /* Typography improvements */
         .section-title {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
+          line-height: 1.2;
+          margin-bottom: 1.5rem;
         }
 
+        .section-description {
+          font-size: 1.1rem;
+          margin-bottom: 3rem;
+        }
+
+        .countdown-title {
+          font-size: 2.2rem;
+        }
+
+        .countdown-subtitle {
+          font-size: 1.1rem;
+          margin-bottom: 3rem;
+        }
+
+        /* Grid improvements */
         .features-grid {
           grid-template-columns: 1fr;
+          gap: 2rem;
         }
 
         .countdown-grid {
           grid-template-columns: repeat(2, 1fr);
+          gap: 1rem;
         }
 
         .impact-metrics {
           grid-template-columns: 1fr;
+          gap: 1rem;
         }
 
+        /* Form mobile optimization */
         .form-group {
           flex-direction: column;
+          gap: 1rem;
+        }
+
+        .form-input,
+        .form-select {
+          padding: 1.25rem;
+          font-size: 1rem;
+        }
+
+        .form-submit {
+          padding: 1.25rem;
+          font-size: 1rem;
+        }
+
+        .access-form {
+          padding: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        /* Button improvements */
+        .btn {
+          padding: 1rem 1.5rem;
+          font-size: 0.9rem;
+        }
+
+        .hero-actions,
+        .access-actions {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: stretch;
+        }
+
+        .hero-actions .btn,
+        .access-actions .btn {
+          width: 100%;
+          text-align: center;
+        }
+
+        /* Footer mobile optimization */
+        .footer {
+          padding: 4rem 0 2rem 0;
         }
 
         .footer-content {
           grid-template-columns: 1fr;
-          gap: 3rem;
-          text-align: center;
-        }
-
-        .footer-bottom {
-          flex-direction: column;
           gap: 2rem;
           text-align: center;
         }
 
-        .access-actions {
-          flex-direction: column;
+        .footer-description {
+          font-size: 1rem;
         }
 
-        .hero-actions {
-          flex-direction: column;
-          align-items: center;
+        .social-links {
+          justify-content: center;
         }
 
-        .nav-actions {
+        .footer-bottom {
+          flex-direction: column;
+          gap: 1.5rem;
+          text-align: center;
+        }
+
+        .footer-legal {
+          flex-wrap: wrap;
+          justify-content: center;
           gap: 1rem;
+        }
+
+        /* Navigation mobile adjustments */
+        .nav-actions {
+          gap: 0.5rem;
         }
 
         .launch-status {
           display: none;
         }
+
+        /* Feature cards mobile optimization */
+        .feature-card {
+          padding: 2rem;
+        }
+
+        .feature-header {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          gap: 1rem;
+        }
+
+        .feature-icon-large {
+          width: 60px;
+          height: 60px;
+          font-size: 1.5rem;
+        }
+
+        .feature-title {
+          font-size: 1.5rem;
+          text-align: center;
+        }
+
+        .feature-description {
+          font-size: 1rem;
+          text-align: center;
+        }
       }
 
       @media (max-width: 480px) {
-        .countdown-grid {
-          grid-template-columns: 1fr;
-        }
-
+        /* Extra small screens optimization */
         .hero-title {
-          font-size: 2rem;
+          font-size: 1.8rem;
         }
 
         .section-title {
+          font-size: 1.8rem;
+        }
+
+        .countdown-title {
+          font-size: 1.8rem;
+        }
+
+        .access-title {
           font-size: 2rem;
         }
 
+        .countdown-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .countdown-item {
+          padding: 1.5rem 1rem;
+        }
+
         .countdown-number {
-          font-size: 2.5rem;
+          font-size: 2rem;
+        }
+
+        .countdown-label {
+          font-size: 0.75rem;
+        }
+
+        /* Soil demo extra small optimization */
+        .soil-analysis-demo {
+          max-width: 300px;
+          height: 320px;
+          padding: 1rem;
+        }
+
+        .demo-title {
+          font-size: 1rem;
+        }
+
+        .score-value {
+          font-size: 2rem;
+        }
+
+        /* Navigation extra small */
+        .brand-name {
+          font-size: 1.25rem;
+        }
+
+        .logo-symbol {
+          width: 35px;
+          height: 35px;
+        }
+
+        /* Button extra small */
+        .btn {
+          padding: 0.875rem 1.25rem;
+          font-size: 0.85rem;
+        }
+
+        /* Feature cards extra small */
+        .feature-card {
+          padding: 1.5rem;
+        }
+
+        .feature-icon-large {
+          width: 50px;
+          height: 50px;
+          font-size: 1.25rem;
+        }
+
+        .feature-title {
+          font-size: 1.25rem;
+        }
+
+        /* Metric cards extra small */
+        .metric-card {
+          padding: 1.5rem;
+        }
+
+        .metric-number {
+          font-size: 2rem;
+        }
+      }
+
+      /* Touch device optimizations */
+      @media (hover: none) and (pointer: coarse) {
+        .cursor,
+        .cursor-follower {
+          display: none;
+        }
+
+        .feature-card:hover,
+        .btn:hover,
+        .metric-card:hover {
+          transform: none;
+        }
+
+        .benefit-item:hover {
+          transform: none;
         }
       }
     </style>
@@ -1616,7 +1935,7 @@
         <div class="nav-actions">
           <div class="launch-status">
             <div class="status-dot"></div>
-            <span>Launching Q2 2025</span>
+            <span>Launching Q4 2025</span>
           </div>
           <a href="/dashboard" class="btn btn-exclusive">
             <i class="fas fa-microscope"></i>
@@ -1736,7 +2055,7 @@
           <h2 class="countdown-title">The Future Grows Closer</h2>
           <p class="countdown-subtitle">
             Join the agricultural finance revolution. Beta access opens for
-            select financial institutions in Q2 2025.
+            select financial institutions in Q4 2025.
           </p>
           <div class="countdown-grid" id="countdown">
             <div class="countdown-item">
@@ -2041,7 +2360,7 @@
         </div>
         <div class="footer-bottom">
           <p>
-            &copy; 2025 Talazo AgriFinance. Cultivating Trust. | Launching Q2
+            &copy; 2025 Talazo AgriFinance. Cultivating Trust. | Launching Q4
             2025
           </p>
           <div class="footer-legal">
@@ -2118,9 +2437,9 @@
         }
       }
 
-      // Launch countdown with real target
+      // Launch countdown with real target - Q4 2025
       function updateCountdown() {
-        const launchDate = new Date("2025-06-01T00:00:00");
+        const launchDate = new Date("2025-10-01T00:00:00");
         const now = new Date();
         const diff = launchDate - now;
 
