@@ -1,52 +1,75 @@
 # Talazo AgriFinance Platform - Python Dependencies
-
-# Build dependencies (for deployment)
-setuptools>=65.0.0
-wheel>=0.38.0
+# Exact versions from working local environment - Python 3.12 compatible
 
 # Core Flask and Web Framework
-Flask==2.3.3
-Werkzeug==2.3.7
+Flask==3.1.1
+Werkzeug==3.1.3
 Jinja2==3.1.2
+MarkupSafe==3.0.2
+click==8.1.8
+itsdangerous==2.2.0
+blinker==1.9.0
 
-# Database and ORM
+# Database and ORM (Working versions)
 Flask-SQLAlchemy==3.0.5
-SQLAlchemy==2.0.21
-Flask-Migrate==4.0.5
-alembic==1.12.0
+SQLAlchemy==2.0.41
+Flask-Migrate==3.1.0
+alembic==1.15.1
+Mako==1.3.9
+greenlet==3.1.1
 
-# API and Serialization
-Flask-CORS==4.0.0
-marshmallow==3.20.1
-Flask-Marshmallow==0.15.0
+# API and Serialization (Working versions)
+Flask-CORS==5.0.1
+marshmallow==3.26.1
+flask-marshmallow==1.3.0
+marshmallow-sqlalchemy==1.4.2
 
-# Rate Limiting and Security
-Flask-Limiter==3.5.0
-Flask-WTF==1.1.1
-WTForms==3.0.1
+# Rate Limiting and Security (Working versions)
+Flask-Limiter==3.12
+Flask-WTF==1.0.0
+WTForms==3.2.1
+limits==5.4.0
+Deprecated==1.2.18
 
-# Machine Learning and Data Science (Python 3.13 compatible versions)
-numpy>=1.26.0
-scikit-learn>=1.3.0
-pandas>=2.1.0
-joblib>=1.3.2
+# Machine Learning and Data Science (Working versions)
+numpy==2.2.4
+scikit-learn==1.6.1
+scipy==1.15.2
+joblib==1.4.2
+threadpoolctl==3.6.0
 
 # Environment and Configuration
-python-dotenv==1.0.0
+python-dotenv==0.19.2
 
-# HTTP and Requests
-requests==2.31.0
+# HTTP and Requests (Working versions)
+requests==2.32.4
+urllib3==2.5.0
+certifi==2025.7.14
+charset-normalizer==3.4.2
+idna==3.10
 
-# Production Server
-gunicorn==21.2.0
+# Production Server (Working version)
+gunicorn==20.1.0
+
+# Build dependencies
+setuptools==77.0.3
+typing_extensions==4.12.2
+packaging==24.2
+wrapt==1.17.2
+ordered-set==4.1.0
+
+# Documentation and CLI
+flask-swagger-ui==4.11.1
+rich==13.9.4
+Pygments==2.19.2
+markdown-it-py==3.0.0
+mdurl==0.1.2
+colorama==0.4.6
 
 # Development and Testing (Optional - only install in dev)
 pytest==7.4.2; extra == "dev"
 pytest-flask==1.2.0; extra == "dev"
 pytest-cov==4.1.0; extra == "dev"
-
-# Optional: API Documentation
-flask-swagger-ui==4.11.1
 
 # Optional: JWT Authentication (for future use)
 PyJWT==2.8.0
